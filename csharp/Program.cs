@@ -1,2 +1,7 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿namespace GameOfLife {
+    public class GameOfLife {
+        static void Main(string[] args) {
+            Console.WriteLine("Hello, C#");
+        }
+    }
+}

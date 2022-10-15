@@ -4,20 +4,19 @@
 ![C](https://img.shields.io/badge/c-%2300599C.svg?style=for-the-badge&logo=c&logoColor=white)
 ![C#](https://img.shields.io/badge/c%23-%23239120.svg?style=for-the-badge&logo=.net&logoColor=white)
 ![C++](https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white)
-![D](https://img.shields.io/badge/d-%2300599C.svg?style=for-the-badge&logo=d&logoColor=white)
 ![Elixir](https://img.shields.io/badge/elixir-%234B275F.svg?style=for-the-badge&logo=elixir&logoColor=white)
 ![F#](https://img.shields.io/badge/f%23-%23239120.svg?style=for-the-badge&logo=.net&logoColor=white)
-![Fortran](https://img.shields.io/badge/Fortran-%23734F96.svg?style=for-the-badge&logo=fortran&logoColor=white)
 ![Go](https://img.shields.io/badge/go-%2300ADD8.svg?style=for-the-badge&logo=go&logoColor=white)
 ![Haskell](https://img.shields.io/badge/Haskell-5e5086?style=for-the-badge&logo=haskell&logoColor=white)
-![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)
 ![Julia](https://img.shields.io/badge/-Julia-9558B2?style=for-the-badge&logo=julia&logoColor=white)
-![Kotlin](https://img.shields.io/badge/kotlin-%237F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white)
+![Nim](https://img.shields.io/badge/nim-%23FFE953.svg?style=for-the-badge&logo=nim&logoColor=black)
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+![Ruby](https://img.shields.io/badge/ruby-%23CC342D.svg?style=for-the-badge&logo=ruby&logoColor=white)
 ![Rust](https://img.shields.io/badge/rust-%23000000.svg?style=for-the-badge&logo=rust&logoColor=white)
-![Scala](https://img.shields.io/badge/scala-%23DC322F.svg?style=for-the-badge&logo=scala&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
 ![Zig](https://img.shields.io/badge/Zig-%23F7A41D.svg?style=for-the-badge&logo=zig&logoColor=white)
+
+![CMake](https://img.shields.io/badge/CMake-%23008FBA.svg?style=for-the-badge&logo=cmake&logoColor=white)
 
 Conway's Game of Life in an many programming languages as I can figure out
 
@@ -33,26 +32,18 @@ Conway's Game of Life in an many programming languages as I can figure out
   - GCC
 - C#
   - .NET SDK
-- D
-  - LDC (LLVM D Compiler)
 - Elixir
 - F#
   - .NET SDK
-- Fortran
-  - GCC (gfortran)
 - Go
 - Haskell
   - GHC
-- Java
-  - Gradle
-  - OpenJDK
 - Julia
-- Kotlin
-  - TODO
+- Nim
 - Python
+- Ruby
 - Rust
   - Cargo
-- Scala
 - Typescript
   - Node.js
   - Yarn
@@ -94,14 +85,6 @@ cd csharp/
 dotnet run
 ```
 
-### D
-
-```sh
-cd d/
-make
-./game_of_life
-```
-
 ### Elixir
 
 ```sh
@@ -114,14 +97,6 @@ elixir game_of_life.exs
 ```sh
 cd fsharp/
 dotnet run
-```
-
-### Fortran
-
-```sh
-cd fortran/
-make
-./game_of_life
 ```
 
 ### Go
@@ -139,20 +114,12 @@ ghc game_of_life.hs
 ./game_of_life
 ```
 
-### Java
-
-TODO: Gradle build
-
 ### Julia
 
 ```sh
 cd julia/
 julia game_of_life.jl
 ```
-
-### Kotlin
-
-TODO:
 
 ### Python
 
@@ -167,10 +134,6 @@ python game_of_life.py
 cd rust/
 cargo run
 ```
-
-### Scala
-
-TODO:
 
 ### Typescript
 
