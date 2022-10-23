@@ -1,4 +1,5 @@
 {
     "cmake.sourceDirectory": "${workspaceFolder}/cpp",
     "cmake.buildDirectory": "${workspaceFolder}/cpp/build",
+    "rust-analyzer.cargo.sysroot": "discover",
 }
