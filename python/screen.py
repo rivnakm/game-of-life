@@ -14,7 +14,8 @@ class Screen:
                         print("██", end="")
                     case False:
                         print("  ", end="")
-            print("")
+            if (i < self.height):
+                print("")
 
     @property
     def size_1d(self) -> int:
