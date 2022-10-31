@@ -1,13 +1,17 @@
 #!/usr/bin/env zx
 
+import "zx/globals";
+import { spinner } from "zx/experimental";
+
+
 import average from "average";
 import { stringify } from "csv-stringify/sync";
 
 $.verbose = true;
 process.env.TIMEFORMAT = "%R";
 
-async function time(cmd) {
-  let time = await $`time ${cmd} > /dev/null`;
+async function time(cmd, message) {
+  let time = await spinner(message, () =>$`time ${cmd} > /dev/null`);
   return parseFloat(time.stderr.trim());
 }
 
@@ -33,7 +37,7 @@ for (let i = 0; i < iterations; i++) {
       generations,
       "--size",
       size,
-    ])
+    ], "Running Python...")
   );
 }
 
