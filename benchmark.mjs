@@ -5,6 +5,7 @@ import { spinner } from "zx/experimental";
 
 import average from "average";
 import { stringify } from "csv-stringify/sync";
+import { table } from "table";
 
 $.verbose = true;
 process.env.TIMEFORMAT = "%R";
@@ -61,13 +62,12 @@ for (let i = 0; i < iterations; i++) {
   );
 }
 
-console.log(results);
-const averages = [{ language: "language", time: "time" }];
+const averages = [[ "language", "avg time (s)"]];
 for (const [key, value] of Object.entries(results)) {
   let result = average(value)
-  averages.push({ language: key, time: result });
+  averages.push([ key, result.toPrecision(3) ]);
 }
-console.log(averages);
+console.log(table(averages))
 
 const output = stringify(averages);
 fs.writeFile("benchmark_results.csv", output, (err) => {
