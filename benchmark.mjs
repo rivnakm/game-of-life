@@ -3,8 +3,8 @@
 import "zx/globals";
 import { spinner } from "zx/experimental";
 
-
 import average from "average";
+import fs from "fs";
 import { stringify } from "csv-stringify/sync";
 
 $.verbose = true;
@@ -50,4 +50,9 @@ for (const [key, value] of Object.entries(results)) {
 console.log(averages);
 
 const output = stringify(averages);
-
+fs.writeFile("benchmark_results.csv", output, (err) => {
+  if (err) {
+    console.error(err);
+  }
+  // file written successfully
+});
