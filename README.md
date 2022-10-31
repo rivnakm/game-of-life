@@ -153,3 +153,19 @@ yarn run main
 ### Zig
 
 TODO:
+
+## Benchmarking
+
+There's an included script to build all version and run benchmarks. It requires [zx](https://github.org/google/zx) to run
+
+```sh
+zx --install benchmark.mjs
+```
+
+`--install` is only needed on the first run to install the script's dependencies
+
+You can also specify how many iterations to run the benchmark, as well as the number of generations and size of the game
+
+```sh
+zx benchmark.mjs --iterations 5 --generations 100 --size 50x25
+```
