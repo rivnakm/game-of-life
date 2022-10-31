@@ -4,14 +4,15 @@ import "zx/globals";
 import { spinner } from "zx/experimental";
 
 import average from "average";
-import fs from "fs";
 import { stringify } from "csv-stringify/sync";
 
 $.verbose = true;
 process.env.TIMEFORMAT = "%R";
+let base_dir = await $`pwd`;
+base_dir = base_dir.stdout.trim();
 
 async function time(cmd, message) {
-  let time = await spinner(message, () =>$`time ${cmd} > /dev/null`);
+  let time = await spinner(message, () => $`time ${cmd} > /dev/null`);
   return parseFloat(time.stderr.trim());
 }
 
@@ -20,6 +21,9 @@ let generations = argv.generation || argv.g || 100;
 let size = argv.size || argv.s || "100x50";
 
 // Build
+cd("csharp");
+await spinner("Building C# ...", () => $`dotnet build`);
+cd(base_dir);
 
 // Run Benchmark
 const results = new Object();
@@ -37,7 +41,23 @@ for (let i = 0; i < iterations; i++) {
       generations,
       "--size",
       size,
-    ], "Running Python...")
+    ], "Running Python ...")
+  );
+
+  if (i === 0) {
+    results["csharp"] = [];
+  }
+  results["csharp"].push(
+    await time(
+      [
+        "./csharp/bin/Debug/net6.0/GameOfLife",
+        "--iterations",
+        generations,
+        "--size",
+        size,
+      ],
+      "Running C# ..."
+    )
   );
 }
 
