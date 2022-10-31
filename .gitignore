@@ -2,3 +2,4 @@
 /**/GameOfLife
 /**/*.o
 *.code-workspace
+node_modules/
