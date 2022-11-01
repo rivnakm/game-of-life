@@ -17,8 +17,8 @@ async function time(cmd, message) {
     return parseFloat(time.stderr.trim());
 }
 
-let iterations = argv.iterations || argv.i || 2;
-let generations = argv.generation || argv.g || 100;
+let iterations = argv.iterations || argv.i || 5;
+let generations = argv.generation || argv.g || 500;
 let size = argv.size || argv.s || "100x50";
 
 // Build
@@ -70,6 +70,7 @@ for (const [key, value] of Object.entries(results)) {
     let result = average(value);
     averages.push([key, result.toPrecision(3)]);
 }
+console.log(`${generations} generations (average of ${iterations})`);
 console.log(table(averages));
 
 const output = stringify(averages);
