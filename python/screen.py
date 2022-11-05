@@ -9,11 +9,10 @@ class Screen:
         assert len(cells) == self.size_1d, "cells list size does not match screen size"
         for i in range(self.height):
             for j in range(self.width):
-                match cells[(i*self.width)+j]:
-                    case True:
-                        print("██", end="")
-                    case False:
-                        print("  ", end="")
+                if cells[(i*self.width)+j]:
+                    print("██", end="")
+                else:
+                    print("  ", end="")
             print("")
 
     @property
