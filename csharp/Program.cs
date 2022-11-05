@@ -119,7 +119,7 @@ namespace GameOfLife
         static void Main(string[] args)
         {
             int columns = Console.WindowWidth;
-            int lines = Console.WindowHeight;
+            int lines = Console.WindowHeight - 1;
             int iterations = -1;
             var result = CommandLine.Parser.Default.ParseArguments<Options>(args).WithParsed<Options>(o =>
             {
@@ -137,7 +137,7 @@ namespace GameOfLife
                 }
             });
 
-            Screen screen = new(lines - 1, columns);
+            Screen screen = new(lines, columns);
             Game game = new(screen, iterations);
             game.Run();
         }

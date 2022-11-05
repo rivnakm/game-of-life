@@ -61,12 +61,15 @@ def main():
     parser.add_argument("--iterations", help="Number of iterations to run")
     args = parser.parse_args()
 
-    columns, lines = args.size.split("x") if args.size else os.get_terminal_size()
-    columns = int(columns)
-    lines = int(lines)
-    print(f"Playing with a {columns}x{lines-1} screen")
+    columns, lines = os.get_terminal_size()
+    lines -= 1
 
-    screen = Screen(lines-1, columns)
+    if args.size: 
+        columns, lines = args.size.split("x")
+        columns = int(columns)
+        lines = int(lines)
+
+    screen = Screen(lines, columns)
     if args.iterations:
         run_game(screen, int(args.iterations))
     else:
