@@ -3,7 +3,7 @@ from typing import List, Tuple
 class Screen:
     def __init__(self, height: int, width: int):
         self.height = height
-        self.width = int(width / 2.0)
+        self.width = width
 
     def draw(self, cells: List[bool]):
         assert len(cells) == self.size_1d, "cells list size does not match screen size"

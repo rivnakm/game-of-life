@@ -118,7 +118,7 @@ namespace GameOfLife
     {
         static void Main(string[] args)
         {
-            int columns = Console.WindowWidth;
+            int columns = Console.WindowWidth / 2;
             int lines = Console.WindowHeight - 1;
             int iterations = -1;
             var result = CommandLine.Parser.Default.ParseArguments<Options>(args).WithParsed<Options>(o =>

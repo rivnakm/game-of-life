@@ -8,7 +8,7 @@ namespace GameOfLife {
         }}
         public Screen(int height, int width) {
             this.height = height;
-            this.width = width / 2;
+            this.width = width;
         }
 
         public void Draw(IList<bool> cells) {

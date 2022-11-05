@@ -61,13 +61,14 @@ def main():
     parser.add_argument("--iterations", help="Number of iterations to run")
     args = parser.parse_args()
 
-    columns, lines = os.get_terminal_size()
-    lines -= 1
-
-    if args.size: 
+    if args.size:
         columns, lines = args.size.split("x")
         columns = int(columns)
         lines = int(lines)
+    else:
+        columns, lines = os.get_terminal_size()
+        lines = lines - 1
+        columns = int(columns / 2)
 
     screen = Screen(lines, columns)
     if args.iterations:
