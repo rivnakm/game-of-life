@@ -1,0 +1,33 @@
+{
+  "name": "game-of-life",
+  "version": "1.0.0",
+  "description": "Conway's Game of Life",
+  "type": "module",
+  "author": "Michael Rivnak <rivnakm1@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "ansi-escapes": "^6.0.0",
+    "minimist": "^1.2.7",
+    "term-size": "^3.0.2",
+    "tslib": "~2.4"
+  },
+  "devDependencies": {
+    "@types/node": "~16",
+    "@typescript-eslint/eslint-plugin": "~5.39",
+    "@typescript-eslint/parser": "~5.39",
+    "eslint": "~8.24",
+    "eslint-config-prettier": "~8.5",
+    "prettier": "~2.7",
+    "rimraf": "~3.0",
+    "tsutils": "~3.21",
+    "typescript": "~4.8"
+  },
+  "scripts": {
+    "start": "yarn run build &&node build/src/main.js",
+    "clean": "rimraf build",
+    "build": "tsc -p tsconfig.json"
+  },
+  "volta": {
+    "node": "16.17.0"
+  }
+}
