@@ -67,7 +67,7 @@ fn next_gen(cells: &mut Vec<bool>, height: &usize, width: &usize) {
 
 fn get_cell(cells: &Vec<bool>, row: &usize, col: &usize, height: &usize, width: &usize) -> bool {
     if row < height && col < width {
-        return cells[(*row * *width) + *col];
+        cells[(*row * *width) + *col]
     } else {
         false
     }
