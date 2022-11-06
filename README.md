@@ -1,9 +1,12 @@
 # Conway's Game of Life
 
-![Assembly](https://img.shields.io/badge/Assembly-black?style=for-the-badge&logo=arm&logoColor=white)
-![C](https://img.shields.io/badge/c-%2300599C.svg?style=for-the-badge&logo=c&logoColor=white)
-![C#](https://img.shields.io/badge/c%23-%23239120.svg?style=for-the-badge&logo=.net&logoColor=white)
 ![C++](https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white)
+![C#](https://img.shields.io/badge/c%23-%23239120.svg?style=for-the-badge&logo=.net&logoColor=white)
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+![Rust](https://img.shields.io/badge/rust-%23000000.svg?style=for-the-badge&logo=rust&logoColor=white)
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+<!-- ![Assembly](https://img.shields.io/badge/Assembly-black?style=for-the-badge&logo=arm&logoColor=white)
+![C](https://img.shields.io/badge/c-%2300599C.svg?style=for-the-badge&logo=c&logoColor=white)
 ![Fortran](https://img.shields.io/badge/D-AA0000.svg?style=for-the-badge&logo=d&logoColor=white)
 ![Elixir](https://img.shields.io/badge/elixir-%234B275F.svg?style=for-the-badge&logo=elixir&logoColor=white)
 ![F#](https://img.shields.io/badge/f%23-%23239120.svg?style=for-the-badge&logo=.net&logoColor=white)
@@ -13,27 +16,25 @@
 ![Julia](https://img.shields.io/badge/-Julia-9558B2?style=for-the-badge&logo=julia&logoColor=white)
 ![Nim](https://img.shields.io/badge/nim-%23FFE953.svg?style=for-the-badge&logo=nim&logoColor=black)
 ![Perl](https://img.shields.io/badge/perl-%2339457E.svg?style=for-the-badge&logo=perl&logoColor=white)
-![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 ![Ruby](https://img.shields.io/badge/ruby-%23CC342D.svg?style=for-the-badge&logo=ruby&logoColor=white)
-![Rust](https://img.shields.io/badge/rust-%23000000.svg?style=for-the-badge&logo=rust&logoColor=white)
-![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
-![Zig](https://img.shields.io/badge/Zig-%23F7A442.svg?style=for-the-badge&logo=zig&logoColor=black)
+![Zig](https://img.shields.io/badge/Zig-%23F7A442.svg?style=for-the-badge&logo=zig&logoColor=black) -->
 
 Conway's Game of Life in an many programming languages as I can figure out
 
 ## Prerequisites
 
-- Assembly
+<!-- - Assembly
   - GNU Binutils (as & ld)
   - Raspberry Pi 4
 - C
-  - GCC
+  - GCC -->
 - C++
-  - CMake
   - GCC
+  - Meson
+  - Ninja
 - C#
   - .NET SDK
-- D
+<!-- - D
   - GCC (GDC)
 - Dart
 - Elixir
@@ -46,19 +47,19 @@ Conway's Game of Life in an many programming languages as I can figure out
   - GHC
 - Julia
 - Nim
-- Perl
+- Perl -->
 - Python
-- Ruby
+<!-- - Ruby -->
 - Rust
   - Cargo
 - Typescript
   - Node.js
   - Yarn
-- Zig
+<!-- - Zig -->
 
 ## Building from Source
 
-### Assembly
+<!-- ### Assembly
 
 This is written for a Raspberry Pi 4 running aarch64 Linux
 
@@ -74,14 +75,15 @@ make
 cd c/
 make
 ./game_of_life
-```
+``` -->
 
 ### C++
 
 ```sh
 cd cpp/
-cmake .
-make
+meson setup build
+cd build
+ninja
 ./game_of_life
 ```
 
@@ -92,7 +94,7 @@ cd csharp/
 dotnet run
 ```
 
-### Elixir
+<!-- ### Elixir
 
 ```sh
 cd elixir/
@@ -126,7 +128,7 @@ ghc game_of_life.hs
 ```sh
 cd julia/
 julia game_of_life.jl
-```
+``` -->
 
 ### Python
 
@@ -150,9 +152,9 @@ yarn install
 yarn run main
 ```
 
-### Zig
+<!-- ### Zig
 
-TODO:
+TODO: -->
 
 ## Benchmarking
 
