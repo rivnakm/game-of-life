@@ -1,5 +1,9 @@
 project('game_of_life', 'cpp')
 
+incdir = include_directories('include')
+
 argparse_dep = dependency('argparse')
 
-executable('game_of_life', 'src/game_of_life.cpp', dependencies : argparse_dep)
+subdir('src')
+
+executable('game_of_life', sources, dependencies : argparse_dep, include_directories : incdir)

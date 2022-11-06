@@ -2,9 +2,12 @@
 #include <iostream>
 #include <regex>
 
-int main(int argc, char *argv[]) {
-    std::cout << "Hello, C++!" << std::endl;
+#include <sys/ioctl.h>
+#include <unistd.h>
 
+#include "game.hpp"
+
+int main(int argc, char *argv[]) {
     argparse::ArgumentParser program("test");
 
     program.add_argument("--size").help("Screen size [WxH]");
@@ -24,8 +27,25 @@ int main(int argc, char *argv[]) {
         std::regex re("^(\\d+)x(\\d+)");
         std::cmatch match;
         if (std::regex_search(program.get<std::string>("--size").c_str(), match, re)) {
+            width = stoi(match[1]);
+            height = stoi(match[2]);
+        } else {
+            std::cerr << "Invalid size '" << program.get<std::string>("--size") << "'" << std::endl;
+            std::exit(1);
         }
+    } else {
+        struct winsize size;
+        ioctl(STDOUT_FILENO, TIOCGWINSZ, &size);
+        height = size.ws_row - 1;
+        width = size.ws_col / 2;
     }
+
+    int iterations = -1;
+    if (program.is_used("--iterations")) {
+        iterations = stoi(program.get<std::string>("--iterations"));
+    }
+
+    runGame(height, width, iterations);
 
     return 0;
 }

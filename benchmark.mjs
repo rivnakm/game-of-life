@@ -51,6 +51,24 @@ const results = new Object();
 for (let i = 0; i < iterations; i++) {
     console.log(chalk.blue(`\nPass (${i + 1}/${iterations})`));
 
+    // C++
+    if (i === 0) {
+        results["cpp"] = [];
+    }
+    results["cpp"].push(
+        await time(
+            [
+                "./cpp/build/game_of_life",
+                "--iterations",
+                generations,
+                "--size",
+                size,
+            ],
+            "Running C++ ..."
+        )
+    );
+    console.log("    Running C++ " + chalk.green("DONE"));
+
     // C#
     if (i === 0) {
         results["csharp"] = [];
@@ -128,6 +146,12 @@ for (let i = 0; i < iterations; i++) {
 
 // Clean
 console.log(chalk.blue("\nCleaning up"));
+// C#
+cd("cpp/build");
+await spinner("Cleaning up C++ ...", () => $`ninja clean`);
+console.log("    Cleaning up C++ " + chalk.green("DONE"));
+cd(base_dir);
+
 // C#
 cd("csharp");
 await spinner("Cleaning up C# ...", () => $`dotnet clean`);
