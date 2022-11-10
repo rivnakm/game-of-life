@@ -25,9 +25,9 @@ Conway's Game of Life in an many programming languages as I can figure out
 
 <!-- - Assembly
   - GNU Binutils (as & ld)
-  - Raspberry Pi 4
+  - Raspberry Pi 4 -->
 - C
-  - GCC -->
+  - GCC
 - C++
   - GCC
   - Meson
@@ -67,7 +67,7 @@ This is written for a Raspberry Pi 4 running aarch64 Linux
 cd asm/
 make
 ./game_of_life
-```
+``` -->
 
 ### C
 
@@ -75,7 +75,9 @@ make
 cd c/
 make
 ./game_of_life
-``` -->
+# or
+./ game_of_life -g 50 -h 20 -w 40
+```
 
 ### C++
 
@@ -85,6 +87,8 @@ meson setup build
 cd build
 ninja
 ./game_of_life
+# or
+./game_of_life --iterations 50 --size 40x20
 ```
 
 ### C\#
@@ -92,6 +96,8 @@ ninja
 ```sh
 cd csharp/
 dotnet run
+# or
+dotnet run -- --iterations 50 --size 40x20
 ```
 
 <!-- ### Elixir
@@ -135,6 +141,8 @@ julia game_of_life.jl
 ```sh
 cd python/
 python game_of_life.py
+# or
+python game_of_life.py --iterations 50 --size 40x20
 ```
 
 ### Rust
@@ -142,6 +150,8 @@ python game_of_life.py
 ```sh
 cd rust/
 cargo run
+# or
+cargo run -- --iterations 50 --size 40x20
 ```
 
 ### Typescript
@@ -150,6 +160,8 @@ cargo run
 cd typescript/
 yarn install
 yarn run main
+# or
+yarn run main --iterations 50 --size 40x20
 ```
 
 <!-- ### Zig

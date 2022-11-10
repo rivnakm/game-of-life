@@ -20,22 +20,34 @@ async function time(cmd, message) {
 let iterations = argv.iterations || argv.i || 5;
 let generations = argv.generations || argv.g || 500;
 let size = argv.size || argv.s || "100x50";
-let languages = (argv.languages || argv.l).split(",") || [
-    "cpp",
-    "csharp",
-    "python",
-    "rust",
-    "typescript",
-];
+
+let languages;
+if (argv.languages || argv.l) {
+    languages = (argv.languages || argv.l).split(",");
+} else {
+    languages = ["c", "cpp", "csharp", "python", "rust", "typescript"];
+}
 
 // Build
 console.log(chalk.blue("Building"));
+// C
+if (languages.includes("c")) {
+    cd("c");
+    await spinner(
+        "Building C ...",
+        () =>
+            $`CFLAGS="-O2 -pipe" make`
+    );
+    console.log("    Building C " + chalk.green("DONE"));
+    cd(base_dir);
+}
 // C++
 if (languages.includes("cpp")) {
     cd("cpp");
     await spinner(
         "Building C++ ...",
-        () => $`meson setup build; meson configure -Dbuildtype=release build; pushd build; ninja; popd`
+        () =>
+            $`meson setup build; meson configure -Dbuildtype=release build; pushd build; ninja; popd`
     );
     console.log("    Building C++ " + chalk.green("DONE"));
     cd(base_dir);
@@ -72,6 +84,26 @@ const results = new Object();
 for (let i = 0; i < iterations; i++) {
     console.log(chalk.blue(`\nPass (${i + 1}/${iterations})`));
 
+    // C
+    if (languages.includes("c")) {
+        if (i === 0) {
+            results["c"] = [];
+        }
+        results["c"].push(
+            await time(
+                [
+                    "./c/game_of_life",
+                    "--iterations",
+                    generations,
+                    "--size",
+                    size,
+                ],
+                "Running C ..."
+            )
+        );
+        console.log("    Running C " + chalk.green("DONE"));
+    }
+    
     // C++
     if (languages.includes("cpp")) {
         if (i === 0) {
@@ -163,9 +195,9 @@ for (let i = 0; i < iterations; i++) {
                 [
                     "node",
                     "typescript/build/src/main.js",
-                    "--iterations",
+                    "-i",
                     generations,
-                    "--size",
+                    "-s",
                     size,
                 ],
                 "Running TypeScript ..."
@@ -179,6 +211,13 @@ for (let i = 0; i < iterations; i++) {
 
 if (argv.noclean === undefined) {
     console.log(chalk.blue("\nCleaning up"));
+    // C
+    if (languages.includes("c")) {
+        cd("c");
+        await spinner("Cleaning up C ...", () => $`make clean`);
+        console.log("    Cleaning up C " + chalk.green("DONE"));
+        cd(base_dir);
+    }
     // C++
     if (languages.includes("cpp")) {
         cd("cpp/build");
