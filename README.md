@@ -5,6 +5,7 @@
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 ![Rust](https://img.shields.io/badge/rust-%23000000.svg?style=for-the-badge&logo=rust&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+
 <!-- ![Assembly](https://img.shields.io/badge/Assembly-black?style=for-the-badge&logo=arm&logoColor=white)
 ![C](https://img.shields.io/badge/c-%2300599C.svg?style=for-the-badge&logo=c&logoColor=white)
 ![Fortran](https://img.shields.io/badge/D-AA0000.svg?style=for-the-badge&logo=d&logoColor=white)
@@ -88,7 +89,7 @@ cd build
 ninja
 ./game_of_life
 # or
-./game_of_life --iterations 50 --size 40x20
+./game_of_life --generations 50 --size 40x20
 ```
 
 ### C\#
@@ -97,7 +98,7 @@ ninja
 cd csharp/
 dotnet run
 # or
-dotnet run -- --iterations 50 --size 40x20
+dotnet run -- --generations 50 --size 40x20
 ```
 
 <!-- ### Elixir
@@ -142,7 +143,7 @@ julia game_of_life.jl
 cd python/
 python game_of_life.py
 # or
-python game_of_life.py --iterations 50 --size 40x20
+python game_of_life.py --generations 50 --size 40x20
 ```
 
 ### Rust
@@ -151,7 +152,7 @@ python game_of_life.py --iterations 50 --size 40x20
 cd rust/
 cargo run
 # or
-cargo run -- --iterations 50 --size 40x20
+cargo run -- --generations 50 --size 40x20
 ```
 
 ### Typescript
@@ -161,7 +162,7 @@ cd typescript/
 yarn install
 yarn run main
 # or
-yarn run main --iterations 50 --size 40x20
+yarn run main --generations 50 --size 40x20
 ```
 
 <!-- ### Zig
@@ -178,8 +179,8 @@ zx --install benchmark.mjs
 
 `--install` is only needed on the first run to install the script's dependencies
 
-You can also specify how many iterations to run the benchmark, as well as the number of generations and size of the game
+You can also specify how many generations to run the benchmark, as well as the number of generations and size of the game
 
 ```sh
-zx benchmark.mjs --iterations 5 --generations 100 --size 50x25
+zx benchmark.mjs --generations 5 --generations 100 --size 50x25
 ```

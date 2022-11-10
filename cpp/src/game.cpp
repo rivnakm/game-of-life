@@ -5,21 +5,21 @@
 
 #include "game.hpp"
 
-void runGame(int height, int width, int iterations) {
+void runGame(int height, int width, int generations) {
     std::vector<bool> cells;
     std::srand(std::time(nullptr));
     for (int i = 0; i < height * width; i++) {
         cells.push_back(std::rand() % 2 > 0.5);
     }
 
-    if (iterations == -1) {
+    if (generations == -1) {
         while (true) {
             drawScreen(cells, height, width);
             std::cout << "\x1b[" << height << "A";
             nextGen(cells, height, width);
         }
     } else {
-        for (int i = 0; i < iterations; i++) {
+        for (int i = 0; i < generations; i++) {
             drawScreen(cells, height, width);
             std::cout << "\x1b[" << height << "A";
             nextGen(cells, height, width);

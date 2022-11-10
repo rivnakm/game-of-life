@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 
-void runGame(int height, int width, int iterations);
+void runGame(int height, int width, int generations);
 
 void nextGen(std::vector<bool> &cells, const int &height, const int &width);
 

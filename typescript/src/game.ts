@@ -1,19 +1,19 @@
 import ansiEscapes from 'ansi-escapes';
 
-export function runGame(height: number, width: number, iterations: number) {
+export function runGame(height: number, width: number, generations: number) {
     let cells: Array<boolean> = [];
     for (let i = 0; i < height * width; i++) {
         cells.push(Math.random() < 0.5);
     }
 
-    if (iterations === undefined) {
+    if (generations === undefined) {
         while (true) {
             drawScreen(cells, height, width);
             process.stdout.write(ansiEscapes.cursorUp(height));
             nextGen(cells, height, width);
         }
     } else {
-        for (let i = 0; i < iterations; i++) {
+        for (let i = 0; i < generations; i++) {
             drawScreen(cells, height, width);
             process.stdout.write(ansiEscapes.cursorUp(height));
             nextGen(cells, height, width);
@@ -24,13 +24,13 @@ export function runGame(height: number, width: number, iterations: number) {
 function drawScreen(cells: Array<boolean>, height: number, width: number) {
     for (let i = 0; i < height; i++) {
         for (let j = 0; j < width; j++) {
-            if (cells[(i * width) + j]) {
-                process.stdout.write("██");
+            if (cells[i * width + j]) {
+                process.stdout.write('██');
             } else {
                 process.stdout.write('  ');
             }
         }
-        process.stdout.write("\n");
+        process.stdout.write('\n');
     }
 }
 

@@ -5,7 +5,7 @@ import { runGame } from './game.js';
 
 let argv = minimist(process.argv.slice(2));
 
-let iterations = argv.iterations || argv.i;
+let generations = argv.generations || argv.g;
 
 let height, width;
 if (argv.size === undefined && argv.s === undefined) {
@@ -22,4 +22,4 @@ else {
     height = result[2];
 }
 
-runGame(height, width, iterations);
+runGame(height, width, generations);

@@ -8,8 +8,8 @@ namespace GameOfLife
         [Option('s', "size", Required = false, HelpText = "Screen size [WxH]")]
         public string? Size { get; set; }
 
-        [Option('i', "iterations", Required = false, HelpText = "Number of iterations to run")]
-        public int? Iterations { get; set; }
+        [Option('i', "generations", Required = false, HelpText = "Number of generations to run")]
+        public int? generations { get; set; }
     }
 
     internal class Game
@@ -18,13 +18,13 @@ namespace GameOfLife
         private int width { get; set; }
 
         private Screen screen { get; }
-        private int iterations { get; }
+        private int generations { get; }
         private IList<bool> cells { get; set; }
 
-        public Game(Screen screen, int iterations)
+        public Game(Screen screen, int generations)
         {
             this.screen = screen;
-            this.iterations = iterations;
+            this.generations = generations;
             this.cells = new List<bool>();
 
             this.height = this.screen.height;
@@ -39,7 +39,7 @@ namespace GameOfLife
 
         public void Run()
         {
-            if (iterations == -1)
+            if (generations == -1)
             {
                 while (true)
                 {
@@ -50,7 +50,7 @@ namespace GameOfLife
             }
             else
             {
-                for (var i = 0; i < this.iterations; i++)
+                for (var i = 0; i < this.generations; i++)
                 {
                     screen.Draw(cells);
                     Console.SetCursorPosition(0, 0);
@@ -120,7 +120,7 @@ namespace GameOfLife
         {
             int columns = Console.WindowWidth / 2;
             int lines = Console.WindowHeight - 1;
-            int iterations = -1;
+            int generations = -1;
             var result = CommandLine.Parser.Default.ParseArguments<Options>(args).WithParsed<Options>(o =>
             {
                 if (o.Size != null)
@@ -131,14 +131,14 @@ namespace GameOfLife
                     columns = int.Parse(match.Groups[1].Value);
                     lines = int.Parse(match.Groups[2].Value);
                 }
-                if (o.Iterations != null)
+                if (o.generations != null)
                 {
-                    iterations = (int)o.Iterations;
+                    generations = (int)o.generations;
                 }
             });
 
             Screen screen = new(lines, columns);
-            Game game = new(screen, iterations);
+            Game game = new(screen, generations);
             game.Run();
         }
     }

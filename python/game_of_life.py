@@ -41,16 +41,16 @@ def next_generation(cells, height, width):
 
             cells[(i*width)+j] = cell
 
-def run_game(screen: Screen, iterations: int = -1):
+def run_game(screen: Screen, generations: int = -1):
     cells: List[bool] = [bool(random.getrandbits(1)) for _ in range(screen.size_1d)]
 
-    if iterations == -1:
+    if generations == -1:
         while True:
             screen.draw(cells)
             cursor.move_up(screen.height)
             next_generation(cells, screen.height, screen.width)
     else:
-        for _ in range(iterations):
+        for _ in range(generations):
             screen.draw(cells)
             cursor.move_up(screen.height)
             next_generation(cells, screen.height, screen.width)
@@ -58,7 +58,7 @@ def run_game(screen: Screen, iterations: int = -1):
 def main():
     parser = ArgumentParser()
     parser.add_argument("--size", help="Screen size [WxH]")
-    parser.add_argument("--iterations", help="Number of iterations to run")
+    parser.add_argument("--generations", help="Number of generations to run")
     args = parser.parse_args()
 
     if args.size:
@@ -71,8 +71,8 @@ def main():
         columns = int(columns / 2)
 
     screen = Screen(lines, columns)
-    if args.iterations:
-        run_game(screen, int(args.iterations))
+    if args.generations:
+        run_game(screen, int(args.generations))
     else:
         run_game(screen)
 

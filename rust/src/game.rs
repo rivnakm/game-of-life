@@ -1,4 +1,4 @@
-pub fn run_game(height: usize, width: usize, iterations: Option<u32>) {
+pub fn run_game(height: usize, width: usize, generations: Option<u32>) {
     let screen = Screen {
         height: height,
         width: width,
@@ -9,18 +9,18 @@ pub fn run_game(height: usize, width: usize, iterations: Option<u32>) {
         cells.push(rand::random::<bool>());
     }
 
-    match iterations {
+    match generations {
         None => {
             loop {
                 screen.draw(&cells);
-                print!("\x1b[{}A", screen.height);  // Move cursor up
+                print!("\x1b[{}A", screen.height); // Move cursor up
                 next_gen(&mut cells, &screen.height, &screen.width);
             }
         }
         Some(iters) => {
             for _ in 0..iters {
                 screen.draw(&cells);
-                print!("\x1b[{}A", screen.height);  // Move cursor up
+                print!("\x1b[{}A", screen.height); // Move cursor up
                 next_gen(&mut cells, &screen.height, &screen.width);
             }
         }
@@ -53,14 +53,13 @@ fn next_gen(cells: &mut Vec<bool>, height: &usize, width: &usize) {
                 if adjacent > 3 {
                     cell = false;
                 }
-            }
-            else {
+            } else {
                 if adjacent == 3 {
                     cell = true
                 }
             }
 
-            cells[(i*width)+j] = cell
+            cells[(i * width) + j] = cell
         }
     }
 }

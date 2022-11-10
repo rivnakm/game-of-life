@@ -11,9 +11,9 @@ struct Args {
     #[arg(short, long)]
     size: Option<String>,
 
-    /// Number of iterations to run
+    /// Number of generations to run
     #[arg(short, long)]
-    iterations: Option<u32>,
+    generations: Option<u32>,
 }
 
 fn main() {
@@ -35,5 +35,5 @@ fn main() {
         }
     };
 
-    game::run_game(height, width, args.iterations);
+    game::run_game(height, width, args.generations);
 }

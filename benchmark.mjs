@@ -21,6 +21,10 @@ let iterations = argv.iterations || argv.i || 5;
 let generations = argv.generations || argv.g || 500;
 let size = argv.size || argv.s || "100x50";
 
+let result = size.match(/(\d+)x(\d+)/);
+let width = result[1];
+let height = result[2];
+
 let languages;
 if (argv.languages || argv.l) {
     languages = (argv.languages || argv.l).split(",");
@@ -93,10 +97,12 @@ for (let i = 0; i < iterations; i++) {
             await time(
                 [
                     "./c/game_of_life",
-                    "--iterations",
+                    "-g",
                     generations,
-                    "--size",
-                    size,
+                    "-h",
+                    height,
+                    "-w",
+                    width
                 ],
                 "Running C ..."
             )
@@ -113,7 +119,7 @@ for (let i = 0; i < iterations; i++) {
             await time(
                 [
                     "./cpp/build/game_of_life",
-                    "--iterations",
+                    "--generations",
                     generations,
                     "--size",
                     size,
@@ -133,7 +139,7 @@ for (let i = 0; i < iterations; i++) {
             await time(
                 [
                     "./csharp/bin/Release/net6.0/GameOfLife",
-                    "--iterations",
+                    "--generations",
                     generations,
                     "--size",
                     size,
@@ -154,7 +160,7 @@ for (let i = 0; i < iterations; i++) {
                 [
                     "python",
                     "python/game_of_life.py",
-                    "--iterations",
+                    "--generations",
                     generations,
                     "--size",
                     size,
@@ -174,7 +180,7 @@ for (let i = 0; i < iterations; i++) {
             await time(
                 [
                     "rust/target/release/game_of_life",
-                    "--iterations",
+                    "--generations",
                     generations,
                     "--size",
                     size,
@@ -195,9 +201,9 @@ for (let i = 0; i < iterations; i++) {
                 [
                     "node",
                     "typescript/build/src/main.js",
-                    "-i",
+                    "--generations",
                     generations,
-                    "-s",
+                    "--size",
                     size,
                 ],
                 "Running TypeScript ..."

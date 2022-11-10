@@ -11,7 +11,7 @@ int main(int argc, char* argv[]) {
     argparse::ArgumentParser program("test");
 
     program.add_argument("--size").help("Screen size [WxH]");
-    program.add_argument("--iterations").help("Number of iterations to run");
+    program.add_argument("--generations").help("Number of generations to run");
 
     try {
         program.parse_args(argc, argv);
@@ -40,12 +40,12 @@ int main(int argc, char* argv[]) {
         width = size.ws_col / 2;
     }
 
-    int iterations = -1;
-    if (program.is_used("--iterations")) {
-        iterations = stoi(program.get<std::string>("--iterations"));
+    int generations = -1;
+    if (program.is_used("--generations")) {
+        generations = stoi(program.get<std::string>("--generations"));
     }
 
-    runGame(height, width, iterations);
+    runGame(height, width, generations);
 
     return 0;
 }
