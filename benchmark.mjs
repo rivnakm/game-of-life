@@ -35,7 +35,7 @@ if (languages.includes("cpp")) {
     cd("cpp");
     await spinner(
         "Building C++ ...",
-        () => $`meson setup build; pushd build; ninja; popd`
+        () => $`meson setup build; meson configure -Dbuildtype=release build; pushd build; ninja; popd`
     );
     console.log("    Building C++ " + chalk.green("DONE"));
     cd(base_dir);
@@ -176,36 +176,39 @@ for (let i = 0; i < iterations; i++) {
 }
 
 // Clean
-console.log(chalk.blue("\nCleaning up"));
-// C++
-if (languages.includes("cpp")) {
-    cd("cpp/build");
-    await spinner("Cleaning up C++ ...", () => $`ninja clean`);
-    console.log("    Cleaning up C++ " + chalk.green("DONE"));
-    cd(base_dir);
-}
-// C#
-if (languages.includes("csharp")) {
-    cd("csharp");
-    await spinner("Cleaning up C# ...", () => $`dotnet clean`);
-    console.log("    Cleaning up C# " + chalk.green("DONE"));
-    cd(base_dir);
-}
 
-// Rust
-if (languages.includes("rust")) {
-    cd("rust");
-    await spinner("Cleaning up Rust ...", () => $`cargo clean`);
-    console.log("    Cleaning up Rust " + chalk.green("DONE"));
-    cd(base_dir);
-}
+if (argv.noclean === undefined) {
+    console.log(chalk.blue("\nCleaning up"));
+    // C++
+    if (languages.includes("cpp")) {
+        cd("cpp/build");
+        await spinner("Cleaning up C++ ...", () => $`ninja clean`);
+        console.log("    Cleaning up C++ " + chalk.green("DONE"));
+        cd(base_dir);
+    }
+    // C#
+    if (languages.includes("csharp")) {
+        cd("csharp");
+        await spinner("Cleaning up C# ...", () => $`dotnet clean`);
+        console.log("    Cleaning up C# " + chalk.green("DONE"));
+        cd(base_dir);
+    }
 
-// TypeScript
-if (languages.includes("typescript")) {
-    cd("typescript");
-    await spinner("Cleaning up TypeScript ...", () => $`yarn run clean`);
-    console.log("    Cleaning up TypeScript " + chalk.green("DONE"));
-    cd(base_dir);
+    // Rust
+    if (languages.includes("rust")) {
+        cd("rust");
+        await spinner("Cleaning up Rust ...", () => $`cargo clean`);
+        console.log("    Cleaning up Rust " + chalk.green("DONE"));
+        cd(base_dir);
+    }
+
+    // TypeScript
+    if (languages.includes("typescript")) {
+        cd("typescript");
+        await spinner("Cleaning up TypeScript ...", () => $`yarn run clean`);
+        console.log("    Cleaning up TypeScript " + chalk.green("DONE"));
+        cd(base_dir);
+    }
 }
 
 // Print results
