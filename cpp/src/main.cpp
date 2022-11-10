@@ -7,7 +7,7 @@
 
 #include "game.hpp"
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
     argparse::ArgumentParser program("test");
 
     program.add_argument("--size").help("Screen size [WxH]");
