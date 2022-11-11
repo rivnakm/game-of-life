@@ -40,7 +40,7 @@ if (languages.includes("c")) {
     await spinner(
         "Building C ...",
         () =>
-            $`CFLAGS="-O2 -pipe" make`
+            $`CFLAGS="-O2" make`
     );
     console.log("    Building C " + chalk.green("DONE"));
     cd(base_dir);
