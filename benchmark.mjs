@@ -29,7 +29,7 @@ let languages;
 if (argv.languages || argv.l) {
     languages = (argv.languages || argv.l).split(",");
 } else {
-    languages = ["c", "cpp", "csharp", "python", "rust", "typescript"];
+    languages = ["c", "cpp", "csharp", "go", "python", "rust", "typescript"];
 }
 
 // Build
@@ -66,7 +66,16 @@ if (languages.includes("csharp")) {
     console.log("    Building C# " + chalk.green("DONE"));
     cd(base_dir);
 }
-
+// Go
+if (languages.includes("go")) {
+    cd("go");
+    await spinner(
+        "Building Go ...",
+        () => $`go build -ldflags "-s"`
+    );
+    console.log("    Building Go " + chalk.green("DONE"));
+    cd(base_dir);
+}
 // Rust
 if (languages.includes("rust")) {
     cd("rust");
@@ -74,7 +83,6 @@ if (languages.includes("rust")) {
     console.log("    Building Rust " + chalk.green("DONE"));
     cd(base_dir);
 }
-
 // TypeScript
 if (languages.includes("typescript")) {
     cd("typescript");
@@ -102,14 +110,14 @@ for (let i = 0; i < iterations; i++) {
                     "-h",
                     height,
                     "-w",
-                    width
+                    width,
                 ],
                 "Running C ..."
             )
         );
         console.log("    Running C " + chalk.green("DONE"));
     }
-    
+
     // C++
     if (languages.includes("cpp")) {
         if (i === 0) {
@@ -148,6 +156,26 @@ for (let i = 0; i < iterations; i++) {
             )
         );
         console.log("    Running C# " + chalk.green("DONE"));
+    }
+
+    // Go
+    if (languages.includes("go")) {
+        if (i === 0) {
+            results["go"] = [];
+        }
+        results["go"].push(
+            await time(
+                [
+                    "./go/game_of_life",
+                    "--generations",
+                    generations,
+                    "--size",
+                    size,
+                ],
+                "Running Go ..."
+            )
+        );
+        console.log("    Running Go " + chalk.green("DONE"));
     }
 
     // Python
@@ -224,6 +252,7 @@ if (argv.noclean === undefined) {
         console.log("    Cleaning up C " + chalk.green("DONE"));
         cd(base_dir);
     }
+
     // C++
     if (languages.includes("cpp")) {
         cd("cpp/build");
@@ -231,11 +260,20 @@ if (argv.noclean === undefined) {
         console.log("    Cleaning up C++ " + chalk.green("DONE"));
         cd(base_dir);
     }
+
     // C#
     if (languages.includes("csharp")) {
         cd("csharp");
         await spinner("Cleaning up C# ...", () => $`dotnet clean`);
         console.log("    Cleaning up C# " + chalk.green("DONE"));
+        cd(base_dir);
+    }
+
+    // Go
+    if (languages.includes("go")) {
+        cd("go");
+        await spinner("Cleaning up Go ...", () => $`rm -f game_of_life`);
+        console.log("    Cleaning up Go " + chalk.green("DONE"));
         cd(base_dir);
     }
 
