@@ -19,16 +19,13 @@ def next_generation(cells: List[bool], height: int, width: int):
     for i in range(height):
         for j in range(width):
             cell = get_cell(cells_copy, i, j, height, width)
-
             adjacent = 0
-            adjacent += int(get_cell(cells_copy, i-1, j-1, height, width))  # top left
-            adjacent += int(get_cell(cells_copy, i-1, j, height, width))    # top center
-            adjacent += int(get_cell(cells_copy, i-1, j+1, height, width))  # top right
-            adjacent += int(get_cell(cells_copy, i, j-1, height, width))    # center left
-            adjacent += int(get_cell(cells_copy, i, j+1, height, width))    # center right
-            adjacent += int(get_cell(cells_copy, i+1, j-1, height, width))  # bottom left
-            adjacent += int(get_cell(cells_copy, i+1, j, height, width))    # bottom center
-            adjacent += int(get_cell(cells_copy, i+1, j+1, height, width))  # bottom right
+
+            for n in range(-1,2):
+                for m in range(-1,2):
+                    if (n == -1 and i == 0) or (m == -1 and j == 0) or (n == 0 and m == 0):
+                        continue
+                    adjacent += int(get_cell(cells_copy, i+n, j+m, height, width))
 
             if cell:
                 if adjacent < 2:

@@ -69,14 +69,16 @@ namespace GameOfLife
                     var cell = this.GetCell(this.cells, i, j);
 
                     var adjacent = 0;
-                    adjacent += this.GetCell(cellsCopy, i - 1, j - 1) ? 1 : 0;  // top left
-                    adjacent += this.GetCell(cellsCopy, i - 1, j) ? 1 : 0;      // top center
-                    adjacent += this.GetCell(cellsCopy, i - 1, j + 1) ? 1 : 0;  // top right
-                    adjacent += this.GetCell(cellsCopy, i, j - 1) ? 1 : 0;      // center left
-                    adjacent += this.GetCell(cellsCopy, i, j + 1) ? 1 : 0;      // center right
-                    adjacent += this.GetCell(cellsCopy, i + 1, j - 1) ? 1 : 0;  // bottom left
-                    adjacent += this.GetCell(cellsCopy, i + 1, j) ? 1 : 0;      // bottom center
-                    adjacent += this.GetCell(cellsCopy, i + 1, j + 1) ? 1 : 0;  // bottom right
+                    for (var n = -1; n <= 1; n++)
+                    {
+                        for (var m = -1; m <= 1; m++)
+                        {
+                            if ((n == -1 && i == 0) || (m == -1 && j == 0) || (n == 0 && m == 0)) {
+                                continue;
+                            }
+                            adjacent += GetCell(cellsCopy, i + n, j + m) ? 1 : 0;
+                        }
+                    }
 
                     if (cell)
                     {
