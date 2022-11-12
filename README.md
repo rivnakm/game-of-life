@@ -5,6 +5,7 @@
 ![C#](https://img.shields.io/badge/c%23-%23239120.svg?style=for-the-badge&logo=.net&logoColor=white)
 ![Go](https://img.shields.io/badge/go-%2300ADD8.svg?style=for-the-badge&logo=go&logoColor=white)
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+![Ruby](https://img.shields.io/badge/ruby-%23CC342D.svg?style=for-the-badge&logo=ruby&logoColor=white)
 ![Rust](https://img.shields.io/badge/rust-%23000000.svg?style=for-the-badge&logo=rust&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
 
@@ -18,7 +19,6 @@
 ![Julia](https://img.shields.io/badge/-Julia-9558B2?style=for-the-badge&logo=julia&logoColor=white)
 ![Nim](https://img.shields.io/badge/nim-%23FFE953.svg?style=for-the-badge&logo=nim&logoColor=black)
 ![Perl](https://img.shields.io/badge/perl-%2339457E.svg?style=for-the-badge&logo=perl&logoColor=white)
-![Ruby](https://img.shields.io/badge/ruby-%23CC342D.svg?style=for-the-badge&logo=ruby&logoColor=white)
 ![Zig](https://img.shields.io/badge/Zig-%23F7A442.svg?style=for-the-badge&logo=zig&logoColor=black) -->
 
 Conway's Game of Life in an many programming languages as I can figure out
@@ -51,7 +51,7 @@ Conway's Game of Life in an many programming languages as I can figure out
 - Nim
 - Perl -->
 - Python
-<!-- - Ruby -->
+- Ruby
 - Rust
   - Cargo
 - Typescript
@@ -146,6 +146,15 @@ cd python/
 python game_of_life.py
 # or
 python game_of_life.py --generations 50 --size 40x20
+```
+
+### Ruby
+
+```sh
+cd ruby/
+ruby GameOfLife.rb
+# or
+ruby GameOfLife.rb --generations 50 --size 40x20
 ```
 
 ### Rust

@@ -29,7 +29,7 @@ let languages;
 if (argv.languages || argv.l) {
     languages = (argv.languages || argv.l).split(",");
 } else {
-    languages = ["c", "cpp", "csharp", "go", "python", "rust", "typescript"];
+    languages = ["c", "cpp", "csharp", "go", "python", "ruby", "rust", "typescript"];
 }
 
 // Build
@@ -37,11 +37,7 @@ console.log(chalk.blue("Building"));
 // C
 if (languages.includes("c")) {
     cd("c");
-    await spinner(
-        "Building C ...",
-        () =>
-            $`CFLAGS="-O2" make`
-    );
+    await spinner("Building C ...", () => $`CFLAGS="-O2" make`);
     console.log("    Building C " + chalk.green("DONE"));
     cd(base_dir);
 }
@@ -69,10 +65,7 @@ if (languages.includes("csharp")) {
 // Go
 if (languages.includes("go")) {
     cd("go");
-    await spinner(
-        "Building Go ...",
-        () => $`go build -ldflags "-s"`
-    );
+    await spinner("Building Go ...", () => $`go build -ldflags "-s"`);
     console.log("    Building Go " + chalk.green("DONE"));
     cd(base_dir);
 }
@@ -99,9 +92,9 @@ for (let i = 0; i < iterations; i++) {
     // C
     if (languages.includes("c")) {
         if (i === 0) {
-            results["c"] = [];
+            results["C"] = [];
         }
-        results["c"].push(
+        results["C"].push(
             await time(
                 [
                     "./c/game_of_life",
@@ -121,9 +114,9 @@ for (let i = 0; i < iterations; i++) {
     // C++
     if (languages.includes("cpp")) {
         if (i === 0) {
-            results["cpp"] = [];
+            results["C++"] = [];
         }
-        results["cpp"].push(
+        results["C++"].push(
             await time(
                 [
                     "./cpp/build/game_of_life",
@@ -141,9 +134,9 @@ for (let i = 0; i < iterations; i++) {
     // C#
     if (languages.includes("csharp")) {
         if (i === 0) {
-            results["csharp"] = [];
+            results["C#"] = [];
         }
-        results["csharp"].push(
+        results["C#"].push(
             await time(
                 [
                     "./csharp/bin/Release/net6.0/GameOfLife",
@@ -161,9 +154,9 @@ for (let i = 0; i < iterations; i++) {
     // Go
     if (languages.includes("go")) {
         if (i === 0) {
-            results["go"] = [];
+            results["Go"] = [];
         }
-        results["go"].push(
+        results["Go"].push(
             await time(
                 [
                     "./go/game_of_life",
@@ -181,9 +174,9 @@ for (let i = 0; i < iterations; i++) {
     // Python
     if (languages.includes("python")) {
         if (i === 0) {
-            results["python"] = [];
+            results["Python"] = [];
         }
-        results["python"].push(
+        results["Python"].push(
             await time(
                 [
                     "python",
@@ -199,12 +192,33 @@ for (let i = 0; i < iterations; i++) {
         console.log("    Running Python " + chalk.green("DONE"));
     }
 
+    // Ruby
+    if (languages.includes("ruby")) {
+        if (i === 0) {
+            results["Ruby"] = [];
+        }
+        results["Ruby"].push(
+            await time(
+                [
+                    "ruby",
+                    "ruby/GameOfLife.rb",
+                    "--generations",
+                    generations,
+                    "--size",
+                    size,
+                ],
+                "Running Ruby ..."
+            )
+        );
+        console.log("    Running Ruby " + chalk.green("DONE"));
+    }
+
     // Rust
     if (languages.includes("rust")) {
         if (i === 0) {
-            results["rust"] = [];
+            results["Rust"] = [];
         }
-        results["rust"].push(
+        results["Rust"].push(
             await time(
                 [
                     "rust/target/release/game_of_life",
@@ -222,9 +236,9 @@ for (let i = 0; i < iterations; i++) {
     // Typescript
     if (languages.includes("typescript")) {
         if (i === 0) {
-            results["typescript"] = [];
+            results["TypeScript"] = [];
         }
-        results["typescript"].push(
+        results["TypeScript"].push(
             await time(
                 [
                     "node",
