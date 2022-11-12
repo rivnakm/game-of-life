@@ -14,7 +14,7 @@ def get_cell(items: List[bool], row, col, height, width) -> bool:
         return False
 
 
-def next_generation(cells, height, width):
+def next_generation(cells: List[bool], height: int, width: int):
     cells_copy = cells.copy()
     for i in range(height):
         for j in range(width):
