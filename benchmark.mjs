@@ -29,7 +29,17 @@ let languages;
 if (argv.languages || argv.l) {
     languages = (argv.languages || argv.l).split(",");
 } else {
-    languages = ["c", "cpp", "csharp", "go", "python", "ruby", "rust", "typescript"];
+    languages = [
+        "c",
+        "cpp",
+        "csharp",
+        "dart",
+        "go",
+        "python",
+        "ruby",
+        "rust",
+        "typescript",
+    ];
 }
 
 // Build
@@ -60,6 +70,21 @@ if (languages.includes("csharp")) {
         () => $`dotnet build --configuration Release`
     );
     console.log("    Building C# " + chalk.green("DONE"));
+    cd(base_dir);
+}
+// Dart
+if (languages.includes("dart")) {
+    cd("dart");
+    await spinner(
+        "Building Dart (native) ...",
+        () => $`dart compile exe bin/game_of_life.dart`
+    );
+    console.log("    Building Dart (native) " + chalk.green("DONE"));
+    await spinner(
+        "Building Dart (AOT) ...",
+        () => $`dart compile aot-snapshot bin/game_of_life.dart`
+    );
+    console.log("    Building Dart (AOT) " + chalk.green("DONE"));
     cd(base_dir);
 }
 // Go
@@ -149,6 +174,41 @@ for (let i = 0; i < iterations; i++) {
             )
         );
         console.log("    Running C# " + chalk.green("DONE"));
+    }
+
+    // Go
+    if (languages.includes("dart")) {
+        if (i === 0) {
+            results["Dart (native)"] = [];
+            results["Dart (AOT)"] = [];
+        }
+        results["Dart (native)"].push(
+            await time(
+                [
+                    "./dart/bin/game_of_life.exe",
+                    "--generations",
+                    generations,
+                    "--size",
+                    size,
+                ],
+                "Running Dart (native) ..."
+            )
+        );
+        console.log("    Running Dart (native) " + chalk.green("DONE"));
+        results["Dart (AOT)"].push(
+            await time(
+                [
+                    "dartaotruntime",
+                    "./dart/bin/game_of_life.aot",
+                    "--generations",
+                    generations,
+                    "--size",
+                    size,
+                ],
+                "Running Dart (AOT) ..."
+            )
+        );
+        console.log("    Running Dart (AOT) " + chalk.green("DONE"));
     }
 
     // Go
@@ -280,6 +340,18 @@ if (argv.noclean === undefined) {
         cd("csharp");
         await spinner("Cleaning up C# ...", () => $`dotnet clean`);
         console.log("    Cleaning up C# " + chalk.green("DONE"));
+        cd(base_dir);
+    }
+
+    // C#
+    if (languages.includes("dart")) {
+        cd("dart");
+        await spinner(
+            "Cleaning up Dart ...",
+            () =>
+                $`rm -rf ./bin/game_of_life.exe; rm -rf ./bin/game_of_life.aot`
+        );
+        console.log("    Cleaning up Dart " + chalk.green("DONE"));
         cd(base_dir);
     }
 

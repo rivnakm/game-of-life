@@ -3,6 +3,7 @@
 ![C](https://img.shields.io/badge/c-%2300599C.svg?style=for-the-badge&logo=c&logoColor=white)
 ![C++](https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white)
 ![C#](https://img.shields.io/badge/c%23-%23239120.svg?style=for-the-badge&logo=.net&logoColor=white)
+![Dart](https://img.shields.io/badge/dart-%230175C2.svg?style=for-the-badge&logo=dart&logoColor=white)
 ![Go](https://img.shields.io/badge/go-%2300ADD8.svg?style=for-the-badge&logo=go&logoColor=white)
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 ![Ruby](https://img.shields.io/badge/ruby-%23CC342D.svg?style=for-the-badge&logo=ruby&logoColor=white)
@@ -28,6 +29,19 @@ Conway's Game of Life in an many programming languages as I can figure out
 <!-- - Assembly
   - GNU Binutils (as & ld)
   - Raspberry Pi 4 -->
+<!-- - D
+  - GCC (GDC)
+
+- Elixir
+- F#
+  - .NET SDK
+- Fortran
+  - GCC (gfortran) -->
+<!-- - Haskell
+  - GHC
+- Julia
+- Nim
+- Perl -->
 - C
   - GCC
 - C++
@@ -36,20 +50,8 @@ Conway's Game of Life in an many programming languages as I can figure out
   - Ninja
 - C#
   - .NET SDK
-<!-- - D
-  - GCC (GDC)
 - Dart
-- Elixir
-- F#
-  - .NET SDK
-- Fortran
-  - GCC (gfortran) -->
 - Go
-<!-- - Haskell
-  - GHC
-- Julia
-- Nim
-- Perl -->
 - Python
 - Ruby
 - Rust
@@ -100,6 +102,15 @@ cd csharp/
 dotnet run
 # or
 dotnet run -- --generations 50 --size 40x20
+```
+
+### Dart
+
+```sh
+cd dart/
+dart run
+# or
+dart run --generations 50 --size 40x20
 ```
 
 <!-- ### Elixir
