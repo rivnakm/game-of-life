@@ -76,15 +76,10 @@ if (languages.includes("csharp")) {
 if (languages.includes("dart")) {
     cd("dart");
     await spinner(
-        "Building Dart (native) ...",
+        "Building Dart ...",
         () => $`dart compile exe bin/game_of_life.dart`
     );
-    console.log("    Building Dart (native) " + chalk.green("DONE"));
-    await spinner(
-        "Building Dart (AOT) ...",
-        () => $`dart compile aot-snapshot bin/game_of_life.dart`
-    );
-    console.log("    Building Dart (AOT) " + chalk.green("DONE"));
+    console.log("    Building Dart " + chalk.green("DONE"));
     cd(base_dir);
 }
 // Go
@@ -176,13 +171,12 @@ for (let i = 0; i < iterations; i++) {
         console.log("    Running C# " + chalk.green("DONE"));
     }
 
-    // Go
+    // Dart
     if (languages.includes("dart")) {
         if (i === 0) {
-            results["Dart (native)"] = [];
-            results["Dart (AOT)"] = [];
+            results["Dart"] = [];
         }
-        results["Dart (native)"].push(
+        results["Dart"].push(
             await time(
                 [
                     "./dart/bin/game_of_life.exe",
@@ -191,24 +185,11 @@ for (let i = 0; i < iterations; i++) {
                     "--size",
                     size,
                 ],
-                "Running Dart (native) ..."
+                "Running Dart ..."
             )
         );
-        console.log("    Running Dart (native) " + chalk.green("DONE"));
-        results["Dart (AOT)"].push(
-            await time(
-                [
-                    "dartaotruntime",
-                    "./dart/bin/game_of_life.aot",
-                    "--generations",
-                    generations,
-                    "--size",
-                    size,
-                ],
-                "Running Dart (AOT) ..."
-            )
-        );
-        console.log("    Running Dart (AOT) " + chalk.green("DONE"));
+        console.log("    Running Dart " + chalk.green("DONE"));
+
     }
 
     // Go
@@ -343,13 +324,13 @@ if (argv.noclean === undefined) {
         cd(base_dir);
     }
 
-    // C#
+    // Dart
     if (languages.includes("dart")) {
         cd("dart");
         await spinner(
             "Cleaning up Dart ...",
             () =>
-                $`rm -rf ./bin/game_of_life.exe; rm -rf ./bin/game_of_life.aot`
+                $`rm -rf ./bin/game_of_life.exe`
         );
         console.log("    Cleaning up Dart " + chalk.green("DONE"));
         cd(base_dir);
