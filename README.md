@@ -28,22 +28,22 @@ Conway's Game of Life in an many programming languages as I can figure out
 
 <!-- - Assembly
   - GNU Binutils (as & ld)
-  - Raspberry Pi 4 -->
-<!-- - D
+  - Raspberry Pi 4
+ - D
   - GCC (GDC)
-
 - Elixir
 - F#
   - .NET SDK
 - Fortran
-  - GCC (gfortran) -->
-<!-- - Haskell
+  - GCC (gfortran)
+- Haskell
   - GHC
 - Julia
 - Nim
 - Perl -->
 - C
   - GCC
+  - GNU Make
 - C++
   - GCC
   - Meson
@@ -80,7 +80,7 @@ cd c/
 make
 ./game_of_life
 # or
-./ game_of_life -g 50 -h 20 -w 40
+./game_of_life -g 50 -h 20 -w 40
 ```
 
 ### C++
