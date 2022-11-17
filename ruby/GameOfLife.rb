@@ -39,7 +39,7 @@ def nextGeneration(cells, height, width)
                 end
             end
 
-            cells[i*width+j] = cell
+            cells[(i*width)+j] = cell
         end
     end
 end
