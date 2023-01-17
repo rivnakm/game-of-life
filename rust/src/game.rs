@@ -1,4 +1,4 @@
-pub fn run_game(height: usize, width: usize, generations: Option<u32>) {
+pub fn run_game(height: usize, width: usize, generations: u32) {
     let screen = Screen {
         height: height,
         width: width,
@@ -9,21 +9,10 @@ pub fn run_game(height: usize, width: usize, generations: Option<u32>) {
         cells.push(rand::random::<bool>());
     }
 
-    match generations {
-        None => {
-            loop {
-                screen.draw(&cells);
-                print!("\x1b[{}A", screen.height); // Move cursor up
-                next_gen(&mut cells, &screen.height, &screen.width);
-            }
-        }
-        Some(iters) => {
-            for _ in 0..iters {
-                screen.draw(&cells);
-                print!("\x1b[{}A", screen.height); // Move cursor up
-                next_gen(&mut cells, &screen.height, &screen.width);
-            }
-        }
+    for _ in 0..generations {
+        screen.draw(&cells);
+        print!("\x1b[{}A", screen.height); // Move cursor up
+        next_gen(&mut cells, &screen.height, &screen.width);
     }
 }
 

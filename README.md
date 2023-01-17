@@ -165,8 +165,6 @@ ruby GameOfLife.rb
 ```sh
 cd rust/
 cargo run
-# or
-cargo run -- --generations 50 --size 40x20
 ```
 
 ### Typescript

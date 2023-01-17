@@ -177,13 +177,7 @@ for (let i = 0; i < iterations; i++) {
             results["Ruby"] = [];
         }
         results["Ruby"].push(
-            await time(
-                [
-                    "ruby",
-                    "ruby/GameOfLife.rb",
-                ],
-                "Running Ruby ..."
-            )
+            await time(["ruby", "ruby/GameOfLife.rb"], "Running Ruby ...")
         );
         console.log("    Running Ruby " + chalk.green("DONE"));
     }
@@ -194,16 +188,7 @@ for (let i = 0; i < iterations; i++) {
             results["Rust"] = [];
         }
         results["Rust"].push(
-            await time(
-                [
-                    "rust/target/release/game_of_life",
-                    "--generations",
-                    generations,
-                    "--size",
-                    size,
-                ],
-                "Running Rust ..."
-            )
+            await time("rust/target/release/game_of_life", "Running Rust ...")
         );
         console.log("    Running Rust " + chalk.green("DONE"));
     }
