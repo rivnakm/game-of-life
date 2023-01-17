@@ -192,5 +192,5 @@ zx --install benchmark.mjs
 You can also specify how many generations to run the benchmark, as well as the number of generations and size of the game
 
 ```sh
-zx benchmark.mjs --generations 5 --generations 100 --size 50x25
+zx benchmark.mjs --generations 5
 ```
