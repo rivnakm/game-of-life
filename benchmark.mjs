@@ -18,12 +18,6 @@ async function time(cmd, message) {
 }
 
 let iterations = argv.iterations || argv.i || 5;
-let generations = argv.generations || argv.g || 500;
-let size = argv.size || argv.s || "100x50";
-
-let result = size.match(/(\d+)x(\d+)/);
-let width = result[1];
-let height = result[2];
 
 let languages;
 if (argv.languages || argv.l) {
@@ -57,7 +51,7 @@ if (languages.includes("cpp")) {
     await spinner(
         "Building C++ ...",
         () =>
-            $`meson setup build; meson configure -Dbuildtype=release build; pushd build; ninja; popd`
+            $`meson setup --reconfigure build; meson configure -Dbuildtype=release build; pushd build; ninja; popd`
     );
     console.log("    Building C++ " + chalk.green("DONE"));
     cd(base_dir);
@@ -136,13 +130,7 @@ for (let i = 0; i < iterations; i++) {
         }
         results["C#"].push(
             await time(
-                [
-                    "./csharp/bin/Release/net6.0/GameOfLife",
-                    "--generations",
-                    generations,
-                    "--size",
-                    size,
-                ],
+                    "./csharp/bin/Release/net7.0/GameOfLife",
                 "Running C# ..."
             )
         );
@@ -356,7 +344,7 @@ averages.sort((a, b) => {
 });
 
 averages.unshift(["language", "avg time (s)"]);
-console.log(`${generations} generations (average of ${iterations})`);
+console.log(`500 generations (average of ${iterations})`);
 console.log(table(averages));
 
 const output = stringify(averages);

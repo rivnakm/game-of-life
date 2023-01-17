@@ -53,7 +53,7 @@ by shifting half of the work onto random argument parsing libraries rather than 
   - Meson
   - Ninja
 - C#
-  - .NET SDK
+  - .NET 7.0 SDK
 - Dart
 - Go
 - Python
@@ -100,8 +100,6 @@ ninja
 ```sh
 cd csharp/
 dotnet run
-# or
-dotnet run -- --generations 50 --size 40x20
 ```
 
 ### Dart

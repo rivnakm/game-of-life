@@ -1,17 +1,7 @@
-﻿using System.Text.RegularExpressions;
-using CommandLine;
+﻿using System;
 
 namespace GameOfLife
 {
-    public class Options
-    {
-        [Option('s', "size", Required = false, HelpText = "Screen size [WxH]")]
-        public string? Size { get; set; }
-
-        [Option('i', "generations", Required = false, HelpText = "Number of generations to run")]
-        public int? generations { get; set; }
-    }
-
     internal class Game
     {
         private int height { get; set; }
@@ -24,9 +14,9 @@ namespace GameOfLife
         public Game(Screen screen, int generations)
         {
             this.screen = screen;
-            this.generations = generations;
             this.cells = new List<bool>();
 
+            this.generations = generations;
             this.height = this.screen.height;
             this.width = this.screen.width;
 
@@ -39,23 +29,11 @@ namespace GameOfLife
 
         public void Run()
         {
-            if (generations == -1)
+            for (var i = 0; i < this.generations; i++)
             {
-                while (true)
-                {
-                    screen.Draw(cells);
-                    Console.SetCursorPosition(0, 0);
-                    this.Next();
-                }
-            }
-            else
-            {
-                for (var i = 0; i < this.generations; i++)
-                {
-                    screen.Draw(cells);
-                    Console.SetCursorPosition(0, 0);
-                    this.Next();
-                }
+                screen.Draw(cells);
+                Console.SetCursorPosition(0, 0);
+                this.Next();
             }
         }
 
@@ -120,26 +98,11 @@ namespace GameOfLife
     {
         static void Main(string[] args)
         {
-            int columns = Console.WindowWidth / 2;
-            int lines = Console.WindowHeight - 1;
-            int generations = -1;
-            var result = CommandLine.Parser.Default.ParseArguments<Options>(args).WithParsed<Options>(o =>
-            {
-                if (o.Size != null)
-                {
-                    var size = (string)o.Size;
-                    Regex re = new(@"(\d+)x(\d+)");
-                    var match = re.Match(size);
-                    columns = int.Parse(match.Groups[1].Value);
-                    lines = int.Parse(match.Groups[2].Value);
-                }
-                if (o.generations != null)
-                {
-                    generations = (int)o.generations;
-                }
-            });
+            int height = 50;
+            int width = 100;
+            int generations = 500;
 
-            Screen screen = new(lines, columns);
+            Screen screen = new(height, width);
             Game game = new(screen, generations);
             game.Run();
         }
