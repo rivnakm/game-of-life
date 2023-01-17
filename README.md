@@ -93,8 +93,6 @@ meson setup build
 cd build
 ninja
 ./game_of_life
-# or
-./game_of_life --generations 50 --size 40x20
 ```
 
 ### C\#

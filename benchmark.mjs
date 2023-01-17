@@ -114,12 +114,7 @@ for (let i = 0; i < iterations; i++) {
         if (i === 0) {
             results["C"] = [];
         }
-        results["C"].push(
-            await time(
-                ["./c/game_of_life"],
-                "Running C ..."
-            )
-        );
+        results["C"].push(await time("./c/game_of_life", "Running C ..."));
         console.log("    Running C " + chalk.green("DONE"));
     }
 
@@ -129,16 +124,7 @@ for (let i = 0; i < iterations; i++) {
             results["C++"] = [];
         }
         results["C++"].push(
-            await time(
-                [
-                    "./cpp/build/game_of_life",
-                    "--generations",
-                    generations,
-                    "--size",
-                    size,
-                ],
-                "Running C++ ..."
-            )
+            await time("./cpp/build/game_of_life", "Running C++ ...")
         );
         console.log("    Running C++ " + chalk.green("DONE"));
     }
@@ -181,7 +167,6 @@ for (let i = 0; i < iterations; i++) {
             )
         );
         console.log("    Running Dart " + chalk.green("DONE"));
-
     }
 
     // Go
@@ -321,8 +306,7 @@ if (argv.noclean === undefined) {
         cd("dart");
         await spinner(
             "Cleaning up Dart ...",
-            () =>
-                $`rm -rf ./bin/game_of_life.exe`
+            () => $`rm -rf ./bin/game_of_life.exe`
         );
         console.log("    Cleaning up Dart " + chalk.green("DONE"));
         cd(base_dir);

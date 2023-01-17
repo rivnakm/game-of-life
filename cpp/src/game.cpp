@@ -12,18 +12,10 @@ void runGame(int height, int width, int generations) {
         cells.push_back(std::rand() % 2 > 0.5);
     }
 
-    if (generations == -1) {
-        while (true) {
-            drawScreen(cells, height, width);
-            std::cout << "\x1b[" << height << "A";
-            nextGen(cells, height, width);
-        }
-    } else {
-        for (int i = 0; i < generations; i++) {
-            drawScreen(cells, height, width);
-            std::cout << "\x1b[" << height << "A";
-            nextGen(cells, height, width);
-        }
+    for (int i = 0; i < generations; i++) {
+        drawScreen(cells, height, width);
+        std::cout << "\x1b[" << height << "A";
+        nextGen(cells, height, width);
     }
 }
 
