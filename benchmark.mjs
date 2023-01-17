@@ -153,18 +153,7 @@ for (let i = 0; i < iterations; i++) {
         if (i === 0) {
             results["Go"] = [];
         }
-        results["Go"].push(
-            await time(
-                [
-                    "./go/game_of_life",
-                    "--generations",
-                    generations,
-                    "--size",
-                    size,
-                ],
-                "Running Go ..."
-            )
-        );
+        results["Go"].push(await time("./go/game_of_life", "Running Go ..."));
         console.log("    Running Go " + chalk.green("DONE"));
     }
 

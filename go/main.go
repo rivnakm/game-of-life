@@ -1,43 +1,16 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 	"math/rand"
-	"os"
-	"regexp"
-	"strconv"
-
-	"golang.org/x/term"
 )
 
 func main() {
-	generations := flag.Int("generations", -1, "# of generations to run")
-	size := flag.String("size", "", "Screen size [WxH]")
+	generations := 500
+	height := 50
+	width := 100
 
-	flag.Parse()
-
-	var height int
-	var width int
-
-	if *size == "" {
-		width, height, _ = term.GetSize(0)
-		width = width / 2
-		height = height - 1
-	} else {
-		re, _ := regexp.Compile(`^(\d+)x(\d+)$`)
-
-		if !re.MatchString(*size) {
-			fmt.Fprintf(os.Stderr, "Error: Invalid size '%s'", *size)
-			os.Exit(1)
-		}
-
-		result := re.FindStringSubmatch(*size)
-		height, _ = strconv.Atoi(result[2])
-		width, _ = strconv.Atoi(result[1])
-	}
-
-	run_game(height, width, *generations)
+	run_game(height, width, generations)
 }
 
 func run_game(height int, width int, generations int) {
@@ -46,18 +19,10 @@ func run_game(height int, width int, generations int) {
 		cells[i] = rand.Float32() > 0.5
 	}
 
-	if generations == -1 {
-		for true {
-			draw_screen(cells, height, width)
-			fmt.Printf("\x1b[%dA", height)
-			next_gen(cells, height, width)
-		}
-	} else {
-		for i := 0; i < generations; i++ {
-			draw_screen(cells, height, width)
-			fmt.Printf("\x1b[%dA", height)
-			next_gen(cells, height, width)
-		}
+	for i := 0; i < generations; i++ {
+		draw_screen(cells, height, width)
+		fmt.Printf("\x1b[%dA", height)
+		next_gen(cells, height, width)
 	}
 }
 

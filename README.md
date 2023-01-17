@@ -1,5 +1,7 @@
 # Conway's Game of Life
 
+### Conway's Game of Life in an many programming languages as I can figure out
+
 ![C](https://img.shields.io/badge/c-%2300599C.svg?style=for-the-badge&logo=c&logoColor=white)
 ![C++](https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white)
 ![C#](https://img.shields.io/badge/c%23-%23239120.svg?style=for-the-badge&logo=.net&logoColor=white)
@@ -22,9 +24,7 @@
 ![Perl](https://img.shields.io/badge/perl-%2339457E.svg?style=for-the-badge&logo=perl&logoColor=white)
 ![Zig](https://img.shields.io/badge/Zig-%23F7A442.svg?style=for-the-badge&logo=zig&logoColor=black) -->
 
-Conway's Game of Life in an many programming languages as I can figure out
-
-The games are all setup to run a 100x50 (WxH) for 500 generations. Most of them were originally written to be dynamic and find the terminal
+The games are all setup to run a 100x50 (WxH) board for 500 generations. Most of them were originally written to be dynamic and find the terminal
 size or accept arguments but it was taking too much work to get all of that set up for each language and (imo) distracting from the purpose of this
 by shifting half of the work onto random argument parsing libraries rather than the languages themselves.
 
@@ -127,7 +127,7 @@ dotnet run
 
 ```sh
 cd go/
-go run . --generations 50 --size 40x20
+go run .
 ```
 
 <!--
