@@ -1,6 +1,3 @@
-require 'io/console'
-require 'optparse'
-
 def getCell(cells, row, col, height, width)
     if row >= 0 && col >= 0 && row < height && col < width
         return cells[(row*width)+col]
@@ -65,49 +62,16 @@ def runGame(height, width, generations)
         cells.append([true, false].sample)
     end
 
-    if generations == -1
-        while true do
-            drawScreen(cells, height, width)
-            print "\x1b[" + height.to_s + "A"
-            STDOUT.flush
-            nextGeneration(cells, height, width)
-        end
-    else
-        for i in 0...generations do
-            drawScreen(cells, height, width)
-            print "\x1b[" + height.to_s + "A"
-            STDOUT.flush
-            nextGeneration(cells, height, width)
-        end
+    for i in 0...generations do
+        drawScreen(cells, height, width)
+        print "\x1b[" + height.to_s + "A"
+        STDOUT.flush
+        nextGeneration(cells, height, width)
     end
 end
 
-options = {}
-OptionParser.new do |opts|
-    opts.on("-g [GENERATIONS]", "--generations [GENERATIONS]", "Number of generations to run") do |g|
-        options[:generations] = g
-    end
-    opts.on("-s [SIZE]", "--size [SIZE]", "Screen size [WxH]") do |s|
-        options[:size] = s
-    end
-end.parse!
-
-
-if options[:generations] == nil 
-    generations = -1
-else
-    generations = options[:generations].to_i
-end
-
-
-if options[:size] == nil
-    height, width = IO.console.winsize
-    height = height - 1
-    width = ((width / 2).to_i)
-else
-    matches = options[:size].match(/^(\d+)x(\d+)/)
-    width = matches[1].to_i
-    height = matches[2].to_i
-end
+generations = 500
+height = 50
+width = 100
 
 runGame(height, width, generations)

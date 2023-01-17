@@ -158,8 +158,6 @@ python game_of_life.py
 ```sh
 cd ruby/
 ruby GameOfLife.rb
-# or
-ruby GameOfLife.rb --generations 50 --size 40x20
 ```
 
 ### Rust

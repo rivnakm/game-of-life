@@ -181,10 +181,6 @@ for (let i = 0; i < iterations; i++) {
                 [
                     "ruby",
                     "ruby/GameOfLife.rb",
-                    "--generations",
-                    generations,
-                    "--size",
-                    size,
                 ],
                 "Running Ruby ..."
             )
