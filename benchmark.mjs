@@ -93,7 +93,7 @@ if (languages.includes("rust")) {
 // TypeScript
 if (languages.includes("typescript")) {
     cd("typescript");
-    await spinner("Building TypeScript ...", () => $`yarn run build`);
+    await spinner("Building TypeScript ...", () => $`yarn install && yarn run build`);
     console.log("    Building TypeScript " + chalk.green("DONE"));
     cd(base_dir);
 }
@@ -203,10 +203,6 @@ for (let i = 0; i < iterations; i++) {
                 [
                     "node",
                     "typescript/build/src/main.js",
-                    "--generations",
-                    generations,
-                    "--size",
-                    size,
                 ],
                 "Running TypeScript ..."
             )

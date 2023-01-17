@@ -172,9 +172,7 @@ cargo run
 ```sh
 cd typescript/
 yarn install
-yarn run main
-# or
-yarn run main --generations 50 --size 40x20
+yarn run start
 ```
 
 <!-- ### Zig

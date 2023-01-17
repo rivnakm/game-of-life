@@ -7,8 +7,6 @@
   "license": "MIT",
   "dependencies": {
     "ansi-escapes": "^6.0.0",
-    "minimist": "^1.2.7",
-    "term-size": "^3.0.2",
     "tslib": "~2.4"
   },
   "devDependencies": {
@@ -26,8 +24,5 @@
     "start": "yarn run build &&node build/src/main.js",
     "clean": "rimraf build",
     "build": "tsc -p tsconfig.json"
-  },
-  "volta": {
-    "node": "16.17.0"
   }
 }

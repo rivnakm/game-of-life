@@ -6,18 +6,10 @@ export function runGame(height: number, width: number, generations: number) {
         cells.push(Math.random() < 0.5);
     }
 
-    if (generations === undefined) {
-        while (true) {
-            drawScreen(cells, height, width);
-            process.stdout.write(ansiEscapes.cursorUp(height));
-            nextGen(cells, height, width);
-        }
-    } else {
-        for (let i = 0; i < generations; i++) {
-            drawScreen(cells, height, width);
-            process.stdout.write(ansiEscapes.cursorUp(height));
-            nextGen(cells, height, width);
-        }
+    for (let i = 0; i < generations; i++) {
+        drawScreen(cells, height, width);
+        process.stdout.write(ansiEscapes.cursorUp(height));
+        nextGen(cells, height, width);
     }
 }
 
