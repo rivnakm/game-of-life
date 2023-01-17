@@ -164,14 +164,7 @@ for (let i = 0; i < iterations; i++) {
         }
         results["Python"].push(
             await time(
-                [
-                    "python",
-                    "python/game_of_life.py",
-                    "--generations",
-                    generations,
-                    "--size",
-                    size,
-                ],
+                ["python", "python/game_of_life.py"],
                 "Running Python ..."
             )
         );

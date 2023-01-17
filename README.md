@@ -151,8 +151,6 @@ julia game_of_life.jl
 ```sh
 cd python/
 python game_of_life.py
-# or
-python game_of_life.py --generations 50 --size 40x20
 ```
 
 ### Ruby
