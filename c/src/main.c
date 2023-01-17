@@ -1,9 +1,3 @@
-#include <stdlib.h>
-#include <getopt.h>
-#include <stdio.h>
-#include <sys/ioctl.h>
-#include <unistd.h>
-
 #include "game.h"
 
 int main(int argc, char *argv[]) {
