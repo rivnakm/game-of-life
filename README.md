@@ -107,8 +107,6 @@ dotnet run
 ```sh
 cd dart/
 dart run
-# or
-dart run --generations 50 --size 40x20
 ```
 
 <!-- ### Elixir

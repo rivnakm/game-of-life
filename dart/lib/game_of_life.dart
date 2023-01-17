@@ -5,19 +5,10 @@ void runGame(int height, int width, int generations) {
   final rng = Random();
   List<bool> cells = List<bool>.generate(height*width, (index) => rng.nextBool());
 
-  if (generations == -1) {
-    while (true) {
-      drawScreen(cells, height, width);
-      stdout.write("\x1b[${height}A");
-      nextGeneration(cells, height, width);
-    }
-  }
-  else {
-    for (int i = 0; i < generations; i++) {
-      drawScreen(cells, height, width);
-      stdout.write("\x1b[${height}A");
-      nextGeneration(cells, height, width);
-    }
+  for (int i = 0; i < generations; i++) {
+    drawScreen(cells, height, width);
+    stdout.write("\x1b[${height}A");
+    nextGeneration(cells, height, width);
   }
 }
 

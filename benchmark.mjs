@@ -130,7 +130,7 @@ for (let i = 0; i < iterations; i++) {
         }
         results["C#"].push(
             await time(
-                    "./csharp/bin/Release/net7.0/GameOfLife",
+                "./csharp/bin/Release/net7.0/GameOfLife",
                 "Running C# ..."
             )
         );
@@ -143,16 +143,7 @@ for (let i = 0; i < iterations; i++) {
             results["Dart"] = [];
         }
         results["Dart"].push(
-            await time(
-                [
-                    "./dart/bin/game_of_life.exe",
-                    "--generations",
-                    generations,
-                    "--size",
-                    size,
-                ],
-                "Running Dart ..."
-            )
+            await time("./dart/bin/game_of_life.exe", "Running Dart ...")
         );
         console.log("    Running Dart " + chalk.green("DONE"));
     }
