@@ -24,6 +24,10 @@
 
 Conway's Game of Life in an many programming languages as I can figure out
 
+The games are all setup to run a 100x50 (WxH) for 500 generations. Most of them were originally written to be dynamic and find the terminal
+size or accept arguments but it was taking too much work to get all of that set up for each language and (imo) distracting from the purpose of this
+by shifting half of the work onto random argument parsing libraries rather than the languages themselves.
+
 ## Prerequisites
 
 <!-- - Assembly
@@ -79,8 +83,6 @@ make
 cd c/
 make
 ./game_of_life
-# or
-./game_of_life -g 50 -h 20 -w 40
 ```
 
 ### C++

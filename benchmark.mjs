@@ -116,15 +116,7 @@ for (let i = 0; i < iterations; i++) {
         }
         results["C"].push(
             await time(
-                [
-                    "./c/game_of_life",
-                    "-g",
-                    generations,
-                    "-h",
-                    height,
-                    "-w",
-                    width,
-                ],
+                ["./c/game_of_life"],
                 "Running C ..."
             )
         );

@@ -14,16 +14,10 @@ void run_game(int height, int width, int generations) {
         cells[i] = (rand() % 2 > 0.5);
     }
 
-    if (generations == -1) {
-        while (true) {
-            draw_screen(cells, &height, &width);
-            printf("\x1b[%dA", height);
-            next_gen(cells, &height, &width);
-        }
-    } else {
-        for (int i = 0; i < generations; i++) {
-            draw_screen(cells, &height, &width);
-        }
+    for (int i = 0; i < generations; i++) {
+        draw_screen(cells, &height, &width);
+        printf("\x1b[%dA", height);
+        next_gen(cells, &height, &width);
     }
 }
 
