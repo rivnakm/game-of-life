@@ -192,8 +192,8 @@ zx --install benchmark.mjs
 
 `--install` is only needed on the first run to install the script's dependencies
 
-You can also specify how many generations to run the benchmark, as well as the number of generations and size of the game
+You can also specify how many iterations to run the benchmark (default 5), averaging the results
 
 ```sh
-zx benchmark.mjs --generations 5
+zx benchmark.mjs --iterations 5
 ```
