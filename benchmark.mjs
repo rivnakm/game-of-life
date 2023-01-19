@@ -29,6 +29,7 @@ if (argv.languages || argv.l) {
         "csharp",
         "dart",
         "go",
+        "nim",
         "python",
         "ruby",
         "rust",
@@ -82,6 +83,13 @@ if (languages.includes("go")) {
     cd("go");
     await spinner("Building Go ...", () => $`go build -ldflags "-s"`);
     console.log("    Building Go " + chalk.green("DONE"));
+    cd(base_dir);
+}
+// Nim
+if (languages.includes("nim")) {
+    cd("nim");
+    await spinner("Building Nim ...", () => $`nim c GameOfLife.nim -d:release`);
+    console.log("    Building Nim " + chalk.green("DONE"));
     cd(base_dir);
 }
 // Rust
@@ -166,6 +174,15 @@ for (let i = 0; i < iterations; i++) {
         }
         results["Go"].push(await time("./go/game_of_life", "Running Go ..."));
         console.log("    Running Go " + chalk.green("DONE"));
+    }
+
+    // Nim
+    if (languages.includes("nim")) {
+        if (i === 0) {
+            results["Nim"] = [];
+        }
+        results["Nim"].push(await time("./nim/GameOfLife", "Running Nim ..."));
+        console.log("    Running Nim " + chalk.green("DONE"));
     }
 
     // Python
@@ -274,6 +291,14 @@ if (argv.noclean === undefined) {
         cd("go");
         await spinner("Cleaning up Go ...", () => $`rm -f game_of_life`);
         console.log("    Cleaning up Go " + chalk.green("DONE"));
+        cd(base_dir);
+    }
+
+    // Nim
+    if (languages.includes("nim")) {
+        cd("nim");
+        await spinner("Cleaning up Nim ...", () => $`rm -f GameOfLife`);
+        console.log("    Cleaning up Nim " + chalk.green("DONE"));
         cd(base_dir);
     }
 
