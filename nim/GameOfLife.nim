@@ -2,7 +2,7 @@ import random
 import std/strformat
 
 const
-  generations = 100
+  generations = 500
   height = 50
   width = 100
 
