@@ -33,6 +33,7 @@ if (argv.languages || argv.l) {
         "ruby",
         "rust",
         "typescript",
+        "zig",
     ];
 }
 
@@ -41,7 +42,7 @@ console.log(chalk.blue("Building"));
 // C
 if (languages.includes("c")) {
     cd("c");
-    await spinner("Building C ...", () => $`CFLAGS="-O2" make`);
+    await spinner("Building C ...", () => $`CFLAGS="-O3" make`);
     console.log("    Building C " + chalk.green("DONE"));
     cd(base_dir);
 }
@@ -93,8 +94,18 @@ if (languages.includes("rust")) {
 // TypeScript
 if (languages.includes("typescript")) {
     cd("typescript");
-    await spinner("Building TypeScript ...", () => $`yarn install && yarn run build`);
+    await spinner(
+        "Building TypeScript ...",
+        () => $`yarn install && yarn run build`
+    );
     console.log("    Building TypeScript " + chalk.green("DONE"));
+    cd(base_dir);
+}
+// Zig
+if (languages.includes("zig")) {
+    cd("zig");
+    await spinner("Building Zig ...", () => $`zig build -Drelease-fast`);
+    console.log("    Building Zig " + chalk.green("DONE"));
     cd(base_dir);
 }
 
@@ -200,14 +211,22 @@ for (let i = 0; i < iterations; i++) {
         }
         results["TypeScript"].push(
             await time(
-                [
-                    "node",
-                    "typescript/build/src/main.js",
-                ],
+                ["node", "typescript/build/src/main.js"],
                 "Running TypeScript ..."
             )
         );
         console.log("    Running TypeScript " + chalk.green("DONE"));
+    }
+
+    // Zig
+    if (languages.includes("zig")) {
+        if (i === 0) {
+            results["Zig"] = [];
+        }
+        results["Zig"].push(
+            await time("zig/zig-out/bin/game_of_life", "Running Zig ...")
+        );
+        console.log("    Running Zig " + chalk.green("DONE"));
     }
 }
 
@@ -271,6 +290,14 @@ if (argv.noclean === undefined) {
         cd("typescript");
         await spinner("Cleaning up TypeScript ...", () => $`yarn run clean`);
         console.log("    Cleaning up TypeScript " + chalk.green("DONE"));
+        cd(base_dir);
+    }
+
+    // Zig
+    if (languages.includes("zig")) {
+        cd("zig");
+        await spinner("Cleaning up Zig ...", () => $`rm -rf zig-out zig-cache`);
+        console.log("    Cleaning up Zig " + chalk.green("DONE"));
         cd(base_dir);
     }
 }

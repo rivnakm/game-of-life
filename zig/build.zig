@@ -15,8 +15,6 @@ pub fn build(b: *Builder) void {
     
     exe.setTarget(target);
     exe.setBuildMode(mode);
-    exe.addPackagePath("clap", "libs/zig-clap/clap.zig");
-    exe.addPackagePath("regex", "libs/zig-regex/src/regex.zig");
     exe.install();
 
     const run_cmd = exe.run();

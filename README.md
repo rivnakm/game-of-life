@@ -63,7 +63,7 @@ by shifting half of the work onto random argument parsing libraries rather than 
 - Typescript
   - Node.js
   - Yarn
-<!-- - Zig -->
+- Zig
 
 ## Building from Source
 
@@ -175,9 +175,12 @@ yarn install
 yarn run start
 ```
 
-<!-- ### Zig
+### Zig
 
-TODO: -->
+```sh
+cd zig/
+zig build run
+```
 
 ## Benchmarking
 
