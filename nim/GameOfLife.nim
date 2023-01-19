@@ -1,8 +1,6 @@
 import random
 import std/strformat
 
-import os
-
 const
   generations = 100
   height = 50

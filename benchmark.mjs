@@ -88,7 +88,7 @@ if (languages.includes("go")) {
 // Nim
 if (languages.includes("nim")) {
     cd("nim");
-    await spinner("Building Nim ...", () => $`nim c GameOfLife.nim -d:release`);
+    await spinner("Building Nim ...", () => $`nim compile -d:release GameOfLife.nim`);
     console.log("    Building Nim " + chalk.green("DONE"));
     cd(base_dir);
 }
