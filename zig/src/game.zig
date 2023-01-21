@@ -1,5 +1,11 @@
 const std = @import("std");
 
+const Board = struct {
+    cells: []bool,
+    height: usize,
+    width: usize,
+};
+
 pub fn run(height: usize, width: usize, generations: u32) !void {
     const size = height * width;
 
@@ -13,30 +19,42 @@ pub fn run(height: usize, width: usize, generations: u32) !void {
         cells[i] = cell;
     }
 
+    var board = Board {
+        .cells = cells,
+        .height = height,
+        .width = width,
+    };
+
     var writer = std.io.getStdOut().writer();
 
     i = 0;
     while (i < generations) : (i += 1) {
-        try draw_screen(writer, cells, height, width);
-        try writer.print("\x1b[{}A", .{height});
-        try next_gen(cells, height, width);
+        try draw_screen(writer, &board);
+        try writer.print("\x1b[{}A", .{board.height});
+        try next_gen(&board);
     }
 }
 
-fn next_gen(cells: []bool, height: usize, width: usize) !void {
-    var cells_copy = try std.heap.page_allocator.alloc(bool, height * width);
+fn next_gen(board: *Board) !void {
+    var cells_copy = try std.heap.page_allocator.alloc(bool, board.height * board.width);
     defer std.heap.page_allocator.free(cells_copy);
 
     var c: usize = 0;
-    while (c < height * width) : (c += 1) {
-        cells_copy[c] = cells[c];
+    while (c < board.height * board.width) : (c += 1) {
+        cells_copy[c] = board.cells[c];
     }
 
+    var board_copy = Board{
+        .cells = cells_copy,
+        .height = board.height,
+        .width = board.width
+    };
+
     var i: usize = 0;
-    while (i < height) : (i += 1) {
+    while (i < board.height) : (i += 1) {
         var j: usize = 0;
-        while (j < width) : (j += 1) {
-            var cell = get_cell(cells_copy, i, j, height, width);
+        while (j < board.width) : (j += 1) {
+            var cell = get_cell(&board_copy, i, j);
             var adjacent: u8 = 0;
 
             var n: usize = 0;
@@ -46,7 +64,9 @@ fn next_gen(cells: []bool, height: usize, width: usize) !void {
                     if ((n == 0 and i == 0) or (m == 0 and j == 0) or (n == 1 and m == 1)) {
                         continue;
                     }
-                    adjacent += if (get_cell(cells_copy, i + n - 1, j + m - 1, height, width)) 1 else 0;
+                    if (get_cell(&board_copy, i + n - 1, j + m - 1)) {
+                        adjacent += 1;
+                    }
                 }
             }
             
@@ -64,25 +84,25 @@ fn next_gen(cells: []bool, height: usize, width: usize) !void {
                 }
             }
 
-            cells[(i * width) + j] = cell;
+            board.cells[(i * board.width) + j] = cell;
         }
     }
 }
 
-fn get_cell(cells: []bool, row: usize, col: usize, height: usize, width: usize) bool {
-    if (row >= 0 and col >= 0 and row < height and col < width) {
-        return cells[(row * width) + col];
+fn get_cell(board: *Board, row: usize, col: usize) bool {
+    if (row >= 0 and col >= 0 and row < board.height and col < board.width) {
+        return board.cells[(row * board.width) + col];
     } else {
         return false;
     }
 }
 
-fn draw_screen(writer: anytype, cells: []bool, height: usize, width: usize) !void {
+fn draw_screen(writer: anytype, board: *Board) !void {
     var i: usize = 0;
-    while (i < height) : (i += 1) {
+    while (i < board.height) : (i += 1) {
         var j: usize = 0;
-        while (j < width) : (j += 1) {
-            if (cells[(i * width) + j]) {
+        while (j < board.width) : (j += 1) {
+            if (board.cells[(i * board.width) + j]) {
                 try writer.print("██", .{});
             }
             else {

@@ -13,28 +13,34 @@ func main() {
 	run_game(height, width, generations)
 }
 
+type Board struct {
+	cells	[]bool
+	height	int
+	width	int
+}
+
 func run_game(height int, width int, generations int) {
-	cells := make([]bool, height*width)
+	board := Board{cells: make([]bool, height*width), height: height, width: width}
 	for i := 0; i < height*width; i++ {
-		cells[i] = rand.Float32() > 0.5
+		board.cells[i] = rand.Float32() > 0.5
 	}
 
 	for i := 0; i < generations; i++ {
-		draw_screen(cells, height, width)
-		fmt.Printf("\x1b[%dA", height)
-		next_gen(cells, height, width)
+		draw_screen(board)
+		fmt.Printf("\x1b[%dA", board.height)
+		next_gen(board)
 	}
 }
 
-func next_gen(cells []bool, height int, width int) {
-	cells_copy := make([]bool, height*width)
-	for i := 0; i < height*width; i++ {
-		cells_copy[i] = cells[i]
+func next_gen(board Board) {
+	board_copy := Board{cells: make([]bool, board.height*board.width), height: board.height, width: board.width}
+	for i := 0; i < board.height*board.width; i++ {
+		board_copy.cells[i] = board.cells[i]
 	}
 
-	for i := 0; i < height; i++ {
-		for j := 0; j < width; j++ {
-			cell := get_cell(cells_copy, i, j, height, width)
+	for i := 0; i < board.height; i++ {
+		for j := 0; j < board.width; j++ {
+			cell := get_cell(board_copy, i, j)
 			adjacent := 0
 
 			for n := -1; n <= 1; n++ {
@@ -42,7 +48,9 @@ func next_gen(cells []bool, height int, width int) {
 					if (n == -1 && i == 0) || (m == -1 && j == 0) || (n == 0 && m == 0) {
 						continue
 					}
-					adjacent += int(btou(get_cell(cells_copy, i+n, j+m, height, width)))
+					if(get_cell(board_copy, i+n, j+m)) {
+						adjacent++
+					}
 				}
 			}
 
@@ -59,23 +67,23 @@ func next_gen(cells []bool, height int, width int) {
 				}
 			}
 
-			cells[i*width+j] = cell
+			board.cells[i*board.width+j] = cell
 		}
 	}
 }
 
-func get_cell(cells []bool, row int, col int, height int, width int) bool {
-	if row >= 0 && col >= 0 && row < height && col < width {
-		return cells[(row*width)+col]
+func get_cell(board Board, row int, col int) bool {
+	if row >= 0 && col >= 0 && row < board.height && col < board.width {
+		return board.cells[(row*board.width)+col]
 	} else {
 		return false
 	}
 }
 
-func draw_screen(cells []bool, height int, width int) {
-	for i := 0; i < height; i++ {
-		for j := 0; j < width; j++ {
-			if cells[(i * width) + j] {
+func draw_screen(board Board) {
+	for i := 0; i < board.height; i++ {
+		for j := 0; j < board.width; j++ {
+			if board.cells[(i * board.width) + j] {
 				fmt.Print("██");
 			} else {
 				fmt.Print("  ");
@@ -83,11 +91,4 @@ func draw_screen(cells []bool, height int, width int) {
 		}
 		fmt.Println("")
 	}
-}
-
-func btou(b bool) uint8 {
-	if b {
-		return 1
-	}
-	return 0
 }

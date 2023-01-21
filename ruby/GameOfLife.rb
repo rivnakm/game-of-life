@@ -1,17 +1,49 @@
-def getCell(cells, row, col, height, width)
-    if row >= 0 && col >= 0 && row < height && col < width
-        return cells[(row*width)+col]
+class Board
+    def initialize(height, width, cells = nil)
+        if cells == nil
+            @_cells = []
+            for _ in 0...(height*width) do
+                @_cells.append([true, false].sample)
+            end
+        else
+            @_cells = cells
+        end
+
+        @_height = height
+        @_width = width
+    end
+
+    def height
+        @_height
+    end
+
+    def width
+        @_width
+    end
+
+    def cells
+        @_cells
+    end
+
+    def copy()
+        return Board.new(@_height, @_width, @_cells.dup)
+    end
+end
+
+def getCell(board, row, col)
+    if row >= 0 && col >= 0 && row < board.height && col < board.width
+        return board.cells[(row*board.width)+col]
     else
         return false
     end
 end
 
-def nextGeneration(cells, height, width)
-    cellsCopy = cells.dup
+def nextGeneration(board)
+    boardCopy = board.copy()
     
-    for i in 0...height do
-        for j in 0...width do
-            cell = getCell(cellsCopy, i, j, height, width)
+    for i in 0...board.height do
+        for j in 0...board.width do
+            cell = getCell(boardCopy, i, j)
             adjacent = 0
 
             for n in -1..1 do
@@ -19,7 +51,9 @@ def nextGeneration(cells, height, width)
                     if (n == -1 && i == 0) || (m == -1 && j == 0) || (n == 0 && m == 0)
                         next
                     end
-                    adjacent += getCell(cellsCopy, i+n, j+m, height, width) ? 1 : 0
+                    if getCell(boardCopy, i+n, j+m)
+                        adjacent += 1
+                    end
                 end
             end
 
@@ -36,15 +70,15 @@ def nextGeneration(cells, height, width)
                 end
             end
 
-            cells[(i*width)+j] = cell
+            board.cells[(i*board.width)+j] = cell
         end
     end
 end
 
-def drawScreen(cells, height, width)
-    for i in 0...height do
-        for j in 0...width do
-            if cells[(i*width)+j]
+def drawScreen(board)
+    for i in 0...board.height do
+        for j in 0...board.width do
+            if board.cells[(i*board.width)+j]
                 print "██"
             else
                 print "  "
@@ -57,16 +91,13 @@ def drawScreen(cells, height, width)
 end
 
 def runGame(height, width, generations)
-    cells = []
-    for _ in 0...(height*width) do
-        cells.append([true, false].sample)
-    end
+    board = Board.new(height, width)
 
     for i in 0...generations do
-        drawScreen(cells, height, width)
-        print "\x1b[" + height.to_s + "A"
+        drawScreen(board)
+        print "\x1b[" + board.height.to_s + "A"
         STDOUT.flush
-        nextGeneration(cells, height, width)
+        nextGeneration(board)
     end
 end
 

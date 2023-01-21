@@ -6,27 +6,32 @@ const
   height = 50
   width = 100
 
-proc getCell(cells: seq[bool], row: int, col: int, height: int, width: int): bool =
-  if row >= 0 and col >= 0 and row < height and col < width:
-    cells[(row * width) + col]
+type Board = object
+  cells: seq[bool]
+  height: int
+  width: int
+
+proc getCell(board: Board, row: int, col: int): bool =
+  if row >= 0 and col >= 0 and row < board.height and col < board.width:
+    board.cells[(row * board.width) + col]
   else:
     false
 
-proc nextGeneration(cells: var seq[bool], height: int, width: int) =
-  var cellsCopy: seq[bool]
-  for i in countup(0, (height*width)-1):
-    cellsCopy.add(cells[i])
+proc nextGeneration(board: var Board) =
+  var boardCopy = Board(height: height, width: width)
+  for i in countup(0, (board.height*board.width)-1):
+    boardCopy.cells.add(board.cells[i])
 
   for i in countup(0, height-1):
     for j in countup(0, width-1):
-      var cell = getCell(cellsCopy, i, j, height, width)
+      var cell = getCell(boardCopy, i, j)
       var adjacent = 0
 
       for n in countup(-1, 1):
         for m in countup(-1, 1):
           if (n == -1 and i == 0) or (m == -1 and j == 0) or (n == 0 and m == 0):
             continue
-          if getCell(cellsCopy, i+n, j+m, height, width):
+          if getCell(boardCopy, i+n, j+m):
             adjacent += 1
       
       if cell:
@@ -38,27 +43,27 @@ proc nextGeneration(cells: var seq[bool], height: int, width: int) =
         if adjacent == 3:
           cell = true
 
-      cells[(i*width)+j] = cell
+      board.cells[(i*board.width)+j] = cell
 
-proc drawScreen(cells: seq[bool], height: int, width: int) =
-  for i in countup(0, height-1):
-    for j in countup(0, width-1):
-      if cells[(i*width)+j]:
+proc drawScreen(board: Board) =
+  for i in countup(0, board.height-1):
+    for j in countup(0, board.width-1):
+      if board.cells[(i*board.width)+j]:
         write(stdout, "██")
       else:
         write(stdout, "  ")
     writeLine(stdout, "")
 
 proc runGame(height: int, width: int, generations: int) =
-  var cells: seq[bool]
+  var board = Board(height: height, width: width)
 
   randomize()
   for i in countup(0, (height * width)-1):
-    cells.add(sample([true, false]))
+    board.cells.add(sample([true, false]))
 
   for i in countup(0, generations-1):
-    drawScreen(cells, height, width)
-    write(stdout, &"\x1b[{height}A")
-    nextGeneration(cells, height, width)
+    drawScreen(board)
+    write(stdout, &"\x1b[{board.height}A")
+    nextGeneration(board)
 
 runGame(height, width, generations)

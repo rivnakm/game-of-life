@@ -1,27 +1,33 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
 
 #include "game.h"
 
+typedef struct {
+    bool* cells;
+    int height;
+    int width;
+} Board;
 
-static bool get_cell(const bool cells[], const int row, const int col, const int height, const int width) {
-    if (row >= 0 && col >= 0 && row < height && col < width) {
-        return cells[(row * width) + col];
+static bool get_cell(const Board const * board, const int row, const int col) {
+    if (row >= 0 && col >= 0 && row < board->height && col < board->width) {
+        return board->cells[(row * board->width) + col];
     } else {
         return false;
     }
 }
 
-static void next_gen(bool cells[], const int height, const int width) {
-    bool* cells_copy = (bool*) malloc(height * width * sizeof(bool));
-    for (int i = 0; i < height * width; i++) {
-        cells_copy[i] = cells[i];
-    }
+static void next_gen(Board* board) {
+    bool* cells_copy = (bool*) malloc(board->height * board->width * sizeof(bool));
+    memcpy(cells_copy, board->cells, (board->height) * (board->width) * sizeof(bool));
 
-    for (int i = 0; i < height; i++) {
-        for (int j = 0; j < width; j++) {
-            bool cell = get_cell(cells_copy, i, j, height, width);
+    Board board_copy = {cells_copy, board->height, board->width};
+
+    for (int i = 0; i < board->height; i++) {
+        for (int j = 0; j < board->width; j++) {
+            bool cell = get_cell(&board_copy, i, j);
             int adjacent = 0;
 
             for (int n = -1; n <= 1; n++) {
@@ -29,7 +35,9 @@ static void next_gen(bool cells[], const int height, const int width) {
                     if ((n == -1 && i == 0) || (m == -1 && j == 0) || (n == 0 && m == 0)) {
                         continue;
                     }
-                    adjacent += get_cell(cells_copy, i + n, j + m, height, width);
+                    if (get_cell(&board_copy, i + n, j + m)) {
+                        adjacent++;
+                    }
                 }
             }
 
@@ -46,17 +54,17 @@ static void next_gen(bool cells[], const int height, const int width) {
                 }
             }
 
-            cells[i * width + j] = cell;
+            board->cells[i * board->width + j] = cell;
         }
     }
 
     free(cells_copy);
 }
 
-static void draw_screen(const bool cells[], const int height, const int width) {
-    for (int i = 0; i < height; i++) {
-        for (int j = 0; j < width; j++) {
-            if (cells[(i * width) + j]) {
+static void draw_screen(const Board const * board) {
+    for (int i = 0; i < board->height; i++) {
+        for (int j = 0; j < board->width; j++) {
+            if (board->cells[(i * board->width) + j]) {
                 printf("██");
             } else {
                 printf("  ");
@@ -70,15 +78,17 @@ void run_game(int height, int width, int generations) {
     int size = height * width;
     bool* cells = (bool*) malloc(size * sizeof(bool));
 
+    Board board = {cells, height, width};
+
     time_t t;
     srand((unsigned)time(&t));
     for (int i = 0; i < size; i++) {
-        cells[i] = (rand() % 2 > 0.5);
+        board.cells[i] = (rand() % 2 > 0.5);
     }
 
     for (int i = 0; i < generations; i++) {
-        draw_screen(cells, height, width);
-        printf("\x1b[%dA", height);
-        next_gen(cells, height, width);
+        draw_screen(&board);
+        printf("\x1b[%dA", board.height);
+        next_gen(&board);
     }
 }

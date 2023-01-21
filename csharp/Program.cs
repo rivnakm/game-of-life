@@ -4,34 +4,21 @@ namespace GameOfLife
 {
     internal class Game
     {
-        private int height { get; set; }
-        private int width { get; set; }
-
-        private Screen screen { get; }
+        private Board board { get; }
         private int generations { get; }
-        private IList<bool> cells { get; set; }
 
-        public Game(Screen screen, int generations)
+        public Game(Board board, int generations)
         {
-            this.screen = screen;
-            this.cells = new List<bool>();
+            this.board = board;
 
             this.generations = generations;
-            this.height = this.screen.height;
-            this.width = this.screen.width;
-
-            Random random = new();
-            for (var i = 0; i < this.screen.size1D; i++)
-            {
-                cells.Add(random.Next(2) == 1);
-            }
         }
 
         public void Run()
         {
             for (var i = 0; i < this.generations; i++)
             {
-                screen.Draw(cells);
+                this.board.Draw();
                 Console.SetCursorPosition(0, 0);
                 this.Next();
             }
@@ -39,12 +26,12 @@ namespace GameOfLife
 
         private void Next()
         {
-            var cellsCopy = new List<bool>(this.cells);
-            for (var i = 0; i < this.height; i++)
+            var boardCopy = new Board(board);
+            for (var i = 0; i < this.board.height; i++)
             {
-                for (var j = 0; j < this.width; j++)
+                for (var j = 0; j < this.board.width; j++)
                 {
-                    var cell = this.GetCell(this.cells, i, j);
+                    var cell = boardCopy.GetCell(i, j);
 
                     var adjacent = 0;
                     for (var n = -1; n <= 1; n++)
@@ -54,7 +41,8 @@ namespace GameOfLife
                             if ((n == -1 && i == 0) || (m == -1 && j == 0) || (n == 0 && m == 0)) {
                                 continue;
                             }
-                            adjacent += GetCell(cellsCopy, i + n, j + m) ? 1 : 0;
+                            if (boardCopy.GetCell(i + n, j + m))
+                                adjacent++;
                         }
                     }
 
@@ -77,20 +65,8 @@ namespace GameOfLife
                         }
                     }
 
-                    this.cells[(i * width) + j] = cell;
+                    this.board.cells[(i * this.board.width) + j] = cell;
                 }
-            }
-        }
-
-        private bool GetCell(IList<bool> items, int row, int col)
-        {
-            if (row >= 0 && row < this.height && col >= 0 && col < this.width)
-            {
-                return items[(row * this.width) + col];
-            }
-            else
-            {
-                return false;
             }
         }
     }
@@ -102,8 +78,8 @@ namespace GameOfLife
             int width = 100;
             int generations = 500;
 
-            Screen screen = new(height, width);
-            Game game = new(screen, generations);
+            Board board = new(height, width);
+            Game game = new(board, generations);
             game.Run();
         }
     }

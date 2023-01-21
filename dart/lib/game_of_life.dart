@@ -1,32 +1,49 @@
 import "dart:io";
 import "dart:math";
 
-void runGame(int height, int width, int generations) {
-  final rng = Random();
-  List<bool> cells = List<bool>.generate(height*width, (index) => rng.nextBool());
+class Board {
+  late List<bool> cells;
+  late int height;
+  late int width;
 
-  for (int i = 0; i < generations; i++) {
-    drawScreen(cells, height, width);
-    stdout.write("\x1b[${height}A");
-    nextGeneration(cells, height, width);
+  Board(int height, int width) {
+    this.height = height;
+    this.width = width;
+  }
+
+  int size() {
+    return this.height * this.width;
   }
 }
 
-bool getCell(List<bool> cells, int row, int col, int height, int width) {
-  if (row >= 0 && col >= 0 && row < height && col < width) {
-    return cells[(row*width)+col];
+void runGame(int height, int width, int generations) {
+  final rng = Random();
+  Board board = new Board(height, width);
+  board.cells = List<bool>.generate(height*width, (index) => rng.nextBool());
+
+  for (int i = 0; i < generations; i++) {
+    drawScreen(board);
+    stdout.write("\x1b[${height}A");
+    nextGeneration(board);
+  }
+}
+
+bool getCell(Board board, int row, int col) {
+  if (row >= 0 && col >= 0 && row < board.height && col < board.width) {
+    return board.cells[(row*board.width)+col];
   }
   else {
     return false;
   }
 }
 
-void nextGeneration(List<bool> cells, int height, int width) {
-  final cellsCopy = List<bool>.from(cells);
+void nextGeneration(Board board) {
+  Board boardCopy = new Board(board.height, board.width);
+  boardCopy.cells = List<bool>.from(board.cells);
 
-  for (int i = 0; i < height; i++) {
-    for (int j = 0; j < width; j++) {
-      bool cell = getCell(cellsCopy, i, j, height, width);
+  for (int i = 0; i < board.height; i++) {
+    for (int j = 0; j < board.width; j++) {
+      bool cell = getCell(boardCopy, i, j);
       int adjacent = 0;
 
       for (int n = -1; n <= 1; n++) {
@@ -34,7 +51,9 @@ void nextGeneration(List<bool> cells, int height, int width) {
           if ((n == -1 && i == 0) || (m == -1 && j == 0) || (n == 0 && m == 0)) {
             continue;
           }
-          adjacent += getCell(cellsCopy, i+n, j+m, height, width) ? 1 : 0;
+          if (getCell(boardCopy, i+n, j+m)) {
+            adjacent++;
+          }
         }
       }
 
@@ -52,15 +71,15 @@ void nextGeneration(List<bool> cells, int height, int width) {
         }
       }
 
-      cells[(i*width)+j] = cell;
+      board.cells[(i*board.width)+j] = cell;
     }
   }
 }
 
-void drawScreen(List<bool> cells, int height, int width) {
-  for (int i = 0; i < height; i++) {
-    for (int j = 0; j < width; j++) {
-      if (cells[(i*width)+j]) {
+void drawScreen(Board board) {
+  for (int i = 0; i < board.height; i++) {
+    for (int j = 0; j < board.width; j++) {
+      if (board.cells[(i*board.width)+j]) {
         stdout.write("██");
       }
       else {

@@ -1,27 +1,21 @@
 pub fn run_game(height: usize, width: usize, generations: u32) {
-    let screen = Screen {
-        height: height,
-        width: width,
-    };
+    
+    let mut board = Board::new(height, width);
 
-    let mut cells: Vec<bool> = Vec::with_capacity(screen.size_1d());
-    for _ in 0..screen.size_1d() {
-        cells.push(rand::random::<bool>());
-    }
 
     for _ in 0..generations {
-        screen.draw(&cells);
-        print!("\x1b[{}A", screen.height); // Move cursor up
-        next_gen(&mut cells, &screen.height, &screen.width);
+        board.draw();
+        print!("\x1b[{}A", board.height); // Move cursor up
+        next_gen(&mut board);
     }
 }
 
-fn next_gen(cells: &mut Vec<bool>, height: &usize, width: &usize) {
-    let cells_clone = cells.clone();
+fn next_gen(board: &mut Board) {
+    let board_clone = board.clone();
 
-    for i in 0..*height {
-        for j in 0..*width {
-            let mut cell = get_cell(&cells_clone, &i, &j, &height, &width);
+    for i in 0..board.height {
+        for j in 0..board.width {
+            let mut cell = board_clone.get_cell(&i, &j);
             let mut adjacent: u8 = 0;
 
             for n in 0..3 {
@@ -30,8 +24,9 @@ fn next_gen(cells: &mut Vec<bool>, height: &usize, width: &usize) {
                     if (n == 0 && i == 0) || (m == 0 && j == 0) || (n == 1 && m == 1) {
                         continue;
                     }
-                    adjacent +=
-                        get_cell(&cells_clone, &(i + n - 1), &(j + m - 1), &height, &width) as u8;
+                    if board_clone.get_cell(&(i + n - 1), &(j + m - 1)) {
+                        adjacent += 1;
+                    }
                 }
             }
 
@@ -48,28 +43,44 @@ fn next_gen(cells: &mut Vec<bool>, height: &usize, width: &usize) {
                 }
             }
 
-            cells[(i * width) + j] = cell
+            board.cells[(i * board.width) + j] = cell
         }
     }
 }
 
-fn get_cell(cells: &Vec<bool>, row: &usize, col: &usize, height: &usize, width: &usize) -> bool {
-    if row < height && col < width {
-        cells[(*row * *width) + *col]
-    } else {
-        false
-    }
-}
-struct Screen {
+#[derive(Clone)]
+struct Board {
+    cells: Vec<bool>,
     height: usize,
     width: usize,
 }
 
-impl Screen {
-    fn draw(&self, cells: &Vec<bool>) {
+impl Board {
+    fn new(height: usize, width: usize) -> Board {
+        let mut cells: Vec<bool> = Vec::with_capacity(height*width);
+        for _ in 0..height*width {
+            cells.push(rand::random::<bool>());
+        }
+
+        Board {
+            cells: cells,
+            height: height,
+            width: width,
+        }
+    }
+
+    fn get_cell(&self, row: &usize, col: &usize) -> bool {
+        if *row < self.height && *col < self.width {
+            self.cells[(*row * self.width) + *col]
+        } else {
+            false
+        }
+    }
+
+    fn draw(&self) {
         for i in 0..self.height {
             for j in 0..self.width {
-                if cells[(i * self.width) + j] {
+                if self.cells[(i * self.width) + j] {
                     print!("██");
                 } else {
                     print!("  ");
@@ -77,9 +88,5 @@ impl Screen {
             }
             println!("");
         }
-    }
-
-    fn size_1d(&self) -> usize {
-        self.height * self.width
     }
 }

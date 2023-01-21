@@ -1,29 +1,21 @@
 import random
-
 from typing import List
 
-import cursor
-from screen import Screen
+from board import Board
 
-def get_cell(items: List[bool], row, col, height, width) -> bool:
-    if 0 <= row < height and 0 <= col < width:
-        return items[(row*width)+col]
-    else:
-        return False
-
-
-def next_generation(cells: List[bool], height: int, width: int):
-    cells_copy = cells.copy()
-    for i in range(height):
-        for j in range(width):
-            cell = get_cell(cells_copy, i, j, height, width)
+def next_generation(board: Board):
+    board_copy = board.copy()
+    for i in range(board.height):
+        for j in range(board.width):
+            cell = board_copy.get_cell(i, j)
             adjacent = 0
 
             for n in range(-1,2):
                 for m in range(-1,2):
                     if (n == -1 and i == 0) or (m == -1 and j == 0) or (n == 0 and m == 0):
                         continue
-                    adjacent += int(get_cell(cells_copy, i+n, j+m, height, width))
+                    if board_copy.get_cell(i+n, j+m):
+                        adjacent += 1
 
             if cell:
                 if adjacent < 2:
@@ -34,24 +26,22 @@ def next_generation(cells: List[bool], height: int, width: int):
                 if adjacent == 3:
                     cell = True
 
-            cells[(i*width)+j] = cell
+            board.cells[(i*board.width)+j] = cell
 
-def run_game(screen: Screen, generations: int = -1):
-    cells: List[bool] = [bool(random.getrandbits(1)) for _ in range(screen.size_1d)]
+def run_game(height: int, width: int, generations: int):
+    board = Board(height, width)
 
     for _ in range(generations):
-        screen.draw(cells)
-        cursor.move_up(screen.height)
-        next_generation(cells, screen.height, screen.width)
+        board.draw()
+        print(f"\033[{board.height}A", end="")
+        next_generation(board)
 
 def main():
     generations = 500
     height = 50
     width = 100
 
-    screen = Screen(height, width)
-    run_game(screen, generations)
+    run_game(height, width, generations)
 
 if __name__ == "__main__":
     main()
-    

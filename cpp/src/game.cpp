@@ -5,26 +5,26 @@
 
 #include "game.hpp"
 
-void runGame(int height, int width, int generations) {
+typedef struct {
     std::vector<bool> cells;
-    std::srand(std::time(nullptr));
-    for (int i = 0; i < height * width; i++) {
-        cells.push_back(std::rand() % 2 > 0.5);
-    }
+    int height;
+    int width;
+} Board;
 
-    for (int i = 0; i < generations; i++) {
-        drawScreen(cells, height, width);
-        std::cout << "\x1b[" << height << "A";
-        nextGen(cells, height, width);
+bool getCell(const Board &board, const int &row, const int &col) {
+    if (row >= 0 && col >= 0 && row < board.height && col < board.width) {
+        return board.cells[(row * board.width) + col];
+    } else {
+        return false;
     }
 }
 
-void nextGen(std::vector<bool> &cells, const int &height, const int &width) {
-    std::vector<bool> cellsClone(cells);
+void nextGen(Board &board) {
+    Board boardClone = {std::vector<bool>(board.cells), board.height, board.width};
 
-    for (int i = 0; i < height; i++) {
-        for (int j = 0; j < width; j++) {
-            bool cell = getCell(cellsClone, i, j, height, width);
+    for (int i = 0; i < board.height; i++) {
+        for (int j = 0; j < board.width; j++) {
+            bool cell = getCell(boardClone, i, j);
             int adjacent = 0;
 
             for (int n = -1; n <= 1; n++) {
@@ -32,7 +32,7 @@ void nextGen(std::vector<bool> &cells, const int &height, const int &width) {
                     if ((n == -1 && i == 0) || (m == -1 && j == 0) || (n == 0 && m == 0)) {
                         continue;
                     }
-                    adjacent += int(getCell(cellsClone, i + n, j + m, height, width));
+                    adjacent += int(getCell(boardClone, i + n, j + m));
                 }
             }
 
@@ -49,28 +49,35 @@ void nextGen(std::vector<bool> &cells, const int &height, const int &width) {
                 }
             }
 
-            cells[i * width + j] = cell;
+            board.cells[i * board.width + j] = cell;
         }
     }
 }
 
-bool getCell(const std::vector<bool> &cells, const int &row, const int &col, const int &height, const int &width) {
-    if (row >= 0 && col >= 0 && row < height && col < width) {
-        return cells[(row * width) + col];
-    } else {
-        return false;
-    }
-}
-
-void drawScreen(const std::vector<bool> &cells, const int &height, const int &width) {
-    for (int i = 0; i < height; i++) {
-        for (int j = 0; j < width; j++) {
-            if (cells[(i * width) + j]) {
+void drawScreen(const Board &board) {
+    for (int i = 0; i < board.height; i++) {
+        for (int j = 0; j < board.width; j++) {
+            if (board.cells[(i * board.width) + j]) {
                 std::cout << "██";
             } else {
                 std::cout << "  ";
             }
         }
         std::cout << std::endl;
+    }
+}
+
+void runGame(int height, int width, int generations) {
+    Board board = {std::vector<bool>(), height, width};
+    
+    std::srand(std::time(nullptr));
+    for (int i = 0; i < height * width; i++) {
+        board.cells.push_back(std::rand() % 2 > 0.5);
+    }
+
+    for (int i = 0; i < generations; i++) {
+        drawScreen(board);
+        std::cout << "\x1b[" << board.height << "A";
+        nextGen(board);
     }
 }

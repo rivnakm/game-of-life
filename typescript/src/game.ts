@@ -1,22 +1,43 @@
 import ansiEscapes from 'ansi-escapes';
 
-export function runGame(height: number, width: number, generations: number) {
-    let cells: Array<boolean> = [];
-    for (let i = 0; i < height * width; i++) {
-        cells.push(Math.random() < 0.5);
+class Board {
+    cells: Array<boolean>;
+    height: number;
+    width: number;
+
+    constructor(height: number, width: number, cells: Array<boolean> = null) {
+        if (cells === null) {
+            let _cells: Array<boolean> = [];
+            for (let i = 0; i < height * width; i++) {
+                _cells.push(Math.random() < 0.5);
+            }
+            this.cells = _cells;
+        } else {
+            this.cells = cells;
+        }
+        this.height = height;
+        this.width = width;
     }
 
-    for (let i = 0; i < generations; i++) {
-        drawScreen(cells, height, width);
-        process.stdout.write(ansiEscapes.cursorUp(height));
-        nextGen(cells, height, width);
+    copy(): Board {
+        return new Board(this.height, this.width, Object.assign([], this.cells));
     }
 }
 
-function drawScreen(cells: Array<boolean>, height: number, width: number) {
-    for (let i = 0; i < height; i++) {
-        for (let j = 0; j < width; j++) {
-            if (cells[i * width + j]) {
+export function runGame(height: number, width: number, generations: number) {
+    let board = new Board(height, width);
+
+    for (let i = 0; i < generations; i++) {
+        drawScreen(board);
+        process.stdout.write(ansiEscapes.cursorUp(board.height));
+        nextGen(board);
+    }
+}
+
+function drawScreen(board: Board) {
+    for (let i = 0; i < board.height; i++) {
+        for (let j = 0; j < board.width; j++) {
+            if (board.cells[i * board.width + j]) {
                 process.stdout.write('██');
             } else {
                 process.stdout.write('  ');
@@ -26,26 +47,20 @@ function drawScreen(cells: Array<boolean>, height: number, width: number) {
     }
 }
 
-function getCell(
-    cells: Array<boolean>,
-    row: number,
-    col: number,
-    height: number,
-    width: number,
-): boolean {
-    if (row >= 0 && col >= 0 && row < height && col < width) {
-        return cells[row * width + col];
+function getCell(board: Board, row: number, col: number): boolean {
+    if (row >= 0 && col >= 0 && row < board.height && col < board.width) {
+        return board.cells[row * board.width + col];
     } else {
         return false;
     }
 }
 
-function nextGen(cells: Array<boolean>, height: number, width: number) {
-    const cellsCopy = Object.assign([], cells);
+function nextGen(board: Board) {
+    const boardCopy = board.copy();
 
-    for (let i = 0; i < height; i++) {
-        for (let j = 0; j < width; j++) {
-            let cell = getCell(cellsCopy, i, j, height, width);
+    for (let i = 0; i < board.height; i++) {
+        for (let j = 0; j < board.width; j++) {
+            let cell = getCell(boardCopy, i, j);
             let adjacent = 0;
 
             for (let n = -1; n <= 1; n++) {
@@ -57,9 +72,9 @@ function nextGen(cells: Array<boolean>, height: number, width: number) {
                     ) {
                         continue;
                     }
-                    adjacent += Number(
-                        getCell(cellsCopy, i + n, j + m, height, width),
-                    );
+                    if (getCell(boardCopy, i + n, j + m)) {
+                        adjacent++;
+                    }
                 }
             }
 
@@ -76,7 +91,7 @@ function nextGen(cells: Array<boolean>, height: number, width: number) {
                 }
             }
 
-            cells[i * width + j] = cell;
+            board.cells[i * board.width + j] = cell;
         }
     }
 }
