@@ -29,6 +29,7 @@ if (argv.languages || argv.l) {
         "csharp",
         "dart",
         "go",
+        "lua",
         "nim",
         "python",
         "ruby",
@@ -174,6 +175,15 @@ for (let i = 0; i < iterations; i++) {
         }
         results["Go"].push(await time("./go/game_of_life", "Running Go ..."));
         console.log("    Running Go " + chalk.green("DONE"));
+    }
+
+    // Lua
+    if (languages.includes("lua")) {
+        if (i === 0) {
+            results["Lua"] = [];
+        }
+        results["Lua"].push(await time(["lua", "./lua/game_of_life.lua"], "Running Lua ..."));
+        console.log("    Running Lua " + chalk.green("DONE"));
     }
 
     // Nim

@@ -7,6 +7,7 @@
 ![C#](https://img.shields.io/badge/c%23-%23239120.svg?style=for-the-badge&logo=.net&logoColor=white)
 ![Dart](https://img.shields.io/badge/dart-%230175C2.svg?style=for-the-badge&logo=dart&logoColor=white)
 ![Go](https://img.shields.io/badge/go-%2300ADD8.svg?style=for-the-badge&logo=go&logoColor=white)
+![Lua](https://img.shields.io/badge/lua-%232C2D72.svg?style=for-the-badge&logo=lua&logoColor=white)
 ![Nim](https://img.shields.io/badge/nim-%23FFE953.svg?style=for-the-badge&logo=nim&logoColor=black)
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 ![Ruby](https://img.shields.io/badge/ruby-%23CC342D.svg?style=for-the-badge&logo=ruby&logoColor=white)
@@ -56,6 +57,7 @@ by shifting half of the work onto random argument parsing libraries rather than 
   - .NET 7.0 SDK
 - Dart
 - Go
+- Lua
 - Nim
 - Python
 - Ruby
@@ -146,6 +148,13 @@ ghc game_of_life.hs
 cd julia/
 julia game_of_life.jl
 ``` -->
+
+### Lua
+
+```sh
+cd lua/
+lua game_of_life.lua
+```
 
 ### Nim
 
