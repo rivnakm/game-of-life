@@ -29,6 +29,7 @@ if (argv.languages || argv.l) {
         "csharp",
         "dart",
         "go",
+        "java",
         "lua",
         "nim",
         "python",
@@ -86,10 +87,20 @@ if (languages.includes("go")) {
     console.log("    Building Go " + chalk.green("DONE"));
     cd(base_dir);
 }
+// Java
+if (languages.includes("java")) {
+    cd("java");
+    await spinner("Building Java ...", () => $`./gradlew build`);
+    console.log("    Building Java " + chalk.green("DONE"));
+    cd(base_dir);
+}
 // Nim
 if (languages.includes("nim")) {
     cd("nim");
-    await spinner("Building Nim ...", () => $`nim compile -d:release GameOfLife.nim`);
+    await spinner(
+        "Building Nim ...",
+        () => $`nim compile -d:release GameOfLife.nim`
+    );
     console.log("    Building Nim " + chalk.green("DONE"));
     cd(base_dir);
 }
@@ -177,12 +188,33 @@ for (let i = 0; i < iterations; i++) {
         console.log("    Running Go " + chalk.green("DONE"));
     }
 
+    // Java
+    if (languages.includes("java")) {
+        if (i === 0) {
+            results["Java"] = [];
+        }
+        results["Java"].push(
+            await time(
+                [
+                    "java",
+                    "-classpath",
+                    "java/app/build/classes/java/main",
+                    "gameoflife.App",
+                ],
+                "Running Java ..."
+            )
+        );
+        console.log("    Running Java " + chalk.green("DONE"));
+    }
+
     // Lua
     if (languages.includes("lua")) {
         if (i === 0) {
             results["Lua"] = [];
         }
-        results["Lua"].push(await time(["lua", "./lua/game_of_life.lua"], "Running Lua ..."));
+        results["Lua"].push(
+            await time(["lua", "./lua/game_of_life.lua"], "Running Lua ...")
+        );
         console.log("    Running Lua " + chalk.green("DONE"));
     }
 
@@ -301,6 +333,14 @@ if (argv.noclean === undefined) {
         cd("go");
         await spinner("Cleaning up Go ...", () => $`rm -f game_of_life`);
         console.log("    Cleaning up Go " + chalk.green("DONE"));
+        cd(base_dir);
+    }
+
+    // Java
+    if (languages.includes("java")) {
+        cd("java");
+        await spinner("Cleaning up Java ...", () => $`gradle clean`);
+        console.log("    Cleaning up Java " + chalk.green("DONE"));
         cd(base_dir);
     }
 

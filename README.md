@@ -7,6 +7,7 @@
 ![C#](https://img.shields.io/badge/c%23-%23239120.svg?style=for-the-badge&logo=.net&logoColor=white)
 ![Dart](https://img.shields.io/badge/dart-%230175C2.svg?style=for-the-badge&logo=dart&logoColor=white)
 ![Go](https://img.shields.io/badge/go-%2300ADD8.svg?style=for-the-badge&logo=go&logoColor=white)
+![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)
 ![Lua](https://img.shields.io/badge/lua-%232C2D72.svg?style=for-the-badge&logo=lua&logoColor=white)
 ![Nim](https://img.shields.io/badge/nim-%23FFE953.svg?style=for-the-badge&logo=nim&logoColor=black)
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
@@ -57,6 +58,8 @@ by shifting half of the work onto random argument parsing libraries rather than 
   - .NET 7.0 SDK
 - Dart
 - Go
+- Java
+  - Gradle
 - Lua
 - Nim
 - Python
@@ -141,7 +144,16 @@ cd haskell/
 ghc game_of_life.hs
 ./game_of_life
 ```
+-->
 
+### Java
+
+```sh
+cd java/
+./gradlew run --console plain
+```
+
+<!--
 ### Julia
 
 ```sh
