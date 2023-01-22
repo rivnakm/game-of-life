@@ -4,16 +4,13 @@ namespace GameOfLife {
         public int height { get; }
         public int width { get; }
 
-        public int size { get {
-            return this.height * this.width;
-        }}
         public Board(int height, int width) {
             this.cells = new List<bool>();
             this.height = height;
             this.width = width;
 
             Random random = new();
-            for (var i = 0; i < this.size; i++)
+            for (var i = 0; i < this.height * this.width; i++)
             {
                 cells.Add(random.Next(2) == 1);
             }
