@@ -9,6 +9,6 @@ public class App {
 
         Board board = new Board(height, width);
         Game game = new Game(board, generations);
-        game.Run();
+        game.run();
     }
 }

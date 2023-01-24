@@ -47,7 +47,7 @@ public class Board {
         this.cells.set(index, value);
     }
 
-    public void Draw() {
+    public void draw() {
         for (var i = 0; i < this.height; i++) {
             for (var j = 0; j < this.width; j++) {
                 if (this.cells.get((i * this.width) + j)) {
