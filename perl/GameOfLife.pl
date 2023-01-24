@@ -1,6 +1,3 @@
-use warnings;
-use strict;
-
 use Class::Struct;
 
 my $generations = 500;
