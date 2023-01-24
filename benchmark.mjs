@@ -32,6 +32,7 @@ if (argv.languages || argv.l) {
         "java",
         "lua",
         "nim",
+        "perl",
         "python",
         "ruby",
         "rust",
@@ -225,6 +226,20 @@ for (let i = 0; i < iterations; i++) {
         }
         results["Nim"].push(await time("./nim/GameOfLife", "Running Nim ..."));
         console.log("    Running Nim " + chalk.green("DONE"));
+    }
+
+    // Perl
+    if (languages.includes("perl")) {
+        if (i === 0) {
+            results["Perl"] = [];
+        }
+        results["Perl"].push(
+            await time(
+                ["perl", "perl/GameOfLife.pl"],
+                "Running Perl ..."
+            )
+        );
+        console.log("    Running Perl " + chalk.green("DONE"));
     }
 
     // Python
