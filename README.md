@@ -46,6 +46,7 @@ by shifting half of the work onto random argument parsing libraries rather than 
 - Haskell
   - GHC
 - Julia -->
+- Bash
 - C
   - GCC
   - GNU Make
@@ -82,6 +83,13 @@ cd asm/
 make
 ./game_of_life
 ``` -->
+
+### Bash
+
+```sh
+cd bash/
+./game_of_life.sh  # VERY slow
+```
 
 ### C
 
@@ -226,3 +234,8 @@ You can also specify how many iterations to run the benchmark (default 5), avera
 ```sh
 zx benchmark.mjs --iterations 5
 ```
+
+The set of languages to run in the benchmark can also be set. The default set is "bash,c,cpp,csharp,dart,go,java,lua,nim,perl,python,ruby,rust,typescript,zig"
+
+```sh
+zx benchmark.mjs --languages c,cpp,rust

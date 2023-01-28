@@ -1,7 +1,7 @@
 #!/usr/bin/env zx
 
-import "zx/globals";
 import { spinner } from "zx/experimental";
+import "zx/globals";
 
 import average from "average";
 import { stringify } from "csv-stringify/sync";
@@ -24,6 +24,7 @@ if (argv.languages || argv.l) {
     languages = (argv.languages || argv.l).split(",");
 } else {
     languages = [
+        "bash",
         "c",
         "cpp",
         "csharp",
@@ -134,6 +135,15 @@ if (languages.includes("zig")) {
 const results = new Object();
 for (let i = 0; i < iterations; i++) {
     console.log(chalk.blue(`\nPass (${i + 1}/${iterations})`));
+
+    // Bash
+    if (languages.includes("bash")) {
+        if (i === 0) {
+            results["Bash"] = [];
+        }
+        results["Bash"].push(await time("./bash/game_of_life.sh", "Running Bash ..."));
+        console.log("    Running Bash " + chalk.green("DONE"));
+    }
 
     // C
     if (languages.includes("c")) {
