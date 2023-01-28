@@ -77,9 +77,9 @@ function draw_screen() {
     }
 }
 
-generations=50
-height=40
-width=40
+generations=500
+height=50
+width=100
 cells=()
 cells_copy=()
 

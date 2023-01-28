@@ -235,7 +235,7 @@ You can also specify how many iterations to run the benchmark (default 5), avera
 zx benchmark.mjs --iterations 5
 ```
 
-The set of languages to run in the benchmark can also be set. The default set is "bash,c,cpp,csharp,dart,go,java,lua,nim,perl,python,ruby,rust,typescript,zig"
+The set of languages to run in the benchmark can also be set. NOTE: Some languages, e.g. bash, are disabled by default for performance reasons. The default set is "bash,c,cpp,csharp,dart,go,java,lua,nim,perl,python,ruby,rust,typescript,zig"
 
 ```sh
 zx benchmark.mjs --languages c,cpp,rust
