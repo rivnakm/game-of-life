@@ -24,7 +24,6 @@ if (argv.languages || argv.l) {
     languages = (argv.languages || argv.l).split(",");
 } else {
     languages = [
-        "bash",
         "c",
         "cpp",
         "csharp",
