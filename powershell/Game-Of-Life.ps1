@@ -1,17 +1,8 @@
-function Get-Cell([Int]$Row, [Int]$Col, [Int]$Height, [Int]$Width, [Bool[]]$Cells) {
-    if ($Row -ge 0 -and $Col -ge 0 -and $Row -lt $Height -and $Col -lt $Width) {
-        return $Cells[($Row*$Width)+$Col]
-    }
-    else {
-        return 0
-    }
-}
-
 function Next-Generation() {
     $CellsCopy = $Cells.Clone()
     for ($i = 0; $i -lt $Height; $i++) {
         for ($j = 0; $j -lt $Width; $j++) {
-            $Cell = Get-Cell $i $j $Height $Width $CellsCopy
+            $Cell = $CellsCopy[($i*$Width)+$j]
             $Adjacent = 0
 
             for ($n = -1; $n -le 1; $n++) {
@@ -19,7 +10,9 @@ function Next-Generation() {
                     if ($n -eq 0 -and $m -eq 0) {
                         continue
                     }
-                    if (Get-Cell ($i+$n) ($j+$m) $Height $Width $CellsCopy) {
+                    $Row = $i + $n
+                    $Col = $j + $m
+                    if (($Row -ge 0 -and $Col -ge 0 -and $Row -lt $Height -and $Col -lt $Width) -and $CellsCopy[($Row*$Width)+$Col]) {
                         $Adjacent++
                     }
                 }
