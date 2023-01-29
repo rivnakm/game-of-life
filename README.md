@@ -17,6 +17,7 @@
 ![Ruby](https://img.shields.io/badge/ruby-%23CC342D.svg?style=for-the-badge&logo=ruby&logoColor=white)
 ![Rust](https://img.shields.io/badge/rust-%23000000.svg?style=for-the-badge&logo=rust&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+![Visual Basic](https://img.shields.io/badge/visual_basic-%2368217a.svg?style=for-the-badge&logo=.net&logoColor=white)
 ![Zig](https://img.shields.io/badge/Zig-%23F7A442.svg?style=for-the-badge&logo=zig&logoColor=black)
 
 <!-- ![Assembly](https://img.shields.io/badge/Assembly-black?style=for-the-badge&logo=arm&logoColor=white)
@@ -73,6 +74,8 @@ by shifting half of the work onto random argument parsing libraries rather than 
 - Typescript
   - Node.js
   - Yarn
+- Visual Basic
+  - .NET 7.0 SDK
 - Zig
 
 ## Building from Source
@@ -229,6 +232,13 @@ yarn install
 yarn run start
 ```
 
+### Visual Basic
+
+```sh
+cd vb/
+dotnet run
+```
+
 ### Zig
 
 ```sh
@@ -252,7 +262,7 @@ You can also specify how many iterations to run the benchmark (default 5), avera
 zx benchmark.mjs --iterations 5
 ```
 
-The set of languages to run in the benchmark can also be set. NOTE: Some languages, e.g. bash, powershell, are disabled by default for performance reasons. The default set is "c,cpp,csharp,dart,go,java,lua,nim,perl,python,ruby,rust,typescript,zig"
+The set of languages to run in the benchmark can also be set. NOTE: Some languages, e.g. bash, powershell, are disabled by default for performance reasons. The default set is "c,cpp,csharp,dart,go,java,lua,nim,perl,python,ruby,rust,typescript,vb,zig"
 
 ```sh
 zx benchmark.mjs --languages c,cpp,rust

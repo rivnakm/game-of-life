@@ -17,7 +17,7 @@
             for (var i = 0; i < this.generations; i++)
             {
                 this.board.Draw();
-                Console.SetCursorPosition(0, 0);
+                Console.Write($"\x1b[{this.board.height}A");
                 this.Next();
             }
         }

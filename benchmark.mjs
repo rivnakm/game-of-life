@@ -37,6 +37,7 @@ if (argv.languages || argv.l) {
         "ruby",
         "rust",
         "typescript",
+        "vb",
         "zig",
     ];
 }
@@ -120,6 +121,16 @@ if (languages.includes("typescript")) {
         () => $`yarn install && yarn run build`
     );
     console.log("    Building TypeScript " + chalk.green("DONE"));
+    cd(base_dir);
+}
+// Visual Basic
+if (languages.includes("vb")) {
+    cd("vb");
+    await spinner(
+        "Building Visual Basic ...",
+        () => $`dotnet build --configuration Release`
+    );
+    console.log("    Building Visual Basic " + chalk.green("DONE"));
     cd(base_dir);
 }
 // Zig
@@ -315,6 +326,20 @@ for (let i = 0; i < iterations; i++) {
         console.log("    Running TypeScript " + chalk.green("DONE"));
     }
 
+    // Visual Basic
+    if (languages.includes("vb")) {
+        if (i === 0) {
+            results["Visual Basic"] = [];
+        }
+        results["Visual Basic"].push(
+            await time(
+                "./vb/bin/Release/net7.0/GameOfLife",
+                "Running Visual Basic ..."
+            )
+        );
+        console.log("    Running Visual Basic " + chalk.green("DONE"));
+    }
+
     // Zig
     if (languages.includes("zig")) {
         if (i === 0) {
@@ -403,6 +428,14 @@ if (argv.noclean === undefined) {
         cd("typescript");
         await spinner("Cleaning up TypeScript ...", () => $`yarn run clean`);
         console.log("    Cleaning up TypeScript " + chalk.green("DONE"));
+        cd(base_dir);
+    }
+
+    // Visual Basic
+    if (languages.includes("vb")) {
+        cd("vb");
+        await spinner("Cleaning up Visual Basic ...", () => $`dotnet clean`);
+        console.log("    Cleaning up Visual Basic " + chalk.green("DONE"));
         cd(base_dir);
     }
 
