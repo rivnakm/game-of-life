@@ -9,7 +9,7 @@ function next_gen() {
             local index
             local cell
             let index=$i*$width+$j
-            let cell=cells_copy[$index]
+            let cell=$cells_copy[$index]
             local adjacent=0
 
             for (( n = -1; n <= 1; n++ )) {
@@ -23,7 +23,7 @@ function next_gen() {
                     let row=$i+$n
                     let col=$j+$m
                     let index=$row*$width+$col
-                    if [[ $row -ge 0 && $col -ge 0 && $row -lt $height && $col -lt $width && cells_copy[$index] -eq 1 ]]; then
+                    if [[ $row -ge 0 && $col -ge 0 && $row -lt $height && $col -lt $width && $cells_copy[$index] -eq 1 ]]; then
                         let adjacent++
                     fi
 
