@@ -1,16 +1,4 @@
 #!/usr/bin/env bash
-
-function get_cell() {
-    local row=$1
-    local col=$2
-
-    if [[ $row -ge 0 && $col -ge 0 && $row -lt $height && $col -lt $width ]]; then
-        get_cell_return="${cells_copy[$row*$width+$col]}"
-    else
-        get_cell_return=0
-    fi
-}
-
 function next_gen() {
     cells_copy=("${cells[@]}")
 
@@ -18,8 +6,10 @@ function next_gen() {
     local j
     for (( i = 0; i< $height; i++ )) {
         for (( j = 0; j< $width; j++ )) {
-            get_cell $i $j
-            local cell=$get_cell_return
+            local index
+            local cell
+            let index=$i*$width+$j
+            let cell=$cells_copy[$index]
             local adjacent=0
 
             for (( n = -1; n <= 1; n++ )) {
@@ -32,8 +22,8 @@ function next_gen() {
                     local col
                     let row=$i+$n
                     let col=$j+$m
-                    get_cell $row $col
-                    if [[ $get_cell_return -eq 1 ]]; then
+                    let index=$row*$width+$col
+                    if [[ $row -ge 0 && $col -ge 0 && $row -lt $height && $col -lt $width && $cells_copy[$index] -eq 1 ]]; then
                         let adjacent++
                     fi
 
@@ -53,7 +43,6 @@ function next_gen() {
                 fi
             fi
             
-            local index
             let index=$i*$width+$j
             cells[$index]="${cell}"
         }
