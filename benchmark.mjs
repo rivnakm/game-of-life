@@ -33,7 +33,6 @@ if (argv.languages || argv.l) {
         "lua",
         "nim",
         "perl",
-        "powershell",
         "python",
         "ruby",
         "rust",
