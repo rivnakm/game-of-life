@@ -33,6 +33,7 @@ if (argv.languages || argv.l) {
         "lua",
         "nim",
         "perl",
+        "powershell",
         "python",
         "ruby",
         "rust",
@@ -249,6 +250,20 @@ for (let i = 0; i < iterations; i++) {
             )
         );
         console.log("    Running Perl " + chalk.green("DONE"));
+    }
+
+    // Powershell
+    if (languages.includes("powershell")) {
+        if (i === 0) {
+            results["PowerShell"] = [];
+        }
+        results["PowerShell"].push(
+            await time(
+                ["pwsh", "powershell/Game-Of-Life.ps1"],
+                "Running PowerShell ..."
+            )
+        );
+        console.log("    Running PowerShell " + chalk.green("DONE"));
     }
 
     // Python

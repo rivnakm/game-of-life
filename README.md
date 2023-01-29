@@ -12,6 +12,7 @@
 ![Lua](https://img.shields.io/badge/lua-%232C2D72.svg?style=for-the-badge&logo=lua&logoColor=white)
 ![Nim](https://img.shields.io/badge/nim-%23FFE953.svg?style=for-the-badge&logo=nim&logoColor=black)
 ![Perl](https://img.shields.io/badge/perl-%2339457E.svg?style=for-the-badge&logo=perl&logoColor=white)
+![PowerShell](https://img.shields.io/badge/PowerShell-%235391FE.svg?style=for-the-badge&logo=powershell&logoColor=white)
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 ![Ruby](https://img.shields.io/badge/ruby-%23CC342D.svg?style=for-the-badge&logo=ruby&logoColor=white)
 ![Rust](https://img.shields.io/badge/rust-%23000000.svg?style=for-the-badge&logo=rust&logoColor=white)
@@ -64,6 +65,7 @@ by shifting half of the work onto random argument parsing libraries rather than 
 - Lua
 - Nim
 - Perl
+- PowerShell
 - Python
 - Ruby
 - Rust
@@ -89,7 +91,7 @@ make
 
 ```sh
 cd bash/
-./game_of_life.sh  # VERY slow
+./game_of_life.sh
 ```
 
 ### C
@@ -184,6 +186,20 @@ cd nim/
 nim c -r GameOfLife.nim
 ```
 
+### Perl
+
+```sh
+cd perl/
+perl GameOfLife.pl
+```
+
+### PowerShell
+
+```sh
+cd powershell/
+pwsh Game-Of-Life.ps1
+```
+
 ### Python
 
 ```sh
@@ -236,7 +252,7 @@ You can also specify how many iterations to run the benchmark (default 5), avera
 zx benchmark.mjs --iterations 5
 ```
 
-The set of languages to run in the benchmark can also be set. NOTE: Some languages, e.g. bash, are disabled by default for performance reasons. The default set is "bash,c,cpp,csharp,dart,go,java,lua,nim,perl,python,ruby,rust,typescript,zig"
+The set of languages to run in the benchmark can also be set. NOTE: Some languages, e.g. bash, are disabled by default for performance reasons. The default set is "c,cpp,csharp,dart,go,java,lua,nim,perl,powershell,python,ruby,rust,typescript,zig"
 
 ```sh
 zx benchmark.mjs --languages c,cpp,rust
