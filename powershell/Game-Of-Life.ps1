@@ -59,8 +59,8 @@ function Draw-Screen() {
 }
 
 $Generations = 500
-$Height = 30
-$Width = 30
+$Height = 50
+$Width = 100
 
 $Cells = @(1..($Height*$Width))
 for ($i = 0; $i -lt $Cells.Count; $i++) {
