@@ -42,8 +42,6 @@ by shifting half of the work onto random argument parsing libraries rather than 
  - D
   - GCC (GDC)
 - Elixir
-- F#
-  - .NET SDK
 - Fortran
   - GCC (gfortran)
 - Haskell
@@ -60,6 +58,8 @@ by shifting half of the work onto random argument parsing libraries rather than 
 - C#
   - .NET 7.0 SDK
 - Dart
+- F#
+  - .NET 7.0 SDK
 - Go
 - Java
   - Gradle
@@ -134,14 +134,14 @@ dart run
 ```sh
 cd elixir/
 elixir game_of_life.exs
-```
+``` -->
 
 ### F\#
 
 ```sh
 cd fsharp/
 dotnet run
-``` -->
+```
 
 ### Go
 
@@ -262,7 +262,7 @@ You can also specify how many iterations to run the benchmark (default 5), avera
 zx benchmark.mjs --iterations 5
 ```
 
-The set of languages to run in the benchmark can also be set. NOTE: Some languages, e.g. bash, powershell, are disabled by default for performance reasons. The default set is "c,cpp,csharp,dart,go,java,lua,nim,perl,python,ruby,rust,typescript,vb,zig"
+The set of languages to run in the benchmark can also be set. NOTE: Some languages, e.g. bash, powershell, are disabled by default for performance reasons. The default set is "c,cpp,csharp,dart,fsharp,go,java,lua,nim,perl,python,ruby,rust,typescript,vb,zig"
 
 ```sh
 zx benchmark.mjs --languages c,cpp,rust

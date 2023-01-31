@@ -28,6 +28,7 @@ if (argv.languages || argv.l) {
         "cpp",
         "csharp",
         "dart",
+        "fsharp",
         "go",
         "java",
         "lua",
@@ -80,6 +81,16 @@ if (languages.includes("dart")) {
         () => $`dart compile exe bin/game_of_life.dart`
     );
     console.log("    Building Dart " + chalk.green("DONE"));
+    cd(base_dir);
+}
+// F#
+if (languages.includes("fsharp")) {
+    cd("fsharp");
+    await spinner(
+        "Building F# ...",
+        () => $`dotnet build --configuration Release`
+    );
+    console.log("    Building F# " + chalk.green("DONE"));
     cd(base_dir);
 }
 // Go
@@ -198,6 +209,20 @@ for (let i = 0; i < iterations; i++) {
             await time("./dart/bin/game_of_life.exe", "Running Dart ...")
         );
         console.log("    Running Dart " + chalk.green("DONE"));
+    }
+
+    // F#
+    if (languages.includes("fsharp")) {
+        if (i === 0) {
+            results["F#"] = [];
+        }
+        results["F#"].push(
+            await time(
+                "./fsharp/bin/Release/net7.0/GameOfLife",
+                "Running F# ..."
+            )
+        );
+        console.log("    Running F# " + chalk.green("DONE"));
     }
 
     // Go
@@ -388,6 +413,14 @@ if (argv.noclean === undefined) {
             () => $`rm -rf ./bin/game_of_life.exe`
         );
         console.log("    Cleaning up Dart " + chalk.green("DONE"));
+        cd(base_dir);
+    }
+
+    // F#
+    if (languages.includes("fsharp")) {
+        cd("fsharp");
+        await spinner("Cleaning up F# ...", () => $`dotnet clean`);
+        console.log("    Cleaning up F# " + chalk.green("DONE"));
         cd(base_dir);
     }
 
