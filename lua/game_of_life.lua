@@ -4,7 +4,7 @@ width = 100
 
 function get_cell(board, row, col)
     if row >= 1 and col >= 1 and row <= board.height and col <= board.width then
-        return board.cells[(row*board.width)+col]
+        return board.cells[((row-1)*board.width)+col]
     else
         return false
     end
@@ -47,7 +47,7 @@ function next_generation(board)
                 end
             end
 
-            board.cells[(i*board.width)+j] = cell
+            board.cells[((i-1)*board.width)+j] = cell
         end
     end
 end
