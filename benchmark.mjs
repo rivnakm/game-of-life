@@ -31,6 +31,7 @@ if (argv.languages || argv.l) {
         "fsharp",
         "go",
         "java",
+        "julia",
         "lua",
         "nim",
         "perl",
@@ -251,6 +252,17 @@ for (let i = 0; i < iterations; i++) {
             )
         );
         console.log("    Running Java " + chalk.green("DONE"));
+    }
+
+    // Julia
+    if (languages.includes("julia")) {
+        if (i === 0) {
+            results["Julia"] = [];
+        }
+        results["Julia"].push(
+            await time(["julia", "./julia/gameoflife.jl"], "Running Julia ...")
+        );
+        console.log("    Running Julia " + chalk.green("DONE"));
     }
 
     // Lua

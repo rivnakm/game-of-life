@@ -10,6 +10,7 @@
 ![F#](https://img.shields.io/badge/f%23-%2330B9DB.svg?style=for-the-badge&logo=.net&logoColor=white)
 ![Go](https://img.shields.io/badge/go-%2300ADD8.svg?style=for-the-badge&logo=go&logoColor=white)
 ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)
+![Julia](https://img.shields.io/badge/-Julia-9558B2?style=for-the-badge&logo=julia&logoColor=white)
 ![Lua](https://img.shields.io/badge/lua-%232C2D72.svg?style=for-the-badge&logo=lua&logoColor=white)
 ![Nim](https://img.shields.io/badge/nim-%23FFE953.svg?style=for-the-badge&logo=nim&logoColor=black)
 ![Perl](https://img.shields.io/badge/perl-%2339457E.svg?style=for-the-badge&logo=perl&logoColor=white)
@@ -28,7 +29,6 @@
 ![Fortran](https://img.shields.io/badge/Fortran-%23734F96.svg?style=for-the-badge&logo=fortran&logoColor=white)
 ![Go](https://img.shields.io/badge/go-%2300ADD8.svg?style=for-the-badge&logo=go&logoColor=white)
 ![Haskell](https://img.shields.io/badge/Haskell-5e5086?style=for-the-badge&logo=haskell&logoColor=white)
-![Julia](https://img.shields.io/badge/-Julia-9558B2?style=for-the-badge&logo=julia&logoColor=white)
 -->
 
 The games are all setup to run a 100x50 (WxH) board for 500 generations. Most of them were originally written to be dynamic and find the terminal
@@ -47,7 +47,7 @@ by shifting half of the work onto random argument parsing libraries rather than 
   - GCC (gfortran)
 - Haskell
   - GHC
-- Julia -->
+-->
 - Bash
 - C
   - GCC
@@ -64,6 +64,7 @@ by shifting half of the work onto random argument parsing libraries rather than 
 - Go
 - Java
   - Gradle
+- Julia
 - Lua
 - Nim
 - Perl
@@ -168,13 +169,12 @@ cd java/
 ./gradlew run --console plain
 ```
 
-<!--
 ### Julia
 
 ```sh
 cd julia/
 julia game_of_life.jl
-``` -->
+```
 
 ### Lua
 
@@ -263,7 +263,7 @@ You can also specify how many iterations to run the benchmark (default 5), avera
 zx benchmark.mjs --iterations 5
 ```
 
-The set of languages to run in the benchmark can also be set. NOTE: Some languages, e.g. bash, powershell, are disabled by default for performance reasons. The default set is "c,cpp,csharp,dart,fsharp,go,java,lua,nim,perl,python,ruby,rust,typescript,vb,zig"
+The set of languages to run in the benchmark can also be set. NOTE: Some languages, e.g. bash, powershell, are disabled by default for performance reasons. The default set is "c,cpp,csharp,dart,fsharp,go,java,julia,lua,nim,perl,python,ruby,rust,typescript,vb,zig"
 
 ```sh
 zx benchmark.mjs --languages c,cpp,rust
