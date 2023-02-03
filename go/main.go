@@ -45,7 +45,7 @@ func next_gen(board Board) {
 
 			for n := -1; n <= 1; n++ {
 				for m := -1; m <= 1; m++ {
-					if (n == -1 && i == 0) || (m == -1 && j == 0) || (n == 0 && m == 0) {
+					if (n == 0 && m == 0) {
 						continue
 					}
 					if(get_cell(board_copy, i+n, j+m)) {

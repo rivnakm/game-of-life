@@ -29,7 +29,7 @@ proc nextGeneration(board: var Board) =
 
       for n in countup(-1, 1):
         for m in countup(-1, 1):
-          if (n == -1 and i == 0) or (m == -1 and j == 0) or (n == 0 and m == 0):
+          if (n == 0 and m == 0):
             continue
           if getCell(boardCopy, i+n, j+m):
             adjacent += 1

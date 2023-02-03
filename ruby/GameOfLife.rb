@@ -48,7 +48,7 @@ def nextGeneration(board)
 
             for n in -1..1 do
                 for m in -1..1 do
-                    if (n == -1 && i == 0) || (m == -1 && j == 0) || (n == 0 && m == 0)
+                    if (n == 0 && m == 0)
                         next
                     end
                     if getCell(boardCopy, i+n, j+m)

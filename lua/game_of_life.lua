@@ -26,7 +26,7 @@ function next_generation(board)
 
             for n=-1,1 do
                 for m=-1,1 do
-                    if not ((n == -1 and i == 1) or (m == -1 and j == 1) or (n == 0 and m == 0)) then
+                    if not (n == 0 and m == 0) then
                         if get_cell(board_copy, i+n, j+m) then
                             adjacent = adjacent + 1
                         end

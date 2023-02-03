@@ -20,7 +20,11 @@ class Board {
     }
 
     copy(): Board {
-        return new Board(this.height, this.width, Object.assign([], this.cells));
+        return new Board(
+            this.height,
+            this.width,
+            Object.assign([], this.cells),
+        );
     }
 }
 
@@ -65,11 +69,7 @@ function nextGen(board: Board) {
 
             for (let n = -1; n <= 1; n++) {
                 for (let m = -1; m <= 1; m++) {
-                    if (
-                        (n === -1 && i === 0) ||
-                        (m === -1 && j === 0) ||
-                        (n === 0 && m === 0)
-                    ) {
+                    if (n === 0 && m === 0) {
                         continue;
                     }
                     if (getCell(boardCopy, i + n, j + m)) {

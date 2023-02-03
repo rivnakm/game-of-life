@@ -29,7 +29,7 @@ void nextGen(Board &board) {
 
             for (int n = -1; n <= 1; n++) {
                 for (int m = -1; m <= 1; m++) {
-                    if ((n == -1 && i == 0) || (m == -1 && j == 0) || (n == 0 && m == 0)) {
+                    if (n == 0 && m == 0) {
                         continue;
                     }
                     adjacent += int(getCell(boardClone, i + n, j + m));

@@ -12,7 +12,7 @@ def next_generation(board: Board):
 
             for n in range(-1,2):
                 for m in range(-1,2):
-                    if (n == -1 and i == 0) or (m == -1 and j == 0) or (n == 0 and m == 0):
+                    if (n == 0 and m == 0):
                         continue
                     if board_copy.get_cell(i+n, j+m):
                         adjacent += 1

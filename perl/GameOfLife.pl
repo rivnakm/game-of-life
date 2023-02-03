@@ -32,7 +32,7 @@ sub nextGen {
 
             for (my $n = -1; $n <= 1; $n++) {
                 for (my $m = -1; $m <= 1; $m++) {
-                    if (($n == -1 && $i == 0) || ($m == -1 && $j == 0) || ($n == 0 && $m == 0)) {
+                    if ($n == 0 && $m == 0) {
                         # skip
                     } elsif (getCell($boardCopy, $i + $n, $j + $m)) {
                         $adjacent++;

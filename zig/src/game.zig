@@ -90,7 +90,7 @@ fn next_gen(board: *Board) !void {
 }
 
 fn get_cell(board: *Board, row: usize, col: usize) bool {
-    if (row >= 0 and col >= 0 and row < board.height and col < board.width) {
+    if (row < board.height and col < board.width) {
         return board.cells[(row * board.width) + col];
     } else {
         return false;
