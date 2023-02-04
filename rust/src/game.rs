@@ -9,13 +9,13 @@ pub fn run_game(height: usize, width: usize, generations: u32) {
     let mut screen = Screen::new(height, width);
 
     let stdout = stdout();
-    let mut handle = stdout.lock();
+    let handle = stdout.lock();
     let mut writer = BufWriter::with_capacity(height * width * 2 + height * 2 + 16, handle);
     for _ in 0..generations {
         screen.draw(&mut writer);
-        print!("\x1b[{}A", screen.height); // Move cursor up
+        writer.write_fmt(format_args!("\x1b[{}A", screen.height)); //Move cursor up
         screen.next_gen();
-        writer.flush();
+        let _ = writer.flush();
     }
 }
 
@@ -48,13 +48,13 @@ impl Screen {
     {
         self.cells.chunks(self.width).for_each(|arr| {
             arr.into_iter().for_each(|&alive| {
-                writer.write_all(if alive {
+                let _ = writer.write_all(if alive {
                     b"\xE2\x96\x88\xE2\x96\x88"
                 } else {
                     b"  "
                 });
             });
-            writer.write(b"\n");
+            let _ = writer.write(b"\n");
         });
     }
     fn next_gen(&mut self) {
