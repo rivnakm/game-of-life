@@ -1,92 +1,110 @@
+use std::io::{stdout, BufWriter, Write};
+
+use rand::Rng;
+
+const BECOME_ALIVE: [bool; 9] = [false, false, false, true, false, false, false, false, false];
+const SURVIVE: [bool; 9] = [false, false, true, true, false, false, false, false, false];
+
 pub fn run_game(height: usize, width: usize, generations: u32) {
-    
-    let mut board = Board::new(height, width);
+    let mut screen = Screen::new(height, width);
 
-
+    let stdout = stdout();
+    let mut handle = stdout.lock();
+    let mut writer = BufWriter::with_capacity(height * width * 2 + height * 2 + 16, handle);
     for _ in 0..generations {
-        board.draw();
-        print!("\x1b[{}A", board.height); // Move cursor up
-        next_gen(&mut board);
+        screen.draw(&mut writer);
+        // print!("\x1b[{}A", screen.height); // Move cursor up
+        screen.next_gen();
+        writer.flush();
     }
 }
 
-fn next_gen(board: &mut Board) {
-    let board_clone = board.clone();
-
-    for i in 0..board.height {
-        for j in 0..board.width {
-            let mut cell = board_clone.get_cell(&i, &j);
-            let mut adjacent: u8 = 0;
-
-            for n in 0..3 {
-                for m in 0..3 {
-                    // avoid unsigned int overflow and ignore center cell
-                    if (n == 0 && i == 0) || (m == 0 && j == 0) || (n == 1 && m == 1) {
-                        continue;
-                    }
-                    if board_clone.get_cell(&(i + n - 1), &(j + m - 1)) {
-                        adjacent += 1;
-                    }
-                }
-            }
-
-            if cell {
-                if adjacent < 2 {
-                    cell = false;
-                }
-                if adjacent > 3 {
-                    cell = false;
-                }
-            } else {
-                if adjacent == 3 {
-                    cell = true
-                }
-            }
-
-            board.cells[(i * board.width) + j] = cell
-        }
-    }
-}
-
-#[derive(Clone)]
-struct Board {
-    cells: Vec<bool>,
-    height: usize,
+#[non_exhaustive]
+#[derive(Debug)]
+struct Screen {
     width: usize,
+    height: usize,
+    cells: Vec<bool>,
+    cells2: Vec<bool>,
 }
 
-impl Board {
-    fn new(height: usize, width: usize) -> Board {
-        let mut cells: Vec<bool> = Vec::with_capacity(height*width);
-        for _ in 0..height*width {
-            cells.push(rand::random::<bool>());
-        }
-
-        Board {
-            cells: cells,
-            height: height,
-            width: width,
-        }
-    }
-
-    fn get_cell(&self, row: &usize, col: &usize) -> bool {
-        if *row < self.height && *col < self.width {
-            self.cells[(*row * self.width) + *col]
-        } else {
-            false
+impl Screen {
+    pub fn new(height: usize, width: usize) -> Self {
+        let length = height * width;
+        let mut cells: Vec<bool> = Vec::with_capacity(length);
+        unsafe { cells.set_len(length) }
+        let mut rng = rand::thread_rng();
+        cells.fill_with(|| rng.gen());
+        Self {
+            width,
+            height,
+            cells2: cells.clone(),
+            cells,
         }
     }
-
-    fn draw(&self) {
-        for i in 0..self.height {
-            for j in 0..self.width {
-                if self.cells[(i * self.width) + j] {
-                    print!("██");
+    fn draw<W>(&self, writer: &mut W)
+    where
+        W: Write,
+    {
+        self.cells.chunks(self.width).for_each(|arr| {
+            arr.into_iter().for_each(|&alive| {
+                writer.write_all(if alive {
+                    b"\xE2\x96\x88\xE2\x96\x88"
                 } else {
-                    print!("  ");
-                }
-            }
-            println!("");
+                    b"  "
+                });
+            });
+            writer.write(b"\n");
+        });
+    }
+    fn next_gen(&mut self) {
+        for (idx, &cell) in self.cells.iter().enumerate() {
+            let x = idx % self.width;
+            let y = idx / self.width;
+            let neighbors = self.get_neighbours(x, y) as usize;
+
+            let new_cell = if cell {
+                SURVIVE[neighbors]
+            } else {
+                BECOME_ALIVE[neighbors]
+            };
+
+            self.cells2[idx] = new_cell
         }
+        std::mem::swap(&mut self.cells, &mut self.cells2)
+    }
+    #[inline(always)]
+    fn get_neighbours(&self, x: usize, y: usize) -> u8 {
+        let (height, width) = (self.height, self.width);
+        let (xm1, xp1) = if x == 0 {
+            (width - 1, x + 1)
+        } else if x == width - 1 {
+            (x - 1, 0)
+        } else {
+            (x - 1, x + 1)
+        };
+        let (ym1, yp1) = if y == 0 {
+            (height - 1, y + 1)
+        } else if y == height - 1 {
+            (y - 1, 0)
+        } else {
+            (y - 1, y + 1)
+        };
+        [
+            xm1 + ym1 * width,
+            x + ym1 * width,
+            xp1 + ym1 * width,
+            xm1 + y * width,
+            xp1 + y * width,
+            xm1 + yp1 * width,
+            x + yp1 * width,
+            xp1 + yp1 * width,
+        ]
+        .into_iter()
+        .fold(0u8, |acc, pos| acc + self.cells[pos] as u8)
+    }
+
+    fn get_cell(&self, x: usize, y: usize) -> bool {
+        unsafe { *self.cells.get_unchecked(x + y * self.width) }
     }
 }
