@@ -13,7 +13,7 @@ pub fn run_game(height: usize, width: usize, generations: u32) {
     let mut writer = BufWriter::with_capacity(height * width * 2 + height * 2 + 16, handle);
     for _ in 0..generations {
         screen.draw(&mut writer);
-        // print!("\x1b[{}A", screen.height); // Move cursor up
+        print!("\x1b[{}A", screen.height); // Move cursor up
         screen.next_gen();
         writer.flush();
     }
