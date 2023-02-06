@@ -59,7 +59,7 @@ if (languages.includes("cpp")) {
     await spinner(
         "Building C++ ...",
         () =>
-            $`meson setup --reconfigure build; meson configure -Dbuildtype=release build; pushd build; ninja; popd`
+            $`meson setup build || meson setup --reconfigure build; meson configure -Dbuildtype=release build; pushd build; ninja; popd`
     );
     console.log("    Building C++ " + chalk.green("DONE"));
     cd(base_dir);
@@ -79,7 +79,7 @@ if (languages.includes("dart")) {
     cd("dart");
     await spinner(
         "Building Dart ...",
-        () => $`dart compile exe bin/game_of_life.dart`
+        () => $`dart pub get; dart compile exe bin/game_of_life.dart`
     );
     console.log("    Building Dart " + chalk.green("DONE"));
     cd(base_dir);
@@ -148,7 +148,7 @@ if (languages.includes("vb")) {
 // Zig
 if (languages.includes("zig")) {
     cd("zig");
-    await spinner("Building Zig ...", () => $`zig build -Drelease-fast`);
+    await spinner("Building Zig ...", () => $`zig build -Doptimize=ReleaseFast`);
     console.log("    Building Zig " + chalk.green("DONE"));
     cd(base_dir);
 }

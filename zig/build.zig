@@ -1,4 +1,5 @@
-const Builder = @import("std").build.Builder;
+const std = @import("std");
+const Builder = std.build.Builder;
 
 pub fn build(b: *Builder) void {
     // Standard target options allows the person running `zig build` to choose
@@ -9,12 +10,17 @@ pub fn build(b: *Builder) void {
 
     // Standard release options allow the person running `zig build` to select
     // between Debug, ReleaseSafe, ReleaseFast, and ReleaseSmall.
-    const mode = b.standardReleaseOptions();
+    const mode = b.standardOptimizeOption(.{});
 
-    const exe = b.addExecutable("game_of_life", "src/main.zig");
+    const options = std.build.ExecutableOptions {
+        .name = "game_of_life",
+        .root_source_file = .{ .path = "src/main.zig" },
+        .target = target,
+        .optimize = mode,
+    };
+
+    const exe = b.addExecutable(options);
     
-    exe.setTarget(target);
-    exe.setBuildMode(mode);
     exe.install();
 
     const run_cmd = exe.run();
