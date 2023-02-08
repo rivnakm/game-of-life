@@ -59,7 +59,7 @@ if (languages.includes("cpp")) {
     await spinner(
         "Building C++ ...",
         () =>
-            $`meson setup build || meson setup --reconfigure build; meson configure -Dbuildtype=release build; pushd build; ninja; popd`
+            $`meson setup build; meson setup --reconfigure build; meson configure -Dbuildtype=release build; pushd build; ninja; popd`
     );
     console.log("    Building C++ " + chalk.green("DONE"));
     cd(base_dir);
@@ -447,7 +447,7 @@ if (argv.noclean === undefined) {
     // Java
     if (languages.includes("java")) {
         cd("java");
-        await spinner("Cleaning up Java ...", () => $`gradle clean`);
+        await spinner("Cleaning up Java ...", () => $`./gradlew clean`);
         console.log("    Cleaning up Java " + chalk.green("DONE"));
         cd(base_dir);
     }

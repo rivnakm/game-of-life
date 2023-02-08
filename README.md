@@ -267,3 +267,14 @@ The set of languages to run in the benchmark can also be set. NOTE: Some languag
 
 ```sh
 zx benchmark.mjs --languages c,cpp,rust
+```
+
+## Container Build
+
+```sh
+podman build -t game-of-life .
+
+podman run --rm game-of-life
+# or
+podman run --rm game-of-life --iterations 5 --languages c,cpp,rust
+```
