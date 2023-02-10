@@ -24,6 +24,7 @@ if (argv.languages || argv.l) {
     languages = (argv.languages || argv.l).split(",");
 } else {
     languages = [
+        "ada",
         "c",
         "cpp",
         "csharp",
@@ -46,6 +47,13 @@ if (argv.languages || argv.l) {
 
 // Build
 console.log(chalk.blue("Building"));
+// Ada
+if (languages.includes("ada")) {
+    cd("ada");
+    await spinner("Building Ada ...", () => $`gnatmake -O3 src/game_of_life.adb`);
+    console.log("    Building Ada " + chalk.green("DONE"));
+    cd(base_dir);
+}
 // C
 if (languages.includes("c")) {
     cd("c");
@@ -158,6 +166,15 @@ const results = new Object();
 for (let i = 0; i < iterations; i++) {
     console.log(chalk.blue(`\nPass (${i + 1}/${iterations})`));
 
+    // Bash
+    if (languages.includes("ada")) {
+        if (i === 0) {
+            results["Ada"] = [];
+        }
+        results["Ada"].push(await time("./ada/game_of_life", "Running Ada ..."));
+        console.log("    Running Ada " + chalk.green("DONE"));
+    }
+    
     // Bash
     if (languages.includes("bash")) {
         if (i === 0) {
@@ -393,6 +410,13 @@ for (let i = 0; i < iterations; i++) {
 
 if (argv.noclean === undefined) {
     console.log(chalk.blue("\nCleaning up"));
+    // Ada
+    if (languages.includes("ada")) {
+        cd("ada");
+        await spinner("Cleaning up Ada ...", () => $`gnatclean game_of_life`);
+        console.log("    Cleaning up Ada " + chalk.green("DONE"));
+        cd(base_dir);
+    }
     // C
     if (languages.includes("c")) {
         cd("c");

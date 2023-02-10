@@ -13,8 +13,7 @@ ENV PWSH_VER=7.3.2
 RUN echo "${TARGETARCH}"
 
 ## Ubuntu dependencies
-RUN apt update && apt upgrade -y
-RUN apt install --no-install-recommends -y apt-transport-https build-essential curl golang lua5.4 meson nodejs npm openjdk-19-jdk-headless pkg-config python-is-python3 ruby unzip wget
+RUN apt update && apt upgrade -y && apt install --no-install-recommends -y apt-transport-https build-essential curl gnat golang lua5.4 meson nodejs npm openjdk-19-jdk-headless pkg-config python-is-python3 ruby unzip wget
 
 # Dart SDK
 RUN if [ "$TARGETARCH" = "amd64" ]; then \

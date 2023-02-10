@@ -4,6 +4,7 @@
 
 ### Conway's Game of Life in an many programming languages as I can figure out
 
+![Ada](https://img.shields.io/badge/ada-%230000AA.svg?style=for-the-badge)
 ![Bash](https://img.shields.io/badge/bash-%23121011.svg?style=for-the-badge&logo=gnu-bash&logoColor=white)
 ![C](https://img.shields.io/badge/c-%2300599C.svg?style=for-the-badge&logo=c&logoColor=white)
 ![C++](https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white)
@@ -57,6 +58,9 @@ by shifting half of the work onto random argument parsing libraries rather than 
 - Haskell
   - GHC
 -->
+- Ada 95
+  - GCC Gnat
+  - GCC Gnatmake
 - Bash
 - C
   - GCC
@@ -100,6 +104,14 @@ cd asm/
 make
 ./game_of_life
 ``` -->
+
+### Ada
+
+```sh
+cd ada/
+gnatmake src/game_of_life.adb
+./game_of_life
+```
 
 ### Bash
 
