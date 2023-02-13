@@ -281,13 +281,15 @@ zx --install benchmark.mjs
 You can also specify how many iterations to run the benchmark (default 5), averaging the results
 
 ```sh
-zx benchmark.mjs --iterations 5
+./benchmark.mjs --iterations 5
 ```
 
-The set of languages to run in the benchmark can also be set. NOTE: Some languages, e.g. bash, powershell, are disabled by default for performance reasons. The default set is "c,cpp,csharp,dart,fsharp,go,java,julia,lua,nim,perl,python,ruby,rust,typescript,vb,zig"
+The set of languages to run in the benchmark can also be set. NOTE: Some languages, e.g. bash, powershell, are disabled by default for performance reasons. The default set is "ada,c,cpp,csharp,dart,fsharp,go,java,julia,lua,nim,perl,python,ruby,rust,typescript,vb,zig"
 
 ```sh
-zx benchmark.mjs --languages c,cpp,rust
+./benchmark.mjs --languages c,cpp,rust
+# of
+./benchmark.mjs --languages all
 ```
 
 ## Container Build
