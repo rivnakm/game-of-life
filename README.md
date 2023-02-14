@@ -9,6 +9,7 @@
 ![C](https://img.shields.io/badge/c-%2300599C.svg?style=for-the-badge&logo=c&logoColor=white)
 ![C++](https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white)
 ![C#](https://img.shields.io/badge/c%23-%23239120.svg?style=for-the-badge&logo=.net&logoColor=white)
+![D](https://img.shields.io/badge/d-%2398312A.svg?style=for-the-badge&logo=d&logoColor=white)
 ![Dart](https://img.shields.io/badge/dart-%230175C2.svg?style=for-the-badge&logo=dart&logoColor=white)
 ![F#](https://img.shields.io/badge/f%23-%2330B9DB.svg?style=for-the-badge&logo=.net&logoColor=white)
 ![Go](https://img.shields.io/badge/go-%2300ADD8.svg?style=for-the-badge&logo=go&logoColor=white)
@@ -50,8 +51,7 @@ by shifting half of the work onto random argument parsing libraries rather than 
 <!-- - Assembly
   - GNU Binutils (as & ld)
   - Raspberry Pi 4
- - D
-  - GCC (GDC)
+
 - Elixir
 - Fortran
   - GCC (gfortran)
@@ -71,6 +71,8 @@ by shifting half of the work onto random argument parsing libraries rather than 
   - Ninja
 - C#
   - .NET 7.0 SDK
+- D
+  - GCC GDC
 - Dart
 - F#
   - .NET 7.0 SDK
@@ -284,7 +286,7 @@ You can also specify how many iterations to run the benchmark (default 5), avera
 ./benchmark.mjs --iterations 5
 ```
 
-The set of languages to run in the benchmark can also be set. NOTE: Some languages, e.g. bash, powershell, are disabled by default for performance reasons. The default set is "ada,c,cpp,csharp,dart,fsharp,go,java,julia,lua,nim,perl,python,ruby,rust,typescript,vb,zig"
+The set of languages to run in the benchmark can also be set. NOTE: Some languages, e.g. bash, powershell, are disabled by default for performance reasons. The default set is "ada,c,cpp,csharp,d,dart,fsharp,go,java,julia,lua,nim,perl,python,ruby,rust,typescript,vb,zig"
 
 ```sh
 ./benchmark.mjs --languages c,cpp,rust

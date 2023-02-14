@@ -179,6 +179,16 @@ let languages = [
         true
     ),
     new Language(
+        "D",
+        "d",
+        "d",
+        { DFLAGS: "-O3" },
+        ["make"],
+        "./game_of_life",
+        [["make", "clean"]],
+        true
+    ),
+    new Language(
         "Dart",
         "dart",
         "dart",
