@@ -147,6 +147,14 @@ cd csharp/
 dotnet run
 ```
 
+### D
+
+```sh
+cd d/
+make
+./game_of_life
+```
+
 ### Dart
 
 ```sh
