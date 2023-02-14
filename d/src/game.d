@@ -4,26 +4,14 @@ import std.container;
 import std.random;
 import std.stdio;
 
-struct Board {
-    Array!bool cells;
-    int height;
-    int width;
-}
-
-static bool getCell(ref Board board, int row, int col) {
-    if (row >= 0 && col >= 0 && row < board.height && col < board.width) {
-        return board.cells[(row * board.width) + col];
-    } else {
-        return false;
-    }
-}
+import board;
 
 static void nextGen(ref Board board) {
-    auto boardClone = Board(board.cells.dup(), board.height, board.width);
+    auto boardClone = board.dup();
 
     for (int i = 0; i < board.height; i++) {
         for (int j = 0; j < board.width; j++) {
-            bool cell = getCell(boardClone, i, j);
+            bool cell = boardClone.getCell(i, j);
             int adjacent = 0;
 
             for (int n = -1; n <= 1; n++) {
@@ -31,9 +19,9 @@ static void nextGen(ref Board board) {
                     if (n == 0 && m == 0) {
                         continue;
                     }
-                    if (getCell(boardClone, i + n, j + m)) {
+                    if (boardClone.getCell(i + n, j + m)) {
                         adjacent++;
-                    };
+                    }
                 }
             }
 
@@ -55,30 +43,18 @@ static void nextGen(ref Board board) {
     }
 }
 
-static void drawScreen(ref Board board) {
-    for (int i = 0; i < board.height; i++) {
-        for (int j = 0; j < board.width; j++) {
-            if (board.cells[(i * board.width) + j]) {
-                write("██");
-            } else {
-                write("  ");
-            }
-        }
-        writeln();
-    }
-}
-
 static void runGame(int height, int width, int generations) {
-    Array!bool cells;
+    immutable int size = height*width;
+    bool[] cells = new bool[size];
 
     for (int i = 0; i < height*width; i++) {
-        cells.insertBack(dice(50, 50) == 1);
+        cells[i] = dice(50, 50) == 1;
     }
 
-    Board board = Board(cells, height, width);
+    auto board = new Board(height, width, cells);
 
     for (int i = 0; i < generations; i++) {
-        drawScreen(board);
+        board.draw();
         writef("\x1b[%dA", board.height);
         nextGen(board);
     }

@@ -1,30 +1,14 @@
-#include <cstdlib>
-#include <ctime>
 #include <iostream>
-#include <vector>
 
+#include "board.hpp"
 #include "game.hpp"
 
-typedef struct {
-    std::vector<bool> cells;
-    int height;
-    int width;
-} Board;
-
-bool getCell(const Board &board, const int &row, const int &col) {
-    if (row >= 0 && col >= 0 && row < board.height && col < board.width) {
-        return board.cells[(row * board.width) + col];
-    } else {
-        return false;
-    }
-}
-
 void nextGen(Board &board) {
-    Board boardClone = {std::vector<bool>(board.cells), board.height, board.width};
+    Board boardClone = board;
 
     for (int i = 0; i < board.height; i++) {
         for (int j = 0; j < board.width; j++) {
-            bool cell = getCell(boardClone, i, j);
+            bool cell = boardClone.getCell(i, j);
             int adjacent = 0;
 
             for (int n = -1; n <= 1; n++) {
@@ -32,7 +16,9 @@ void nextGen(Board &board) {
                     if (n == 0 && m == 0) {
                         continue;
                     }
-                    adjacent += int(getCell(boardClone, i + n, j + m));
+                    if (boardClone.getCell(i + n, j + m)) {
+                        adjacent++;
+                    }
                 }
             }
 
@@ -54,29 +40,11 @@ void nextGen(Board &board) {
     }
 }
 
-void drawScreen(const Board &board) {
-    for (int i = 0; i < board.height; i++) {
-        for (int j = 0; j < board.width; j++) {
-            if (board.cells[(i * board.width) + j]) {
-                std::cout << "██";
-            } else {
-                std::cout << "  ";
-            }
-        }
-        std::cout << std::endl;
-    }
-}
-
 void runGame(int height, int width, int generations) {
-    Board board = {std::vector<bool>(), height, width};
-    
-    std::srand(std::time(nullptr));
-    for (int i = 0; i < height * width; i++) {
-        board.cells.push_back(std::rand() % 2 > 0.5);
-    }
+    Board board = Board(height, width);
 
     for (int i = 0; i < generations; i++) {
-        drawScreen(board);
+        board.draw();
         std::cout << "\x1b[" << board.height << "A";
         nextGen(board);
     }

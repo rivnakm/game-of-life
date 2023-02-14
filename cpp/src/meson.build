@@ -1,1 +1,1 @@
-sources = files('main.cpp', 'game.cpp')
+sources = files('main.cpp', 'game.cpp', 'board.cpp')
