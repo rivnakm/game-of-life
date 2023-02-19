@@ -222,6 +222,16 @@ let languages = [
         true
     ),
     new Language(
+        "Haskell",
+        "haskell",
+        "haskell",
+        {},
+        [["ghc", "-O", "-o", "game_of_life", "main.hs", "game.hs", "board.hs"]],
+        "./game_of_life",
+        [["rm", "-f", "./game_of_life", "board.hi", "board.o", "game.hi", "game.o", "main.hi", "main.o"]],
+        true
+    ),
+    new Language(
         "Java",
         "java",
         "java",

@@ -12,8 +12,17 @@ ENV PWSH_VER=7.3.2
 
 RUN echo "${TARGETARCH}"
 
+
+# Set locale
+RUN apt update && apt install -y locales
+RUN echo 'en_US.UTF-8 UTF-8' > /etc/locale.gen && locale-gen
+ENV LANG en_US.UTF-8  
+ENV LANGUAGE en_US:en  
+ENV LC_ALL en_US.UTF-8     
+
+
 ## Ubuntu dependencies
-RUN apt update && apt upgrade -y && apt install --no-install-recommends -y apt-transport-https build-essential curl gdc gnat golang lua5.4 meson nodejs npm openjdk-19-jdk-headless pkg-config python-is-python3 ruby unzip wget
+RUN apt update && apt upgrade -y && apt install --no-install-recommends -y apt-transport-https build-essential curl gdc gnat golang libghc-random-dev lua5.4 meson nodejs npm openjdk-19-jdk-headless pkg-config python-is-python3 ruby unzip wget
 
 # Dart SDK
 RUN if [ "$TARGETARCH" = "amd64" ]; then \

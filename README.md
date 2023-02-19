@@ -13,6 +13,7 @@
 ![Dart](https://img.shields.io/badge/dart-%230175C2.svg?style=for-the-badge&logo=dart&logoColor=white)
 ![F#](https://img.shields.io/badge/f%23-%2330B9DB.svg?style=for-the-badge&logo=.net&logoColor=white)
 ![Go](https://img.shields.io/badge/go-%2300ADD8.svg?style=for-the-badge&logo=go&logoColor=white)
+![Haskell](https://img.shields.io/badge/Haskell-5e5086?style=for-the-badge&logo=haskell&logoColor=white)
 ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)
 ![Julia](https://img.shields.io/badge/-Julia-9558B2?style=for-the-badge&logo=julia&logoColor=white)
 ![Lua](https://img.shields.io/badge/lua-%232C2D72.svg?style=for-the-badge&logo=lua&logoColor=white)
@@ -77,6 +78,8 @@ by shifting half of the work onto random argument parsing libraries rather than 
 - F#
   - .NET 7.0 SDK
 - Go
+- Haskell
+  - GHC
 - Java
   - Gradle
 - Julia
@@ -183,15 +186,13 @@ cd go/
 go run .
 ```
 
-<!--
 ### Haskell
 
 ```sh
 cd haskell/
-ghc game_of_life.hs
+ghc -o game_of_life main.hs game.hs board.hs
 ./game_of_life
 ```
--->
 
 ### Java
 
@@ -294,7 +295,7 @@ You can also specify how many iterations to run the benchmark (default 5), avera
 ./benchmark.mjs --iterations 5
 ```
 
-The set of languages to run in the benchmark can also be set. NOTE: Some languages, e.g. bash, powershell, are disabled by default for performance reasons. The default set is "ada,c,cpp,csharp,d,dart,fsharp,go,java,julia,lua,nim,perl,python,ruby,rust,typescript,vb,zig"
+The set of languages to run in the benchmark can also be set. NOTE: Some languages, e.g. bash, powershell, are disabled by default for performance reasons. The default set is "ada,c,cpp,csharp,d,dart,fsharp,go,haskell,java,julia,lua,nim,perl,python,ruby,rust,typescript,vb,zig"
 
 ```sh
 ./benchmark.mjs --languages c,cpp,rust
