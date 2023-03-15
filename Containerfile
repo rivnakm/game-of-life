@@ -7,11 +7,13 @@ ENV GRADLE_VER=7.6
 ENV JULIA_MAJ_VER=1.8
 ENV JULIA_VER=1.8.5
 ENV NIM_VER=1.6.10
-ENV ZIG_VER=0.11.0-dev.1575+289e8fab7
 ENV PWSH_VER=7.3.2
+ENV V_VER=0.3.3
+ENV ZIG_VER=0.11.0-dev.1575+289e8fab7
 
 RUN echo "${TARGETARCH}"
 
+ENV PATH="$PATH:/opt/v"
 
 # Set locale
 RUN apt update && apt install -y locales
@@ -97,6 +99,13 @@ RUN mkdir -p /opt/microsoft/powershell/7 && \
 # Rustup
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --no-modify-path --profile minimal --default-toolchain stable -y
 ENV PATH="$PATH:/root/.cargo/bin"
+
+# V
+RUN wget https://github.com/vlang/v/archive/refs/tags/${V_VER}.tar.gz -O v.tar.gz && \
+    mkdir -p /opt/v && \
+    tar -xzf v.tar.gz -C /opt/v && \
+    rm -rf v.tar.gz
+RUN cd /opt/v/ && make
 
 # Yarn
 RUN npm install -g corepack
