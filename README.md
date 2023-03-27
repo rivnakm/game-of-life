@@ -27,9 +27,9 @@
 ![Visual Basic](https://img.shields.io/badge/visual_basic-%2368217a.svg?style=for-the-badge&logo=.net&logoColor=white)
 ![Zig](https://img.shields.io/badge/Zig-%23F7A442.svg?style=for-the-badge&logo=zig&logoColor=black)
 
-<!-- ![Assembly](https://img.shields.io/badge/Assembly-black?style=for-the-badge&logo=arm&logoColor=white)
+<!--
+![Assembly](https://img.shields.io/badge/Assembly-black?style=for-the-badge&logo=arm&logoColor=white)
 ![Forth](https://img.shields.io/badge/forth-%23EF5350.svg?style=for-the-badge)
-![Fortran](https://img.shields.io/badge/D-AA0000.svg?style=for-the-badge&logo=d&logoColor=white)
 ![Elixir](https://img.shields.io/badge/elixir-%234B275F.svg?style=for-the-badge&logo=elixir&logoColor=white)
 ![Fortran](https://img.shields.io/badge/Fortran-%23734F96.svg?style=for-the-badge&logo=fortran&logoColor=white)
 -->
@@ -44,18 +44,17 @@ by shifting half of the work onto random argument parsing libraries rather than 
 - [Build From Source](#build-from-source)
 - [Benchmarking](#benchmarking)
 - [Container Build](#container-build)
+- [Visual Studio Code Dev Container](#dev-container)
 
 ## Prerequisites
 
-<!-- - Assembly
+<!--
+- Assembly
   - GNU Binutils (as & ld)
   - Raspberry Pi 4
-
 - Elixir
 - Fortran
   - GCC (gfortran)
-- Haskell
-  - GHC
 -->
 - Ada 95
   - GCC Gnat
@@ -310,3 +309,9 @@ podman run --rm game-of-life
 # or
 podman run --rm game-of-life --iterations 5 --languages c,cpp,rust
 ```
+
+## Dev Container
+
+![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white)
+
+Provided is a `devcontainer.json` file that will automatically setup a development environment for all of the languages in here, along with relevant extensions
