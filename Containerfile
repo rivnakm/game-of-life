@@ -8,7 +8,6 @@ ENV JULIA_MAJ_VER=1.8
 ENV JULIA_VER=1.8.5
 ENV NIM_VER=1.6.10
 ENV PWSH_VER=7.3.2
-ENV V_VER=0.3.3
 ENV ZIG_VER=0.11.0-dev.1575+289e8fab7
 
 RUN echo "${TARGETARCH}"
@@ -24,7 +23,26 @@ ENV LC_ALL en_US.UTF-8
 
 
 ## Ubuntu dependencies
-RUN apt update && apt upgrade -y && apt install --no-install-recommends -y apt-transport-https build-essential curl gdc gnat golang libghc-random-dev lua5.4 meson nodejs npm openjdk-19-jdk-headless pkg-config python-is-python3 ruby unzip wget
+RUN apt update && apt upgrade -y && apt install --no-install-recommends -y \
+    apt-transport-https \
+    build-essential \
+    curl \
+    gdc \
+    git \
+    gnat \
+    golang \
+    gpg \
+    libghc-random-dev \
+    lua5.4 \
+    meson \
+    nodejs \
+    npm \
+    openjdk-19-jdk-headless \
+    pkg-config \
+    python-is-python3 \
+    ruby \
+    unzip \
+    wget
 
 # Dart SDK
 RUN if [ "$TARGETARCH" = "amd64" ]; then \
@@ -101,11 +119,9 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --no-mo
 ENV PATH="$PATH:/root/.cargo/bin"
 
 # V
-RUN wget https://github.com/vlang/v/archive/refs/tags/${V_VER}.tar.gz -O v.tar.gz && \
-    mkdir -p /opt/v && \
-    tar -xzf v.tar.gz -C /opt/v && \
-    rm -rf v.tar.gz
-RUN cd /opt/v/ && make
+RUN git clone  https://github.com/vlang/v /opt/v
+RUN cd /opt/v && make
+ENV PATH="$PATH:/opt/v"
 
 # Yarn
 RUN npm install -g corepack
