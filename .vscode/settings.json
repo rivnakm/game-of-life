@@ -4,4 +4,5 @@
     "rust-analyzer.cargo.sysroot": "discover",
     "python.linting.pylintEnabled": true,
     "python.linting.enabled": true,
+    "java.compile.nullAnalysis.mode": "disabled",
 }

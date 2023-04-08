@@ -1,6 +1,7 @@
 FROM ubuntu:kinetic
 
 ARG TARGETARCH
+ARG DEVEL="false"
 
 # Versions for manually installed packages
 ENV GRADLE_VER=7.6
@@ -8,7 +9,6 @@ ENV JULIA_MAJ_VER=1.8
 ENV JULIA_VER=1.8.5
 ENV NIM_VER=1.6.10
 ENV PWSH_VER=7.3.2
-ENV ZIG_VER=0.11.0-dev.1575+289e8fab7
 
 RUN echo "${TARGETARCH}"
 
@@ -22,10 +22,13 @@ ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8     
 
 
-## Ubuntu dependencies
-RUN apt update && apt upgrade -y && apt install --no-install-recommends -y \
+# Ubuntu dependencies
+RUN apt update && apt upgrade -y
+RUN apt install --no-install-recommends -y \
     apt-transport-https \
     build-essential \
+    ca-certificates \
+    cmake \
     curl \
     gdc \
     git \
@@ -44,6 +47,29 @@ RUN apt update && apt upgrade -y && apt install --no-install-recommends -y \
     unzip \
     wget
 
+# LLVM Dependencies for Zig
+RUN echo '\ndeb http://apt.llvm.org/kinetic/ llvm-toolchain-kinetic-16 main' >> /etc/apt/sources.list
+RUN wget -nv https://apt.llvm.org/llvm-snapshot.gpg.key -O /etc/apt/trusted.gpg.d/apt.llvm.org.asc
+RUN apt update && apt install -y \
+    clang-16 \
+    libclang-common-16-dev \
+    libclang-16-dev \
+    libclang1-16 \
+    libllvm16 \
+    llvm-16 \
+    llvm-16-dev \
+    llvm-16-runtime \
+    lld-16 \
+    liblld-16 \
+    liblld-16-dev \
+    libz-dev
+
+RUN if [ "$DEVEL" = "true" ]; then \
+        apt install --no-install-recommends -y \
+        gdb \
+        lldb-16; \
+    fi
+    
 # Dart SDK
 RUN if [ "$TARGETARCH" = "amd64" ]; then \
         wget -nv https://storage.googleapis.com/dart-archive/channels/be/raw/latest/sdk/dartsdk-linux-x64-release.zip -O dart-sdk.zip; \
@@ -115,11 +141,16 @@ RUN mkdir -p /opt/microsoft/powershell/7 && \
     rm -rf pwsh*
 
 # Rustup
-RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --no-modify-path --profile minimal --default-toolchain stable -y
+RUN if [ "$DEVEL" = "true" ]; then \
+        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --no-modify-path --profile complete --default-toolchain stable -y; \
+    else \
+        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --no-modify-path --profile minimal --default-toolchain stable -y; \
+    fi
+
 ENV PATH="$PATH:/root/.cargo/bin"
 
 # V
-RUN git clone  https://github.com/vlang/v /opt/v
+RUN git clone --depth=1 https://github.com/vlang/v /opt/v
 RUN cd /opt/v && make
 ENV PATH="$PATH:/opt/v"
 
@@ -128,20 +159,20 @@ RUN npm install -g corepack
 RUN corepack enable
 
 # Zig
-RUN if [ "$TARGETARCH" = "amd64" ]; then \
-        wget -nv https://ziglang.org/builds/zig-linux-x86_64-${ZIG_VER}.tar.xz -O zig.tar.xz; \
-    elif [ "$TARGETARCH" = "arm64" ]; then \
-        wget -nv https://ziglang.org/builds/zig-linux-aarch64-${ZIG_VER}.tar.xz -O zig.tar.xz; \
-    else \
-        echo "Unsupported arch: $TARGETARCH"; \
-        exit 1; \
-    fi
-RUN tar xf zig.tar.xz && \
-    mv zig-*-${ZIG_VER} zig-${ZIG_VER} && \
-    cp -r zig-${ZIG_VER}/zig /usr/local/bin/ && \
-    cp -r zig-${ZIG_VER}/lib /usr/local/ && \
-    rm -rf zig*
+RUN git clone --depth=1 https://github.com/ziglang/zig && \
+    cd zig && \
+    mkdir build && cd build && \
+    cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local .. && \
+    make install && \
+    cd ../.. && rm -rf zig
 
+# ZLS
+RUN if [ "$DEVEL" = "true" ]; then \
+        git clone --depth=1 https://github.com/zigtools/zls && \
+        cd zls && \
+        zig build -Doptimize=ReleaseSafe && \
+        cd .. && rm -rf zls; \
+    fi
 
 # Zx
 RUN npm install -g zx

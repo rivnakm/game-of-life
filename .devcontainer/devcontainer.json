@@ -1,7 +1,10 @@
 {
-    "build": {
-        // Path is relataive to the devcontainer.json file.
-        "dockerfile": "../Containerfile"
+	"build": {
+		// Path is relataive to the devcontainer.json file.
+		"dockerfile": "../Containerfile",
+		"args": {
+			"DEVEL": "true"
+		}
 	},
 	"customizations": {
 		"vscode": {

@@ -6,3 +6,4 @@ e# Files and directories created by pub.
 build/
 **/*.exe
 **/*.aot
+**/*.lock

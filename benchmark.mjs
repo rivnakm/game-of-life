@@ -1,5 +1,7 @@
 #!/usr/bin/env zx
 
+import fs from "fs";
+
 import { spinner } from "zx/experimental";
 import "zx/globals";
 
@@ -15,26 +17,6 @@ base_dir = base_dir.stdout.trim();
 let iterations = argv.iterations || argv.i || 5;
 
 class Language {
-    constructor(
-        properName,
-        shortName,
-        pwd,
-        env,
-        buildCmd,
-        runCmd,
-        cleanCmd,
-        enabled
-    ) {
-        this.properName = properName;
-        this.shortName = shortName;
-        this.pwd = pwd;
-        this.env = env;
-        this.buildCmd = buildCmd;
-        this.runCmd = runCmd;
-        this.cleanCmd = cleanCmd;
-        this.enabled = enabled;
-    }
-
     setEnv() {
         for (var e in this.env) {
             process.env[e] = this.env[e];
@@ -49,8 +31,8 @@ class Language {
 
     async build() {
         if (this.willRun()) {
-            cd(this.pwd);
-            for (var cmd of this.buildCmd) {
+            cd(this.dir);
+            for (var cmd of this.buildCmds) {
                 await spinner(
                     `Building ${this.properName} ...`,
                     () => $`${cmd}`
@@ -65,7 +47,7 @@ class Language {
 
     async run() {
         if (this.willRun()) {
-            cd(this.pwd);
+            cd(this.dir);
             if (this.results == null) {
                 this.results = [];
             }
@@ -86,8 +68,8 @@ class Language {
 
     async clean() {
         if (this.willRun()) {
-            cd(this.pwd);
-            for (var cmd of this.cleanCmd) {
+            cd(this.dir);
+            for (var cmd of this.cleanCmds) {
                 await spinner(
                     `Cleaning up ${this.properName} ...`,
                     () => $`${cmd}`
@@ -122,239 +104,7 @@ async function time(cmd, message) {
     return parseFloat(time.stderr.trim());
 }
 
-let languages = [
-    new Language(
-        "Ada",
-        "ada",
-        "ada",
-        {},
-        [["gnatmake", "-O3", "src/game_of_life.adb"]],
-        "./game_of_life",
-        ["gnatclean"],
-        true
-    ),
-    new Language(
-        "Bash",
-        "bash",
-        "bash",
-        {},
-        [],
-        ["bash", "./game_of_life.sh"],
-        [],
-        false
-    ),
-    new Language(
-        "C",
-        "c",
-        "c",
-        { CFLAGS: "-O3" },
-        ["make"],
-        "./game_of_life",
-        [["make", "clean"]],
-        true
-    ),
-    new Language(
-        "C++",
-        "cpp",
-        "cpp",
-        {},
-        [
-            ["meson", "setup", "build"],
-            ["meson", "setup", "--reconfigure", "build"],
-            ["meson", "configure", "-Dbuildtype=release", "build"],
-            ["ninja", "-C", "build"],
-        ],
-        "./build/game_of_life",
-        [["ninja", "-C", "build", "clean"]],
-        true
-    ),
-    new Language(
-        "C#",
-        "csharp",
-        "csharp",
-        {},
-        [["dotnet", "build", "--configuration", "Release"]],
-        "./bin/Release/net7.0/GameOfLife",
-        [["dotnet", "clean"]],
-        true
-    ),
-    new Language(
-        "D",
-        "d",
-        "d",
-        { DFLAGS: "-O3" },
-        ["make"],
-        "./game_of_life",
-        [["make", "clean"]],
-        true
-    ),
-    new Language(
-        "Dart",
-        "dart",
-        "dart",
-        {},
-        [
-            ["dart", "pub", "get"],
-            ["dart", "compile", "exe", "bin/game_of_life.dart"],
-        ],
-        "./bin/game_of_life.exe",
-        [["rm", "-f", "./bin/game_of_life.exe"]],
-        true
-    ),
-    new Language(
-        "F#",
-        "fsharp",
-        "fsharp",
-        {},
-        [["dotnet", "build", "--configuration", "Release"]],
-        "./bin/Release/net7.0/GameOfLife",
-        [["dotnet", "clean"]],
-        true
-    ),
-    new Language(
-        "Go",
-        "go",
-        "go",
-        {},
-        [["go", "build", "-ldflags=-s"]],
-        "./game_of_life",
-        [["rm", "-f", "./game_of_life"]],
-        true
-    ),
-    new Language(
-        "Haskell",
-        "haskell",
-        "haskell",
-        {},
-        [["ghc", "-O", "-o", "game_of_life", "main.hs", "game.hs", "board.hs"]],
-        "./game_of_life",
-        [["rm", "-f", "./game_of_life", "board.hi", "board.o", "game.hi", "game.o", "main.hi", "main.o"]],
-        true
-    ),
-    new Language(
-        "Java",
-        "java",
-        "java",
-        {},
-        [["./gradlew", "build"]],
-        ["java", "-classpath", "app/build/classes/java/main", "gameoflife.App"],
-        [["./gradlew", "clean"]],
-        true
-    ),
-    new Language(
-        "Julia",
-        "julia",
-        "julia",
-        {},
-        [],
-        ["julia", "./gameoflife.jl"],
-        [],
-        true
-    ),
-    new Language(
-        "Lua",
-        "lua",
-        "lua",
-        {},
-        [],
-        ["lua", "./game_of_life.lua"],
-        [],
-        true
-    ),
-    new Language(
-        "Nim",
-        "nim",
-        "nim",
-        {},
-        [["nim", "compile", "-d:release", "GameOfLife.nim"]],
-        "./GameOfLife",
-        [["rm", "-f", "./GameOfLife"]],
-        true
-    ),
-    new Language(
-        "Perl",
-        "perl",
-        "perl",
-        {},
-        [],
-        ["perl", "./GameOfLife.pl"],
-        [],
-        true
-    ),
-    new Language(
-        "PowerShell",
-        "powershell",
-        "powershell",
-        {},
-        [],
-        ["pwsh", "./Game-Of-Life.ps1"],
-        [],
-        false
-    ),
-    new Language(
-        "Python",
-        "python",
-        "python",
-        {},
-        [],
-        ["python", "./game_of_life.py"],
-        [],
-        true
-    ),
-    new Language(
-        "Ruby",
-        "ruby",
-        "ruby",
-        {},
-        [],
-        ["ruby", "./GameOfLife.rb"],
-        [],
-        true
-    ),
-    new Language(
-        "Rust",
-        "rust",
-        "rust",
-        {},
-        [["cargo", "build", "--release"]],
-        "./target/release/game_of_life",
-        [["cargo", "clean"]],
-        true
-    ),
-    new Language(
-        "TypeScript",
-        "typescript",
-        "typescript",
-        {},
-        [
-            ["yarn", "install"],
-            ["yarn", "run", "build"],
-        ],
-        ["node", "build/src/main.js"],
-        [["yarn", "run", "clean"]],
-        true
-    ),
-    new Language(
-        "Visual Basic",
-        "vb",
-        "vb",
-        {},
-        [["dotnet", "build", "--configuration", "Release"]],
-        "./bin/Release/net7.0/GameOfLife",
-        [["dotnet", "clean"]],
-        true
-    ),
-    new Language(
-        "Zig",
-        "zig",
-        "zig",
-        {},
-        [["zig", "build", "-Doptimize=ReleaseFast"]],
-        "./zig-out/bin/game_of_life",
-        [["rm", "-rf", "zig-out", "zig-cache"]],
-        true
-    ),
-];
+let languages = JSON.parse(fs.readFileSync('benchmark_setup.json')).languages.map(l => Object.setPrototypeOf(l, Language.prototype));
 
 for (var language of languages) {
     if (language.willRun()) {
@@ -362,13 +112,13 @@ for (var language of languages) {
     }
 
     language.setEnv();
-    if (language.buildCmd.length > 0) {
+    if (language.buildCmds.length > 0) {
         await language.build();
     }
 
     await language.run();
 
-    if (language.cleanCmd.length > 0) {
+    if (language.cleanCmds.length > 0) {
         await language.clean();
     }
     language.clearEnv();

@@ -310,8 +310,19 @@ podman run --rm game-of-life
 podman run --rm game-of-life --iterations 5 --languages c,cpp,rust
 ```
 
+> NOTE: Docker will also work
+
+## Prebuilt Container
+
+There's a prebuilt image on GitHub Container Registry since the container build is quite long, especially on low powered systems. Images will be available for x86_64 and aarch64. riscv64 will also be available once software support is available
+
+```sh
+podman pull ghcr.io/mrivnak/game-of-life:latest
+podman run --rm mrivnak/game-of-life:latest
+```
+
 ## Dev Container
 
 ![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white)
 
-Provided is a `devcontainer.json` file that will automatically setup a development environment for all of the languages in here, along with relevant extensions
+Provided is a `devcontainer.json` file that will automatically setup a development environment for all of the languages in here, along with relevant extensions and language servers
