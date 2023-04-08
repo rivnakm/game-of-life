@@ -10,17 +10,12 @@ ENV JULIA_VER=1.8.5
 ENV NIM_VER=1.6.10
 ENV PWSH_VER=7.3.2
 
-RUN echo "${TARGETARCH}"
-
-ENV PATH="$PATH:/opt/v"
-
 # Set locale
 RUN apt update && apt install -y locales
 RUN echo 'en_US.UTF-8 UTF-8' > /etc/locale.gen && locale-gen
 ENV LANG en_US.UTF-8  
 ENV LANGUAGE en_US:en  
 ENV LC_ALL en_US.UTF-8     
-
 
 # Ubuntu dependencies
 RUN apt update && apt upgrade -y
