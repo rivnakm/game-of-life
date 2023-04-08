@@ -62,6 +62,7 @@ RUN apt update && apt install -y \
 RUN if [ "$DEVEL" = "true" ]; then \
         apt install --no-install-recommends -y \
         gdb \
+        gopls \
         lldb-16; \
     fi
     
@@ -75,8 +76,8 @@ RUN if [ "$TARGETARCH" = "amd64" ]; then \
         exit 1; \
     fi
 RUN unzip -q dart-sdk.zip && \
-    cp -r dart-sdk/bin dart-sdk/lib dart-sdk/include /usr/local/ && \
-    rm -rf dart*
+    mv dart-sdk /opt/dart-sdk
+ENV PATH="$PATH:/opt/dart-sdk/bin"
 
 # Gradle
 RUN wget -nv https://services.gradle.org/distributions/gradle-${GRADLE_VER}-bin.zip -O gradle-bin.zip
