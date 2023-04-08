@@ -317,8 +317,8 @@ podman run --rm game-of-life --iterations 5 --languages c,cpp,rust
 There's a prebuilt image on GitHub Container Registry since the container build is quite long, especially on low powered systems. Images will be available for x86_64 and aarch64. riscv64 will also be available once software support is available
 
 ```sh
-podman pull ghcr.io/mrivnak/game-of-life:latest
-podman run --rm mrivnak/game-of-life:latest
+podman pull ghcr.io/mrivnak/game-of-life:main
+podman run --rm mrivnak/game-of-life:main
 ```
 
 ## Dev Container
