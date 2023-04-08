@@ -61,8 +61,10 @@ RUN apt update && apt install -y \
 
 RUN if [ "$DEVEL" = "true" ]; then \
         apt install --no-install-recommends -y \
+        delve \
         gdb \
         gopls \
+        go-staticcheck \
         lldb-16; \
     fi
     
