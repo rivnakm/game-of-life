@@ -314,6 +314,8 @@ podman run --rm game-of-life --iterations 5 --languages c,cpp,rust
 
 ## Prebuilt Container
 
+[![Container build](https://github.com/mrivnak/game-of-life/actions/workflows/publish-image.yml/badge.svg)](https://github.com/mrivnak/game-of-life/actions/workflows/publish-image.yml)
+
 There's a prebuilt image on GitHub Container Registry since the container build is quite long, especially on low powered systems. Images will be available for x86_64 and aarch64. riscv64 will also be available once software support is available
 
 ```sh
