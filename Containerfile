@@ -4,11 +4,11 @@ ARG TARGETARCH
 ARG DEVEL="false"
 
 # Versions for manually installed packages
-ENV GRADLE_VER=7.6
+ENV GRADLE_VER=8.0.2
 ENV JULIA_MAJ_VER=1.8
 ENV JULIA_VER=1.8.5
-ENV NIM_VER=1.6.10
-ENV PWSH_VER=7.3.2
+ENV NIM_VER=1.6.12
+ENV PWSH_VER=7.3.3
 ENV ZIG_VER=0.11.0-dev.2461+fde05b10b
 
 # Set locale
@@ -107,9 +107,9 @@ RUN if [ "$TARGETARCH" = "amd64" ]; then \
 
 # PowerShell
 RUN if [ "$TARGETARCH" = "amd64" ]; then \
-        wget -nv https://github.com/PowerShell/PowerShell/releases/download/v7.3.2/powershell-${PWSH_VER}-linux-x64.tar.gz -O pwsh.tar.gz; \
+        wget -nv https://github.com/PowerShell/PowerShell/releases/download/v${PWSH_VER}/powershell-${PWSH_VER}-linux-x64.tar.gz -O pwsh.tar.gz; \
     elif [ "$TARGETARCH" = "arm64" ]; then \
-        wget -nv https://github.com/PowerShell/PowerShell/releases/download/v7.3.2/powershell-${PWSH_VER}-linux-arm64.tar.gz -O pwsh.tar.gz; \
+        wget -nv https://github.com/PowerShell/PowerShell/releases/download/v${PWSH_VER}/powershell-${PWSH_VER}-linux-arm64.tar.gz -O pwsh.tar.gz; \
     else \
         echo "Unsupported arch: $TARGETARCH"; \
         exit 1; \
@@ -133,10 +133,6 @@ ENV PATH="$PATH:/root/.cargo/bin"
 RUN git clone --depth=1 https://github.com/vlang/v /opt/v
 RUN cd /opt/v && make
 ENV PATH="$PATH:/opt/v"
-
-# Yarn
-RUN npm install -g corepack
-RUN corepack enable
 
 # Zig
 RUN if [ "$TARGETARCH" = "amd64" ]; then \

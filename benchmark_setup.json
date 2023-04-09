@@ -389,11 +389,11 @@
             "env": {},
             "buildCmds": [
                 [
-                    "yarn",
+                    "npm",
                     "install"
                 ],
                 [
-                    "yarn",
+                    "npm",
                     "run",
                     "build"
                 ]

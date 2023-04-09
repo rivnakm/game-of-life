@@ -24,15 +24,17 @@ let software = [
     { name: "Nim", versionCmd: ["nim", "--version"] },
     { name: "Ninja", versionCmd: ["ninja", "--version"] },
     { name: "Node.js", versionCmd: ["node", "--version"] },
+    { name: "npm", versionCmd: ["npm", "--version"] },
     { name: "Perl", versionCmd: ["perl", "--version"] },
     { name: "PowerShell", versionCmd: ["pwsh", "--version"] },
     { name: "Python", versionCmd: ["python", "--version"] },
     { name: "Ruby", versionCmd: ["ruby", "--version"] },
     { name: "Rust", versionCmd: ["rustc", "--version"] },
     { name: "V", versionCmd: ["v", "--version"] },
-    { name: "Yarn", versionCmd: ["yarn", "--version"] },
     { name: "Zig", versionCmd: ["zig", "version"] },
 ];
+
+let success = true;
 
 for (var item of software) {
     try {
@@ -41,5 +43,10 @@ for (var item of software) {
     }
     catch {
         console.log(chalk.red(`Error: ${item.name} is not installed`))
+        success = false;
     }
+}
+
+if (!success) {
+    process.exit(1);
 }
