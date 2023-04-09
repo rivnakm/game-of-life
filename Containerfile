@@ -65,7 +65,7 @@ ENV PATH="$PATH:/opt/dart-sdk/bin"
 
 # Gradle
 RUN wget -nv https://services.gradle.org/distributions/gradle-${GRADLE_VER}-bin.zip -O gradle-bin.zip
-RUN unzip -q gradle-bin.zip && cp -r gradle-${GRADLE_VER}/bin gradle-${GRADLE_VER}/lib /usr/local/bin/ && rm -rf gradle*
+RUN unzip -q gradle-bin.zip && cp -r gradle-${GRADLE_VER}/bin gradle-${GRADLE_VER}/lib /usr/local/ && rm -rf gradle*
 
 # Julia
 RUN if [ "$TARGETARCH" = "amd64" ]; then \
