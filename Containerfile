@@ -9,6 +9,7 @@ ENV JULIA_MAJ_VER=1.8
 ENV JULIA_VER=1.8.5
 ENV NIM_VER=1.6.10
 ENV PWSH_VER=7.3.2
+ENV ZIG_VER=0.11.0-dev.2461+fde05b10b
 
 # Set locale
 RUN apt update && apt install -y locales
@@ -22,8 +23,6 @@ RUN apt update && apt upgrade -y
 RUN apt install --no-install-recommends -y \
     apt-transport-https \
     build-essential \
-    ca-certificates \
-    cmake \
     curl \
     gdc \
     git \
@@ -42,30 +41,13 @@ RUN apt install --no-install-recommends -y \
     unzip \
     wget
 
-# LLVM Dependencies for Zig
-RUN echo '\ndeb http://apt.llvm.org/kinetic/ llvm-toolchain-kinetic-16 main' >> /etc/apt/sources.list
-RUN wget -nv https://apt.llvm.org/llvm-snapshot.gpg.key -O /etc/apt/trusted.gpg.d/apt.llvm.org.asc
-RUN apt update && apt install -y \
-    clang-16 \
-    libclang-common-16-dev \
-    libclang-16-dev \
-    libclang1-16 \
-    libllvm16 \
-    llvm-16 \
-    llvm-16-dev \
-    llvm-16-runtime \
-    lld-16 \
-    liblld-16 \
-    liblld-16-dev \
-    libz-dev
-
 RUN if [ "$DEVEL" = "true" ]; then \
         apt install --no-install-recommends -y \
         delve \
         gdb \
         gopls \
         go-staticcheck \
-        lldb-16; \
+        lldb; \
     fi
     
 # Dart SDK
@@ -157,18 +139,26 @@ RUN npm install -g corepack
 RUN corepack enable
 
 # Zig
-RUN git clone --depth=1 https://github.com/ziglang/zig && \
-    cd zig && \
-    mkdir build && cd build && \
-    cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local .. && \
-    make install && \
-    cd ../.. && rm -rf zig
+RUN if [ "$TARGETARCH" = "amd64" ]; then \
+        wget -nv https://ziglang.org/builds/zig-linux-x86_64-${ZIG_VER}.tar.xz -O zig.tar.xz; \
+    elif [ "$TARGETARCH" = "arm64" ]; then \
+        wget -nv https://ziglang.org/builds/zig-linux-aarch64-${ZIG_VER}.tar.xz -O zig.tar.xz; \
+    else \
+        echo "Unsupported arch: $TARGETARCH"; \
+        exit 1; \
+    fi
+RUN tar xf zig.tar.xz && \
+    mv zig-*-${ZIG_VER} zig-${ZIG_VER} && \
+    cp -r zig-${ZIG_VER}/zig /usr/local/bin/ && \
+    cp -r zig-${ZIG_VER}/lib /usr/local/ && \
+    rm -rf zig*
 
 # ZLS
 RUN if [ "$DEVEL" = "true" ]; then \
         git clone --depth=1 https://github.com/zigtools/zls && \
         cd zls && \
         zig build -Doptimize=ReleaseSafe && \
+        cp zig-out/bin/zls /usr/local/bin && \
         cd .. && rm -rf zls; \
     fi
 

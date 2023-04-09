@@ -50,7 +50,8 @@
 				"rust-lang.rust-analyzer",
 				"be5invis.toml",
 				"wingrunr21.vscode-ruby",
-				"ziglang.vscode-zig"
+				"ziglang.vscode-zig",
+				"vlanguage.vscode-vlang"
 			]
 		}
 	}
