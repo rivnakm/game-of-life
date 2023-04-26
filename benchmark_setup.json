@@ -404,7 +404,7 @@
             ],
             "cleanCmds": [
                 [
-                    "yarn",
+                    "npm",
                     "run",
                     "clean"
                 ]
