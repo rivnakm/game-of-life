@@ -1,15 +1,15 @@
-FROM ubuntu:kinetic
+FROM ubuntu:lunar
 
 ARG TARGETARCH
 ARG DEVEL="false"
 
 # Versions for manually installed packages
-ENV GRADLE_VER=8.0.2
+ENV GRADLE_VER=8.1.1
 ENV JULIA_MAJ_VER=1.8
 ENV JULIA_VER=1.8.5
 ENV NIM_VER=1.6.12
-ENV PWSH_VER=7.3.3
-ENV ZIG_VER=0.11.0-dev.2461+fde05b10b
+ENV PWSH_VER=7.3.4
+ENV ZIG_VER=0.11.0-dev.2777+b95cdf0ae
 
 # Set locale
 RUN apt update && apt install -y locales
@@ -59,8 +59,8 @@ RUN if [ "$TARGETARCH" = "amd64" ]; then \
         echo "Unsupported arch: $TARGETARCH"; \
         exit 1; \
     fi
-RUN unzip -q dart-sdk.zip && \
-    mv dart-sdk /opt/dart-sdk
+RUN unzip -q dart-sdk.zip
+RUN mv dart-sdk /opt/dart-sdk
 ENV PATH="$PATH:/opt/dart-sdk/bin"
 
 # Gradle
@@ -76,34 +76,33 @@ RUN if [ "$TARGETARCH" = "amd64" ]; then \
         echo "Unsupported arch: $TARGETARCH"; \
         exit 1; \
     fi
-RUN tar -xzf julia.tar.gz && \
-    cp -r julia-${JULIA_VER}/bin julia-${JULIA_VER}/lib julia-${JULIA_VER}/libexec julia-${JULIA_VER}/include julia-${JULIA_VER}/share /usr/local/ && \
-    cp -r julia-${JULIA_VER}/etc / && \
-    rm -rf julia*
+RUN tar -xzf julia.tar.gz
+RUN cp -r julia-${JULIA_VER}/bin julia-${JULIA_VER}/lib julia-${JULIA_VER}/libexec julia-${JULIA_VER}/include julia-${JULIA_VER}/share /usr/local/
+RUN cp -r julia-${JULIA_VER}/etc /
+RUN rm -rf julia*
 
 # .NET SDK 7.0
-RUN wget https://packages.microsoft.com/config/ubuntu/22.10/packages-microsoft-prod.deb -O packages-microsoft-prod.deb && \
-    dpkg -i packages-microsoft-prod.deb && \
-    rm packages-microsoft-prod.deb && \
-    apt update && apt install -y dotnet-sdk-7.0
+RUN wget https://packages.microsoft.com/config/ubuntu/22.10/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+RUN dpkg -i packages-microsoft-prod.deb
+RUN rm packages-microsoft-prod.deb
+RUN apt update && apt install -y dotnet-sdk-7.0
 
 # Nim
 RUN if [ "$TARGETARCH" = "amd64" ]; then \
         wget -nv https://nim-lang.org/download/nim-${NIM_VER}-linux_x64.tar.xz -O nim.tar.xz; \
-        tar xf nim.tar.zx; \
+    else \
+        wget  -nv https://nim-lang.org/download/nim-${NIM_VER}.tar.xz -O nim.tar.xz; \
+    fi
+RUN tar -xf nim.tar.xz
+RUN if [ "$TARGETARCH" = "amd64" ]; then \
         cd nim-${NIM_VER}; \
         sh ./install.sh /usr/local/bin; \
-        cd ..; \
-        rm -rf nim*; \
     else \
-        wget  -nv https://nim-lang.org/download/nim-${NIM_VER}.tar.xz -O nim-src.tar.xz; \
-        tar xf nim-src.tar.xz; \
         cd nim-${NIM_VER}; \
         sh ./build.sh; \
         sh ./install.sh /usr/local/bin; \
-        cd ..; \
-        rm -rf nim*; \
     fi
+RUN rm -rf nim*
 
 # PowerShell
 RUN if [ "$TARGETARCH" = "amd64" ]; then \
@@ -114,11 +113,11 @@ RUN if [ "$TARGETARCH" = "amd64" ]; then \
         echo "Unsupported arch: $TARGETARCH"; \
         exit 1; \
     fi
-RUN mkdir -p /opt/microsoft/powershell/7 && \
-    tar -xf pwsh.tar.gz -C /opt/microsoft/powershell/7 && \
-    chmod +x /opt/microsoft/powershell/7/pwsh && \
-    ln -s /opt/microsoft/powershell/7/pwsh /usr/local/bin/pwsh && \
-    rm -rf pwsh*
+RUN mkdir -p /opt/microsoft/powershell/7
+RUN tar -xf pwsh.tar.gz -C /opt/microsoft/powershell/7
+RUN chmod +x /opt/microsoft/powershell/7/pwsh
+RUN ln -s /opt/microsoft/powershell/7/pwsh /usr/local/bin/pwsh
+RUN rm -rf pwsh*
 
 # Rustup
 RUN if [ "$DEVEL" = "true" ]; then \
@@ -143,20 +142,21 @@ RUN if [ "$TARGETARCH" = "amd64" ]; then \
         echo "Unsupported arch: $TARGETARCH"; \
         exit 1; \
     fi
-RUN tar xf zig.tar.xz && \
-    mv zig-*-${ZIG_VER} zig-${ZIG_VER} && \
-    cp -r zig-${ZIG_VER}/zig /usr/local/bin/ && \
-    cp -r zig-${ZIG_VER}/lib /usr/local/ && \
-    rm -rf zig*
+RUN tar xf zig.tar.xz
+RUN mv zig-*-${ZIG_VER} zig-${ZIG_VER}
+RUN cp -r zig-${ZIG_VER}/zig /usr/local/bin/
+RUN cp -r zig-${ZIG_VER}/lib /usr/local/
+RUN rm -rf zig*
 
 # ZLS
-RUN if [ "$DEVEL" = "true" ]; then \
-        git clone --depth=1 https://github.com/zigtools/zls && \
-        cd zls && \
-        zig build -Doptimize=ReleaseSafe && \
-        cp zig-out/bin/zls /usr/local/bin && \
-        cd .. && rm -rf zls; \
-    fi
+# currently broken
+# RUN if [ "$DEVEL" = "true" ]; then \
+#         git clone --depth=1 https://github.com/zigtools/zls; \
+#         cd zls; \
+#         zig build -Doptimize=ReleaseSafe; \
+#         cp zig-out/bin/zls /usr/local/bin; \
+#     fi
+# RUN rm -rf zls
 
 # Zx
 RUN npm install -g zx
