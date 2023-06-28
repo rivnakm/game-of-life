@@ -1,0 +1,460 @@
+{
+    "languages": [
+        {
+            "properName": "Ada",
+            "shortName": "ada",
+            "dir": "ada",
+            "env": {},
+            "buildCmds": [
+                [
+                    "gnatmake",
+                    "-O3",
+                    "src/game_of_life.adb"
+                ]
+            ],
+            "runCmd": "./game_of_life",
+            "cleanCmds": [
+                "gnatclean"
+            ],
+            "enabled": true
+        },
+        {
+            "properName": "Bash",
+            "shortName": "bash",
+            "dir": "bash",
+            "env": {},
+            "buildCmds": [],
+            "runCmd": [
+                "bash",
+                "./game_of_life.sh"
+            ],
+            "cleanCmds": [],
+            "enabled": false
+        },
+        {
+            "properName": "C",
+            "shortName": "c",
+            "dir": "c",
+            "env": {
+                "CFLAGS": "-O3"
+            },
+            "buildCmds": [
+                "make"
+            ],
+            "runCmd": "./game_of_life",
+            "cleanCmds": [
+                [
+                    "make",
+                    "clean"
+                ]
+            ],
+            "enabled": true
+        },
+        {
+            "properName": "C++",
+            "shortName": "cpp",
+            "dir": "cpp",
+            "env": {},
+            "buildCmds": [
+                [
+                    "meson",
+                    "setup",
+                    "build"
+                ],
+                [
+                    "meson",
+                    "setup",
+                    "--reconfigure",
+                    "build"
+                ],
+                [
+                    "meson",
+                    "configure",
+                    "-Dbuildtype=release",
+                    "build"
+                ],
+                [
+                    "ninja",
+                    "-C",
+                    "build"
+                ]
+            ],
+            "runCmd": "./build/game_of_life",
+            "cleanCmds": [
+                [
+                    "ninja",
+                    "-C",
+                    "build",
+                    "clean"
+                ]
+            ],
+            "enabled": true
+        },
+        {
+            "properName": "C#",
+            "shortName": "csharp",
+            "dir": "csharp",
+            "env": {},
+            "buildCmds": [
+                [
+                    "dotnet",
+                    "build",
+                    "--configuration",
+                    "Release"
+                ]
+            ],
+            "runCmd": "./bin/Release/net7.0/GameOfLife",
+            "cleanCmds": [
+                [
+                    "dotnet",
+                    "clean"
+                ]
+            ],
+            "enabled": true
+        },
+        {
+            "properName": "D",
+            "shortName": "d",
+            "dir": "d",
+            "env": {
+                "DFLAGS": "-O3"
+            },
+            "buildCmds": [
+                "make"
+            ],
+            "runCmd": "./game_of_life",
+            "cleanCmds": [
+                [
+                    "make",
+                    "clean"
+                ]
+            ],
+            "enabled": true
+        },
+        {
+            "properName": "Dart",
+            "shortName": "dart",
+            "dir": "dart",
+            "env": {},
+            "buildCmds": [
+                [
+                    "dart",
+                    "pub",
+                    "get"
+                ],
+                [
+                    "dart",
+                    "compile",
+                    "exe",
+                    "bin/game_of_life.dart"
+                ]
+            ],
+            "runCmd": "./bin/game_of_life.exe",
+            "cleanCmds": [
+                [
+                    "rm",
+                    "-f",
+                    "./bin/game_of_life.exe"
+                ]
+            ],
+            "enabled": true
+        },
+        {
+            "properName": "F#",
+            "shortName": "fsharp",
+            "dir": "fsharp",
+            "env": {},
+            "buildCmds": [
+                [
+                    "dotnet",
+                    "build",
+                    "--configuration",
+                    "Release"
+                ]
+            ],
+            "runCmd": "./bin/Release/net7.0/GameOfLife",
+            "cleanCmds": [
+                [
+                    "dotnet",
+                    "clean"
+                ]
+            ],
+            "enabled": true
+        },
+        {
+            "properName": "Go",
+            "shortName": "go",
+            "dir": "go",
+            "env": {},
+            "buildCmds": [
+                [
+                    "go",
+                    "build",
+                    "-ldflags=-s"
+                ]
+            ],
+            "runCmd": "./game_of_life",
+            "cleanCmds": [
+                [
+                    "rm",
+                    "-f",
+                    "./game_of_life"
+                ]
+            ],
+            "enabled": true
+        },
+        {
+            "properName": "Haskell",
+            "shortName": "haskell",
+            "dir": "haskell",
+            "env": {},
+            "buildCmds": [
+                [
+                    "ghc",
+                    "-O",
+                    "-o",
+                    "game_of_life",
+                    "main.hs",
+                    "game.hs",
+                    "board.hs"
+                ]
+            ],
+            "runCmd": "./game_of_life",
+            "cleanCmds": [
+                [
+                    "rm",
+                    "-f",
+                    "./game_of_life",
+                    "board.hi",
+                    "board.o",
+                    "game.hi",
+                    "game.o",
+                    "main.hi",
+                    "main.o"
+                ]
+            ],
+            "enabled": true
+        },
+        {
+            "properName": "Java",
+            "shortName": "java",
+            "dir": "java",
+            "env": {},
+            "buildCmds": [
+                [
+                    "./gradlew",
+                    "build"
+                ]
+            ],
+            "runCmd": [
+                "java",
+                "-classpath",
+                "app/build/classes/java/main",
+                "gameoflife.App"
+            ],
+            "cleanCmds": [
+                [
+                    "./gradlew",
+                    "clean"
+                ]
+            ],
+            "enabled": true
+        },
+        {
+            "properName": "Julia",
+            "shortName": "julia",
+            "dir": "julia",
+            "env": {},
+            "buildCmds": [],
+            "runCmd": [
+                "julia",
+                "./gameoflife.jl"
+            ],
+            "cleanCmds": [],
+            "enabled": true
+        },
+        {
+            "properName": "Lua",
+            "shortName": "lua",
+            "dir": "lua",
+            "env": {},
+            "buildCmds": [],
+            "runCmd": [
+                "lua",
+                "./game_of_life.lua"
+            ],
+            "cleanCmds": [],
+            "enabled": true
+        },
+        {
+            "properName": "Nim",
+            "shortName": "nim",
+            "dir": "nim",
+            "env": {},
+            "buildCmds": [
+                [
+                    "nim",
+                    "compile",
+                    "-d:release",
+                    "GameOfLife.nim"
+                ]
+            ],
+            "runCmd": "./GameOfLife",
+            "cleanCmds": [
+                [
+                    "rm",
+                    "-f",
+                    "./GameOfLife"
+                ]
+            ],
+            "enabled": true
+        },
+        {
+            "properName": "Perl",
+            "shortName": "perl",
+            "dir": "perl",
+            "env": {},
+            "buildCmds": [],
+            "runCmd": [
+                "perl",
+                "./GameOfLife.pl"
+            ],
+            "cleanCmds": [],
+            "enabled": true
+        },
+        {
+            "properName": "PowerShell",
+            "shortName": "powershell",
+            "dir": "powershell",
+            "env": {},
+            "buildCmds": [],
+            "runCmd": [
+                "pwsh",
+                "./Game-Of-Life.ps1"
+            ],
+            "cleanCmds": [],
+            "enabled": false
+        },
+        {
+            "properName": "Python",
+            "shortName": "python",
+            "dir": "python",
+            "env": {},
+            "buildCmds": [],
+            "runCmd": [
+                "python",
+                "./game_of_life.py"
+            ],
+            "cleanCmds": [],
+            "enabled": true
+        },
+        {
+            "properName": "Ruby",
+            "shortName": "ruby",
+            "dir": "ruby",
+            "env": {},
+            "buildCmds": [],
+            "runCmd": [
+                "ruby",
+                "./GameOfLife.rb"
+            ],
+            "cleanCmds": [],
+            "enabled": true
+        },
+        {
+            "properName": "Rust",
+            "shortName": "rust",
+            "dir": "rust",
+            "env": {},
+            "buildCmds": [
+                [
+                    "cargo",
+                    "build",
+                    "--release"
+                ]
+            ],
+            "runCmd": "./target/release/game_of_life",
+            "cleanCmds": [
+                [
+                    "cargo",
+                    "clean"
+                ]
+            ],
+            "enabled": true
+        },
+        {
+            "properName": "TypeScript",
+            "shortName": "typescript",
+            "dir": "typescript",
+            "env": {},
+            "buildCmds": [
+                [
+                    "npm",
+                    "install"
+                ],
+                [
+                    "npm",
+                    "run",
+                    "build"
+                ]
+            ],
+            "runCmd": [
+                "node",
+                "build/src/main.js"
+            ],
+            "cleanCmds": [
+                [
+                    "npm",
+                    "run",
+                    "clean"
+                ]
+            ],
+            "enabled": true
+        },
+        {
+            "properName": "Visual Basic",
+            "shortName": "vb",
+            "dir": "vb",
+            "env": {},
+            "buildCmds": [
+                [
+                    "dotnet",
+                    "build",
+                    "--configuration",
+                    "Release"
+                ]
+            ],
+            "runCmd": "./bin/Release/net7.0/GameOfLife",
+            "cleanCmds": [
+                [
+                    "dotnet",
+                    "clean"
+                ]
+            ],
+            "enabled": true
+        },
+        {
+            "properName": "Zig",
+            "shortName": "zig",
+            "dir": "zig",
+            "env": {},
+            "buildCmds": [
+                [
+                    "zig",
+                    "build",
+                    "-Doptimize=ReleaseFast"
+                ]
+            ],
+            "runCmd": "./zig-out/bin/game_of_life",
+            "cleanCmds": [
+                [
+                    "rm",
+                    "-rf",
+                    "zig-out",
+                    "zig-cache"
+                ]
+            ],
+            "enabled": true
+        }
+    ]
+}

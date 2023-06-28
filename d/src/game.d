@@ -1,10 +1,13 @@
-#include <iostream>
+module game;
 
-#include "board.hpp"
-#include "game.hpp"
+import std.container;
+import std.random;
+import std.stdio;
 
-void nextGen(Board &board) {
-    Board boardClone = board;
+import board;
+
+static void nextGen(ref Board board) {
+    auto boardClone = board.dup();
 
     for (int i = 0; i < board.height; i++) {
         for (int j = 0; j < board.width; j++) {
@@ -40,12 +43,19 @@ void nextGen(Board &board) {
     }
 }
 
-void runGame(int height, int width, int generations) {
-    Board board = Board(height, width);
+static void runGame(int height, int width, int generations) {
+    immutable int size = height*width;
+    bool[] cells = new bool[size];
+
+    for (int i = 0; i < height*width; i++) {
+        cells[i] = dice(50, 50) == 1;
+    }
+
+    auto board = new Board(height, width, cells);
 
     for (int i = 0; i < generations; i++) {
         board.draw();
-        std::cout << "\x1b[" << board.height << "A";
+        writef("\x1b[%dA", board.height);
         nextGen(board);
     }
 }

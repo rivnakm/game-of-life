@@ -1,0 +1,58 @@
+{
+	"build": {
+		// Path is relataive to the devcontainer.json file.
+		"dockerfile": "../Containerfile",
+		"args": {
+			"DEVEL": "true"
+		}
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"jeff-hykin.better-dockerfile-syntax",
+				"jeff-hykin.better-shellscript-syntax",
+				"jeff-hykin.better-c-syntax",
+				"jeff-hykin.better-cpp-syntax",
+				"jeff-hykin.better-go-syntax",
+				"jeff-hykin.better-js-syntax",
+				"ms-vscode.cpptools",
+				"ms-vscode.cpptools-extension-pack",
+				"ms-vscode.cpptools-themes",
+				"ms-dotnettools.csharp",
+				"vadimcn.vscode-lldb",
+				"webfreak.code-d",
+				"Dart-Code.dart-code",
+				"vscjava.vscode-java-debug",
+				"ms-azuretools.vscode-docker",
+				"EditorConfig.EditorConfig",
+				"dbaeumer.vscode-eslint",
+				"tamasfe.even-better-toml",
+				"vscjava.vscode-java-pack",
+				"donjayamanne.git-extension-pack",
+				"golang.go",
+				"vscjava.vscode-gradle",
+				"haskell.haskell",
+				"phoityne.phoityne-vscode",
+				"justusadam.language-haskell",
+				"Ionide.Ionide-fsharp",
+				"redhat.java",
+				"mesonbuild.mesonbuild",
+				"webfreak.debug",
+				"kosz78.nim",
+				"christian-kohler.npm-intellisense",
+				"richterger.perl",
+				"ms-vscode.powershell",
+				"esbenp.prettier-vscode",
+				"vscjava.vscode-java-dependency",
+				"ms-python.vscode-pylance",
+				"ms-python.python",
+				"rebornix.ruby",
+				"rust-lang.rust-analyzer",
+				"be5invis.toml",
+				"wingrunr21.vscode-ruby",
+				"ziglang.vscode-zig",
+				"vlanguage.vscode-vlang"
+			]
+		}
+	}
+}

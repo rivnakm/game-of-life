@@ -4,7 +4,6 @@ open GameOfLife.Game
 
 [<EntryPoint>]
 let main argv =
-    printfn "Hello World!"
     let generations = 500
     let height = 50
     let width = 100
