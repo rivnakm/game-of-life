@@ -70,8 +70,8 @@ pub fn run_game(height: usize, width: usize, generations: u32) {
 
     for _ in 0..generations {
         next_gen(&mut screen);
-        // let _ = writer.write_all(clear);
-        // screen.draw(&mut writer);
+        let _ = writer.write_all(clear);
+        screen.draw(&mut writer);
     }
 }
 
@@ -121,13 +121,14 @@ struct Screen {
     cells2: Vec<bool>,
 }
 
+use crate::constant::LOOKUP;
 impl Screen {
     fn new(width: usize, height: usize) -> Self {
         let size = width * height;
         let mut rng = rand::thread_rng();
-        let mut cells: Vec<bool> = (0..size).map(|_| rng.gen()).collect();
+        let cells: Vec<bool> = (0..size).map(|_| rng.gen()).collect();
 
-        let mut cells2 = cells.clone();
+        let cells2 = cells.clone();
         Self {
             width,
             height,
@@ -135,20 +136,44 @@ impl Screen {
             cells2,
         }
     }
+
+    #[inline(always)]
+    fn write_line<W: Write>(mut writer: W, slice: &[bool]) -> io::Result<()> {
+        let mut chunks = slice.chunks_exact(8);
+        while let Some(chunk) = chunks.next() {
+            let val: u8 = chunk
+                .into_iter()
+                .enumerate()
+                .map(|(idx, &b)| (b as u8) << idx)
+                .sum();
+            let pattern = LOOKUP[val as usize];
+            writer.write_all(pattern)?;
+        }
+        for &cell in chunks.remainder() {
+            writer.write_all(
+                [b"  ".as_slice(), b"\xE2\x96\x88\xE2\x96\x88".as_slice()][cell as usize],
+            )?;
+        }
+        Ok(())
+    }
     #[inline]
-    fn draw<T: Write>(&self, writer: &mut BufWriter<T>) {
-        for i in 0..self.height {
-            for j in 0..self.width {
-                let _ = writer.write_all(
-                    if unsafe { *self.cells.get_unchecked(i * self.width + j) } {
-                        b"\xE2\x96\x88\xE2\x96\x88"
-                    } else {
-                        b"  "
-                    },
-                );
-            }
+    fn draw<W: Write>(&self, mut writer: W) {
+        for line in self.cells.chunks_exact(self.width) {
+            let _ = Self::write_line(&mut writer, line);
             let _ = writer.write_all(b"\n");
         }
+        // for i in 0..self.height {
+        //     for j in 0..self.width {
+        //         let _ = writer.write_all(
+        //             if unsafe { *self.cells.get_unchecked(i * self.width + j) } {
+        //                 b"\xE2\x96\x88\xE2\x96\x88"
+        //             } else {
+        //                 b"  "
+        //             },
+        //         );
+        //     }
+        //     let _ = writer.write_all(b"\n");
+        // }
         let _ = writer.flush();
     }
 }
