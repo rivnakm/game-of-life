@@ -1,6 +1,5 @@
 use std::io::{self, BufWriter, Write};
-
-use rand::Rng;
+use rand::{rngs::SmallRng, Rng, SeedableRng};
 
 #[inline(always)]
 const fn num_length(num: usize) -> usize {
@@ -69,48 +68,11 @@ pub fn run_game(height: usize, width: usize, generations: u32) {
     // screen.draw(&mut writer);
 
     for _ in 0..generations {
-        next_gen(&mut screen);
+        screen.next_gen();
         let _ = writer.write_all(clear);
         screen.draw(&mut writer);
     }
-}
-
-#[allow(clippy::manual_range_contains)]
-fn next_gen(screen: &mut Screen) {
-    for i in 0..screen.height {
-        for j in 0..screen.width {
-            let cell = get_cell(&screen.cells, i, j, screen.height, screen.width);
-            let mut adjacent: u8 = 0;
-
-            for n in 0..3 {
-                for m in 0..3 {
-                    // avoid unsigned int overflow and ignore center cell
-                    if (n == 0 && i == 0) | (m == 0 && j == 0) || (n == 1 && m == 1) {
-                        continue;
-                    }
-
-                    if get_cell(
-                        &screen.cells,
-                        i + n - 1,
-                        j + m - 1,
-                        screen.height,
-                        screen.width,
-                    ) {
-                        adjacent += 1;
-                    }
-                }
-            }
-
-            let x = unsafe { screen.cells2.get_unchecked_mut(i * screen.width + j) };
-            *x = (adjacent == 3) | (cell && adjacent == 2);
-        }
-    }
     std::mem::swap(&mut screen.cells, &mut screen.cells2)
-}
-
-#[inline(always)]
-fn get_cell(cells: &[bool], row: usize, col: usize, height: usize, width: usize) -> bool {
-    (row < height) & (col < width) && unsafe { *cells.get_unchecked(row * width + col) }
 }
 
 #[non_exhaustive]
@@ -125,7 +87,7 @@ use crate::constant::LOOKUP;
 impl Screen {
     fn new(width: usize, height: usize) -> Self {
         let size = width * height;
-        let mut rng = rand::thread_rng();
+        let mut rng = SmallRng::from_entropy();
         let cells: Vec<bool> = (0..size).map(|_| rng.gen()).collect();
 
         let cells2 = cells.clone();
@@ -135,6 +97,34 @@ impl Screen {
             cells,
             cells2,
         }
+        Ok(())
+    }
+
+    #[allow(clippy::manual_range_contains)]
+    fn next_gen(&mut self) {
+        for i in 0..self.height {
+            for j in 0..self.width {
+                let cell = self.get_cell(i, j);
+                let mut adjacent: u8 = 0;
+
+                for n in 0..3 {
+                    for m in 0..3 {
+                        // avoid unsigned int overflow and ignore center cell
+                        if (n == 0 && i == 0) | (m == 0 && j == 0) || (n == 1 && m == 1) {
+                            continue;
+                        }
+
+                        if self.get_cell(i + n - 1, j + m - 1) {
+                            adjacent += 1;
+                        }
+                    }
+                }
+
+                let x = unsafe { self.cells2.get_unchecked_mut(i * self.width + j) };
+                *x = (adjacent == 3) | (cell && adjacent == 2);
+            }
+        }
+        std::mem::swap(&mut self.cells, &mut self.cells2)
     }
 
     #[inline(always)]
@@ -155,6 +145,11 @@ impl Screen {
             )?;
         }
         Ok(())
+    }
+    #[inline(always)]
+    fn get_cell(&self, row: usize, col: usize) -> bool {
+        (row < self.height) & (col < self.width)
+            && unsafe { *self.cells.get_unchecked(row * self.width + col) }
     }
     #[inline]
     fn draw<W: Write>(&self, mut writer: W) {

@@ -12,4 +12,4 @@ panic = "abort"
 
 
 [dependencies]
-rand = "0.8.5"
+rand = { version = "0.8.5", features = ["simd_support", "small_rng"] }
