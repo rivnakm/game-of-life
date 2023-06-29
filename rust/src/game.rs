@@ -1,5 +1,4 @@
 use std::io::{self, BufWriter, Write};
-
 use rand::{rngs::SmallRng, Rng, SeedableRng};
 
 #[inline(always)]
@@ -73,6 +72,7 @@ pub fn run_game(height: usize, width: usize, generations: u32) {
         let _ = writer.write_all(clear);
         screen.draw(&mut writer);
     }
+    std::mem::swap(&mut screen.cells, &mut screen.cells2)
 }
 
 #[non_exhaustive]
@@ -97,6 +97,7 @@ impl Screen {
             cells,
             cells2,
         }
+        Ok(())
     }
 
     #[allow(clippy::manual_range_contains)]

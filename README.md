@@ -1,8 +1,10 @@
-# Conway's Game of Life
+# Conway's Game of Life [Community]
 
 ## Introduction
 
-### Conway's Game of Life in an many programming languages as I can figure out
+Conway's Game of Life in an many programming languages as possible, community branch. This branch is focused on performance and optimization.
+I don't know all the nuances of all of these languages, and optimization wasn't my goal initially. Feel free to open a PR if you can add some
+optimizations/improvements to any of the implementations
 
 ![Ada](https://img.shields.io/badge/ada-%230000AA.svg?style=for-the-badge)
 ![Bash](https://img.shields.io/badge/bash-%23121011.svg?style=for-the-badge&logo=gnu-bash&logoColor=white)
