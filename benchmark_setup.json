@@ -32,11 +32,31 @@
             "enabled": false
         },
         {
-            "properName": "C",
+            "properName": "C (gcc)",
             "shortName": "c",
             "dir": "c",
             "env": {
                 "CFLAGS": "-O3"
+            },
+            "buildCmds": [
+                "make"
+            ],
+            "runCmd": "./game_of_life",
+            "cleanCmds": [
+                [
+                    "make",
+                    "clean"
+                ]
+            ],
+            "enabled": true
+        },
+        {
+            "properName": "C (clang)",
+            "shortName": "c",
+            "dir": "c",
+            "env": {
+                "CFLAGS": "-O3",
+                "CC": "clang"
             },
             "buildCmds": [
                 "make"
@@ -383,7 +403,7 @@
             "enabled": true
         },
         {
-            "properName": "TypeScript",
+            "properName": "TypeScript (Node.js)",
             "shortName": "typescript",
             "dir": "typescript",
             "env": {},
@@ -407,9 +427,73 @@
                     "npm",
                     "run",
                     "clean"
+                ],
+                [
+                    "rm",
+                    "-rf",
+                    "build",
+                    "node_modules"
                 ]
             ],
             "enabled": true
+        },
+        {
+            "properName": "TypeScript (Bun)",
+            "shortName": "typescript_bun",
+            "dir": "typescript",
+            "env": {},
+            "buildCmds": [
+                [
+                    "bun",
+                    "install"
+                ],
+                [
+                    "bun",
+                    "run",
+                    "build"
+                ]
+            ],
+            "runCmd": [
+                "bun",
+                "build/src/main.js"
+            ],
+            "cleanCmds": [
+                [
+                    "bun",
+                    "run",
+                    "clean"
+                ],
+                [
+                    "rm",
+                    "-rf",
+                    "build",
+                    "node_modules"
+                ]
+            ],
+            "enabled": true
+        },
+        {
+            "properName": "V",
+            "shortName": "v",
+            "dir": "v",
+            "env": {},
+            "buildCmds": [
+                [
+                    "v",
+                    ".",
+                    "-cg",
+                    "-prod"
+                ]
+            ],
+            "runCmd": "./v",
+            "cleanCmds": [
+                [
+                    "rm",
+                    "-f",
+                    "v"
+                ]
+            ],
+            "enabled": false
         },
         {
             "properName": "Visual Basic",
