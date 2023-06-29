@@ -1,3 +1,4 @@
+mod constant;
 mod game;
 
 fn main() {
