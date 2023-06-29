@@ -35,7 +35,7 @@ class Language {
             cd(this.dir);
             for (var cmd of this.buildCmds) {
                 await spinner(
-                    `Building ${this.properName} ...`,
+                    `Building ${this.properName} A ...`,
                     () => $`${cmd}`
                 );
             }
@@ -48,7 +48,7 @@ class Language {
             cd(this.dir);
             for (var cmd of this.buildCmds) {
                 await spinner(
-                    `Building ${this.properName} ...`,
+                    `Building ${this.properName} B ...`,
                     () => $`${cmd}`
                 );
             }
@@ -62,24 +62,6 @@ class Language {
     async run() {
         if (this.willRun()) {
             cd(this.dir);
-            if (this.old_results == null) {
-                this.old_results = [];
-            }
-            for (var i = 1; i <= iterations; i++) {
-                this.old_results.push(
-                    await time(
-                        this.runCmd,
-                        `Running ${this.properName} A (${i}/${iterations}) ...`
-                    )
-                );
-            }
-            console.log(
-                `    Running ${this.properName} ` + chalk.green("DONE")
-            );
-            cd(base_dir);
-
-            cd("test");
-            cd(this.dir);
             if (this.new_results == null) {
                 this.new_results = [];
             }
@@ -87,12 +69,30 @@ class Language {
                 this.new_results.push(
                     await time(
                         this.runCmd,
+                        `Running ${this.properName} A (${i}/${iterations}) ...`
+                    )
+                );
+            }
+            console.log(
+                `    Running ${this.properName} A ` + chalk.green("DONE")
+            );
+            cd(base_dir);
+
+            cd("test");
+            cd(this.dir);
+            if (this.old_results == null) {
+                this.old_results = [];
+            }
+            for (var i = 1; i <= iterations; i++) {
+                this.old_results.push(
+                    await time(
+                        this.runCmd,
                         `Running ${this.properName} B (${i}/${iterations}) ...`
                     )
                 );
             }
             console.log(
-                `    Running ${this.properName} ` + chalk.green("DONE")
+                `    Running ${this.properName} B ` + chalk.green("DONE")
             );
             cd(base_dir);
         }
@@ -103,7 +103,7 @@ class Language {
             cd(this.dir);
             for (var cmd of this.cleanCmds) {
                 await spinner(
-                    `Cleaning up ${this.properName} ...`,
+                    `Cleaning up ${this.properName} A ...`,
                     () => $`${cmd}`
                 );
             }
@@ -116,7 +116,7 @@ class Language {
             cd(this.dir);
             for (var cmd of this.cleanCmds) {
                 await spinner(
-                    `Cleaning up ${this.properName} ...`,
+                    `Cleaning up ${this.properName} B ...`,
                     () => $`${cmd}`
                 );
             }
