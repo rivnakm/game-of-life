@@ -2,12 +2,9 @@ use std::io::{self, Write};
 
 use rand::Rng;
 
+#[inline(always)]
 pub fn run_game<const HEIGHT: usize, const WIDTH: usize, const GENERATIONS: u32>() {
-    let mut screen = Screen::<WIDTH, HEIGHT>::new();
-
     let size = WIDTH * HEIGHT;
-
-    let mut stdout = io::stdout().lock();
 
     let mut buf = format!("\x1b[{}A", HEIGHT + 1).into_bytes();
     let clear_len = buf.len();
@@ -15,9 +12,11 @@ pub fn run_game<const HEIGHT: usize, const WIDTH: usize, const GENERATIONS: u32>
         // Space for all cells
         size * 6
         // Space for newlines
-        + HEIGHT, // Bytes for the clear sequence
+        + HEIGHT,
     );
 
+    let mut screen = Screen::<WIDTH, HEIGHT>::new();
+    let mut stdout = io::stdout().lock();
     for _ in 0..GENERATIONS {
         screen.draw(&mut buf);
         screen.next_gen();
@@ -36,6 +35,7 @@ struct Screen<const WIDTH: usize, const HEIGHT: usize> {
 
 use crate::{constant::LOOKUP, trait_ext::UncheckedVecExt};
 impl<const WIDTH: usize, const HEIGHT: usize> Screen<WIDTH, HEIGHT> {
+    #[inline(always)]
     fn new() -> Self {
         let size = WIDTH * HEIGHT;
         let mut rng = rand::thread_rng();
@@ -47,9 +47,10 @@ impl<const WIDTH: usize, const HEIGHT: usize> Screen<WIDTH, HEIGHT> {
 
     #[inline(always)]
     unsafe fn get_cell_unchecked(&self, row: usize, col: usize) -> bool {
-        unsafe { *self.cells.get_unchecked(row * WIDTH + col) }
+        *self.cells.get_unchecked(row * WIDTH + col)
     }
 
+    #[inline(always)]
     fn next_gen(&mut self) {
         for row in 0..HEIGHT {
             for col in 0..WIDTH {
@@ -84,7 +85,7 @@ impl<const WIDTH: usize, const HEIGHT: usize> Screen<WIDTH, HEIGHT> {
     }
 
     #[inline(always)]
-    fn write_line(writer: &mut Vec<u8>, slice: &[bool]) {
+    fn write_line(buf: &mut Vec<u8>, slice: &[bool]) {
         const REM_LUT: [&[u8]; 2] = [b"  ", b"\xE2\x96\x88\xE2\x96\x88"];
 
         let mut chunks = slice.chunks_exact(8);
@@ -97,24 +98,24 @@ impl<const WIDTH: usize, const HEIGHT: usize> Screen<WIDTH, HEIGHT> {
                 .sum();
             unsafe {
                 let pattern = LOOKUP.get_unchecked(val as usize);
-                writer.extend_from_slice_unchecked(pattern);
+                buf.extend_from_slice_unchecked(pattern);
             }
         }
 
         for &cell in chunks.remainder() {
             unsafe {
-                writer.extend_from_slice_unchecked(REM_LUT[cell as usize]);
+                buf.extend_from_slice_unchecked(REM_LUT[cell as usize]);
             }
+        }
+        unsafe {
+            buf.push_unchecked(b'\n');
         }
     }
 
-    #[inline]
-    fn draw(&self, writer: &mut Vec<u8>) {
+    #[inline(always)]
+    fn draw(&self, buf: &mut Vec<u8>) {
         for line in self.cells.chunks_exact(WIDTH) {
-            Self::write_line(writer, line);
-            unsafe {
-                writer.push_unchecked(b'\n');
-            }
+            Self::write_line(buf, line);
         }
     }
 }
