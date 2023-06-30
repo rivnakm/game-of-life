@@ -307,6 +307,31 @@
             "enabled": true
         },
         {
+            "properName": "Kotlin",
+            "shortName": "kotlin",
+            "dir": "kotlin",
+            "env": {},
+            "buildCmds": [
+                [
+                    "./gradlew",
+                    "build"
+                ]
+            ],
+            "runCmd": [
+                "kotlin",
+                "-classpath",
+                "build/classes/kotlin/main",
+                "MainKt"
+            ],
+            "cleanCmds": [
+                [
+                    "./gradlew",
+                    "clean"
+                ]
+            ],
+            "enabled": true
+        },
+        {
             "properName": "Nim",
             "shortName": "nim",
             "dir": "nim",
