@@ -9,43 +9,22 @@ pub fn run_game<const HEIGHT: usize, const WIDTH: usize, const GENERATIONS: u32>
 
     let mut stdout = io::stdout().lock();
 
-    let clear = format!("\x1b[{}A", HEIGHT + 1);
-    let clear = clear.as_bytes();
-    let mut buf = Vec::with_capacity(
+    let mut buf = format!("\x1b[{}A", HEIGHT + 1).into_bytes();
+    let clear_len = buf.len();
+    buf.reserve(
         // Space for all cells
         size * 6
         // Space for newlines
-        + HEIGHT
-        // Bytes for the clear sequence
-        + clear.len(),
+        + HEIGHT, // Bytes for the clear sequence
     );
-    unsafe { buf.extend_from_slice_unchecked(clear) };
 
     for _ in 0..GENERATIONS {
         screen.draw(&mut buf);
         screen.next_gen();
         let _ = stdout.write_all(&buf).and_then(|_| stdout.flush());
         unsafe {
-            buf.set_len(clear.len());
+            buf.set_len(clear_len);
         }
-    }
-}
-
-struct Cells(Box<[bool]>);
-
-impl std::ops::Deref for Cells {
-    type Target = Box<[bool]>;
-
-    #[inline(always)]
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-
-impl std::ops::DerefMut for Cells {
-    #[inline(always)]
-    fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.0
     }
 }
 
@@ -67,33 +46,38 @@ impl<const WIDTH: usize, const HEIGHT: usize> Screen<WIDTH, HEIGHT> {
     }
 
     #[inline(always)]
-    fn get_cell(&self, row: usize, col: usize) -> bool {
-        col < WIDTH && row < HEIGHT && unsafe { *self.cells.get_unchecked(row * WIDTH + col) }
+    unsafe fn get_cell_unchecked(&self, row: usize, col: usize) -> bool {
+        unsafe { *self.cells.get_unchecked(row * WIDTH + col) }
     }
 
     fn next_gen(&mut self) {
         for row in 0..HEIGHT {
             for col in 0..WIDTH {
-                let cell = self.get_cell(row, col);
+                let cell = unsafe { self.get_cell_unchecked(row, col) };
                 let mut adjacent: u8 = 0;
 
                 for drow in 0..3 {
                     for dcol in 0..3 {
-                        // avoid unsigned int overflow and ignore center cell
-                        if (drow == 0 && row == 0) | (dcol == 0 && col == 0)
+                        // Ignore center cell and OOB
+                        if (drow == 0 && row == 0)
+                            | (dcol == 0 && col == 0)
+                            | (row == HEIGHT && drow == 3)
+                            | (col == WIDTH && dcol == 3)
                             || (drow == 1 && dcol == 1)
                         {
                             continue;
                         }
 
-                        if self.get_cell(row + drow - 1, col + dcol - 1) {
+                        if unsafe { self.get_cell_unchecked(row + drow - 1, col + dcol - 1) } {
                             adjacent += 1;
                         }
                     }
                 }
 
-                let x = unsafe { self.cells2.get_unchecked_mut(row * WIDTH + col) };
-                *x = (adjacent == 3) | (cell && adjacent == 2);
+                unsafe {
+                    *self.cells2.get_unchecked_mut(row * WIDTH + col) =
+                        (adjacent == 3) | (cell && adjacent == 2);
+                }
             }
         }
         std::mem::swap(&mut self.cells, &mut self.cells2)
@@ -101,26 +85,25 @@ impl<const WIDTH: usize, const HEIGHT: usize> Screen<WIDTH, HEIGHT> {
 
     #[inline(always)]
     fn write_line(writer: &mut Vec<u8>, slice: &[bool]) {
+        const REM_LUT: [&[u8]; 2] = [b"  ", b"\xE2\x96\x88\xE2\x96\x88"];
+
         let mut chunks = slice.chunks_exact(8);
-        for chunk in chunks.by_ref() {
+        for chunk in &mut chunks {
             let val: u8 = chunk
                 .iter()
                 .map(|&b| b as u8)
                 .enumerate()
                 .map(|(idx, b)| b << idx)
                 .sum();
-            let pattern = unsafe { LOOKUP.get_unchecked(val as usize) };
             unsafe {
+                let pattern = LOOKUP.get_unchecked(val as usize);
                 writer.extend_from_slice_unchecked(pattern);
             }
         }
+
         for &cell in chunks.remainder() {
             unsafe {
-                writer.extend_from_slice_unchecked(if cell {
-                    b"\xE2\x96\x88\xE2\x96\x88".as_slice()
-                } else {
-                    b"  ".as_slice()
-                });
+                writer.extend_from_slice_unchecked(REM_LUT[cell as usize]);
             }
         }
     }
