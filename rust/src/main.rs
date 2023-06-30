@@ -1,4 +1,3 @@
-#![feature(array_chunks)]
 mod constant;
 mod game;
 mod trait_ext;
