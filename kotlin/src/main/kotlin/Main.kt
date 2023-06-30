@@ -1,74 +1,83 @@
 import kotlin.random.Random
+import java.io.PrintWriter
+import java.io.OutputStreamWriter
 
-const val height = 50
-const val width = 100
-const val gens = 500
+const val HEIGHT = 50
+const val WIDTH = 100
+const val GENS = 500
 
 fun main() {
-    val board = Board(height, width)
-    val game = Game(board, gens)
+    val board = Board(HEIGHT, WIDTH)
+    val game = Game(board, GENS)
     game.run()
 }
 
+
 class Board(val height: Int, val width: Int) {
-    private val cells: MutableList<Boolean> = MutableList(height * width) { Random.nextBoolean() }
+    private val cells: Array<BooleanArray> = Array(height) { BooleanArray(width) { Random.nextBoolean() } }
 
-    fun getCell(row: Int, col: Int): Boolean {
-        return row in 0 until height && col in 0 until width && cells[row * width + col]
-    }
 
-    fun setCell(index: Int, value: Boolean) {
-        cells[index] = value
-    }
-
-    fun draw() {
-        for (i in 0 until height) {
-            for (j in 0 until width) {
-                if (getCell(i, j)) {
-                    print("██")
-                } else {
-                    print("  ")
-                }
+    fun draw(printWriter: PrintWriter) {
+        for (row in cells) {
+            for (cell in row) {
+                printWriter.print(if (cell) "██" else "  ")
             }
-            println()
+            printWriter.println()
         }
+        printWriter.flush()
+    }
+
+    fun updateCell(row: Int, col: Int, value: Boolean) {
+        if (row in 0 until height && col in 0 until width) {
+            cells[row][col] = value
+        }
+    }
+
+    fun isAlive(row: Int, col: Int): Boolean {
+        return cells.getOrNull(row)?.getOrNull(col) ?: false
     }
 }
 
 class Game(private val board: Board, private val generations: Int) {
     fun run() {
+        val printWriter = PrintWriter(OutputStreamWriter(System.out))
         repeat(generations) {
-            board.draw()
-            print("\u001b[${board.height}A")
+            board.draw(printWriter)
+            printWriter.print("\u001b[${board.height}A")
             next()
         }
+        printWriter.close()
     }
 
     private fun next() {
-        val boardCopy = Board(board.height, board.width)
+        val updatedCells = Array(board.height) { BooleanArray(board.width) }
         for (i in 0 until board.height) {
             for (j in 0 until board.width) {
-                var cell = boardCopy.getCell(i, j)
-                var adjacent = 0
-                for (n in -1..1) {
-                    for (m in -1..1) {
-                        if (n == 0 && m == 0) {
-                            continue
-                        }
-                        if (boardCopy.getCell(i + n, j + m)) adjacent++
-                    }
-                }
-                if (cell) {
-                    if (adjacent < 2 || adjacent > 3) {
-                        cell = false
-                    }
-                } else {
-                    if (adjacent == 3) {
-                        cell = true
-                    }
-                }
-                board.setCell(i * board.width + j, cell)
+                val cell = board.isAlive(i, j)
+                val adjacent = countAdjacentAlive(board, i, j)
+                val newCell = if (cell) (adjacent in 2..3) else (adjacent == 3)
+                updatedCells[i][j] = newCell
             }
         }
+        for (i in 0 until board.height) {
+            for (j in 0 until board.width) {
+                board.updateCell(i, j, updatedCells[i][j])
+            }
+        }
+    }
+
+    private fun countAdjacentAlive(board: Board, row: Int, col: Int): Int {
+        var count = 0
+        for (i in -1..1) {
+            for (j in -1..1) {
+                if (i == 0 && j == 0) continue
+                val newRow = row + i
+                val newCol = col + j
+                if (newRow in 0 until board.height && newCol in 0 until board.width && board.isAlive(newRow, newCol)) {
+                    count++
+                }
+            }
+        }
+        return count
     }
 }
