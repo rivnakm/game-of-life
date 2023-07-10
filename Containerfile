@@ -82,7 +82,10 @@ RUN cp -r julia-${JULIA_VER}/etc /
 RUN rm -rf julia*
 
 # Lua
-RUN apt update && apt install lua5.4
+RUN apt update && apt install -y lua5.4
+
+# LuaJIT
+RUN apt update && apt install -y luajit
 
 # .NET SDK 7.0
 RUN wget https://packages.microsoft.com/config/ubuntu/22.10/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
