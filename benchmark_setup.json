@@ -71,10 +71,53 @@
             "enabled": true
         },
         {
-            "properName": "C++",
+            "properName": "C++ (gcc)",
             "shortName": "cpp",
             "dir": "cpp",
             "env": {},
+            "buildCmds": [
+                [
+                    "meson",
+                    "setup",
+                    "build"
+                ],
+                [
+                    "meson",
+                    "setup",
+                    "--reconfigure",
+                    "build"
+                ],
+                [
+                    "meson",
+                    "configure",
+                    "-Dbuildtype=release",
+                    "build"
+                ],
+                [
+                    "ninja",
+                    "-C",
+                    "build"
+                ]
+            ],
+            "runCmd": "./build/game_of_life",
+            "cleanCmds": [
+                [
+                    "ninja",
+                    "-C",
+                    "build",
+                    "clean"
+                ]
+            ],
+            "enabled": true
+        },
+        {
+            "properName": "C++ (clang)",
+            "shortName": "cpp",
+            "dir": "cpp",
+            "env": {
+                "CC": "clang",
+                "CXX": "clang++"
+            },
             "buildCmds": [
                 [
                     "meson",
