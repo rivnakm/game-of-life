@@ -107,6 +107,9 @@ RUN if [ "$TARGETARCH" = "amd64" ]; then \
     fi
 RUN rm -rf nim*
 
+# PHP
+RUN apt update && apt install -y php
+
 # PowerShell
 RUN if [ "$TARGETARCH" = "amd64" ]; then \
         wget -nv https://github.com/PowerShell/PowerShell/releases/download/v${PWSH_VER}/powershell-${PWSH_VER}-linux-x64.tar.gz -O pwsh.tar.gz; \

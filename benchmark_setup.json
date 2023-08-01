@@ -512,7 +512,6 @@
             "buildCmds": [],
             "runCmd": [
                 "php",
-                "-q",
                 "./gameoflife.php"
             ],
             "cleanCmds": [],
