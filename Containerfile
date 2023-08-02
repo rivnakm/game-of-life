@@ -1,14 +1,14 @@
 FROM ubuntu:lunar
 
 ARG TARGETARCH
-ARG DEVEL="false"
 
 # Versions for manually installed packages
-ENV GRADLE_VER=8.1.1
-ENV JULIA_MAJ_VER=1.8
-ENV JULIA_VER=1.8.5
-ENV NIM_VER=1.6.12
-ENV PWSH_VER=7.3.4
+ENV GRADLE_VER=8.2.1
+ENV JULIA_MAJ_VER=1.9
+ENV JULIA_VER=1.9.2
+ENV NIM_VER=2.0.0
+ENV PWSH_VER=7.3.6
+ENV ZIG_VER=0.11.0-dev.4403+e84cda0eb
 
 # Set locale
 RUN apt update && apt install -y locales
@@ -159,41 +159,19 @@ RUN cd /opt/v && make -j$(nproc)
 ENV PATH="$PATH:/opt/v"
 
 # Zig
-RUN wget -qO- https://apt.llvm.org/llvm-snapshot.gpg.key | tee /etc/apt/trusted.gpg.d/apt.llvm.org.asc
-RUN apt install -y \
-        cmake \
-        libllvm16 \
-        llvm-16 \
-        llvm-16-dev \
-        clang-16 \
-        libclang-16-dev \
-        lld-16 \
-        liblld-16-dev
-RUN git clone https://github.com/ziglang/zig
-RUN mkdir zig/build
-RUN cd zig/build && \
-    cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local && \
-    make -j$(nproc) install
-RUN rm -rf zig
-
-# ZLS
-RUN if [ "$DEVEL" = "true" ]; then \
-        git clone --depth=1 https://github.com/zigtools/zls; \
-        cd zls; \
-        zig build -Doptimize=ReleaseSafe; \
-        cp zig-out/bin/zls /usr/local/bin; \
+RUN if [ "$TARGETARCH" = "amd64" ]; then \
+        wget -nv -O zig.tar.xz https://ziglang.org/builds/zig-linux-x86_64-${ZIG_VER}.tar.xz; \
+    elif [ "$TARGETARCH" = "arm64" ]; then \
+        wget -nv -O zig.tar.xz https://ziglang.org/builds/zig-linux-aarch64-${ZIG_VER}.tar.xz; \
+    else \
+        echo "Unsupported arch: $TARGETARCH"; \
+        exit 1; \
     fi
-RUN rm -rf zls
-
-# Tools
-RUN if [ "$DEVEL" = "true" ]; then \
-        apt install --no-install-recommends -y \
-        delve \
-        gdb \
-        gopls \
-        go-staticcheck \
-        lldb-16; \
-    fi
+RUN tar xf zig.tar.xz
+RUN mv zig-linux-*-${ZIG_VER} zig
+RUN cp zig/zig /usr/local/bin/
+RUN cp -r zig/lib /usr/local/lib/zig
+RUN rm -rf zig*
 
 # Zx
 RUN npm install -g zx
