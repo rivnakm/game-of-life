@@ -6,7 +6,7 @@ use rand::Rng;
 pub fn run_game<const HEIGHT: usize, const WIDTH: usize, const GENERATIONS: u32>() {
     let size = WIDTH * HEIGHT;
 
-    let mut buf = format!("\x1b[{}A", HEIGHT + 0).into_bytes();
+    let mut buf = format!("\x1b[{}A", HEIGHT).into_bytes();
     let clear_len = buf.len();
     buf.reserve(
         // Space for all cells
