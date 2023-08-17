@@ -1,15 +1,9 @@
+[profile.release]
+opt-level = 3
+lto = "fat"
+
 [build]
-# target-dir = "misc/.target"         # path of where to place all generated artifacts
 rustflags = ["-C", "target-cpu=native"]        # custom flags to pass to all compiler invocations
-incremental = false            # whether or not to enable incremental compilation
 
 [net]
 git-fetch-with-cli = true
-
-[registries.crates-io]
-protocol = "sparse"
-
-[profile.release]
-opt-level = 3
-lto = true
-codegen-units = 1
