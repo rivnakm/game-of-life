@@ -17,8 +17,8 @@ pub fn run_game<const HEIGHT: usize, const WIDTH: usize, const GENERATIONS: u32>
 
     let mut screen = Screen::<WIDTH, HEIGHT>::new();
     let mut stdout = io::stdout().lock();
-    // Clear screen
-    let _ = stdout.write_all(b"\x1bc");
+    // // Clear screen once at the start
+    // let _ = stdout.write_all(b"\x1bc");
     for _ in 0..GENERATIONS {
         screen.draw(&mut buf);
         let _ = stdout.write_all(&buf).and_then(|_| stdout.flush());
@@ -52,7 +52,6 @@ impl<const WIDTH: usize, const HEIGHT: usize> Screen<WIDTH, HEIGHT> {
     unsafe fn get_cell_unchecked(&self, row: usize, col: usize) -> bool {
         let idx = row * WIDTH + col;
         debug_assert!(row < HEIGHT && col < WIDTH, "OOB access");
-        // eprintln!("Read {idx} | {row},{col}");
         *self.cells.get_unchecked(idx)
     }
 
@@ -60,7 +59,6 @@ impl<const WIDTH: usize, const HEIGHT: usize> Screen<WIDTH, HEIGHT> {
     unsafe fn get_cell_unchecked_mut(&mut self, row: usize, col: usize) -> &mut bool {
         let idx = row * WIDTH + col;
         debug_assert!(row < HEIGHT && col < WIDTH, "OOB access");
-        // eprintln!("Wrote to {idx}");
         self.swap.get_unchecked_mut(idx)
     }
 
@@ -85,6 +83,7 @@ impl<const WIDTH: usize, const HEIGHT: usize> Screen<WIDTH, HEIGHT> {
             self.cells.fill(false);
             return;
         }
+        let right = WIDTH - 1;
         macro_rules! adjacent {
             ($([$row:expr, $col:expr]),* $(,)?) => {{
                 0 $(
@@ -92,117 +91,161 @@ impl<const WIDTH: usize, const HEIGHT: usize> Screen<WIDTH, HEIGHT> {
                 )*
             }};
         }
+        macro_rules! cell {
+            (($row:expr, $col:expr)) => {
+                let cell = self.get_cell_unchecked($row, $col);
+                let adjacent = adjacent! {
+                    [$row - 1, $col - 1],
+                    [$row - 1, $col],
+                    [$row - 1, $col + 1],
+                    [$row, $col - 1],
+                    [$row, $col + 1],
+                    [$row + 1, $col - 1],
+                    [$row + 1, $col],
+                    [$row + 1, $col + 1]
+                };
+                *self.get_cell_unchecked_mut($row, $col) = lives(cell, adjacent);
+            };
+            (($row:expr, $col:expr),
+             [
+                $topl:expr, $topm:expr, $topr:expr,
+                $midl:expr, _____, $midr:expr,
+                $botl:expr, $botm:expr, $botr:expr $(,)?
+             ]
+             ) => {
+                let cell = self.get_cell_unchecked($row, $col);
+                let adjacent = if $topl {
+                    self.get_cell_unchecked($row - 1, $col - 1) as u8
+                } else {
+                    0
+                } + if $topm {
+                    self.get_cell_unchecked($row - 1, $col) as u8
+                } else {
+                    0
+                } + if $topr {
+                    self.get_cell_unchecked($row - 1, $col + 1) as u8
+                } else {
+                    0
+                } + if $midl {
+                    self.get_cell_unchecked($row, $col - 1) as u8
+                } else {
+                    0
+                } + if $midr {
+                    self.get_cell_unchecked($row, $col + 1) as u8
+                } else {
+                    0
+                } + if $botl {
+                    self.get_cell_unchecked($row + 1, $col - 1) as u8
+                } else {
+                    0
+                } + if $botm {
+                    self.get_cell_unchecked($row + 1, $col) as u8
+                } else {
+                    0
+                } + if $botr {
+                    self.get_cell_unchecked($row + 1, $col + 1) as u8
+                } else {
+                    0
+                };
+                *self.get_cell_unchecked_mut($row, $col) = lives(cell, adjacent);
+            };
+        }
         unsafe {
             // First row
             // Top left cell
-            let row = 0;
-            let cell = self.get_cell_unchecked(row, 0);
-            let adjacent = adjacent! {
-                [row + 1, 0],
-                [row + 1, 1],
-                [row, 1]
+            cell! {
+                (0, 0),
+                [
+                    false, false, false,
+                    false, _____, true,
+                    false, true,  true
+                ]
             };
-            *self.get_cell_unchecked_mut(row, 0) = lives(cell, adjacent);
-
             // Top middle cells
             // These cells can look for neighbours in all directions but up
-            for col in 1..WIDTH - 1 {
-                let cell = self.get_cell_unchecked(row, col);
-                let adjacent = adjacent! {
-                    [row, col - 1],
-                    [row, col + 1],
-                    [row + 1, col - 1],
-                    [row + 1, col],
-                    [row + 1, col + 1],
+            for col in 1..right {
+                cell! {
+                    (0, col),
+                    [
+                        false, false, false,
+                        true,  _____, true,
+                        true,  true,  true
+                    ]
                 };
-                *self.get_cell_unchecked_mut(row, col) = lives(cell, adjacent);
             }
 
             // Top right cell(0, WIDTH - 1)
-            let cell = self.get_cell_unchecked(row, WIDTH - 1);
-            let adjacent = adjacent! {
-                [row, WIDTH - 2],
-                [row + 1, WIDTH - 2],
-                [row + 1, WIDTH - 1],
+            cell! {
+                (0, right),
+                [
+                    false, false, false,
+                    true,  _____, false,
+                    true,  true,  false
+                ]
             };
-            *self.get_cell_unchecked_mut(row, WIDTH - 1) = lives(cell, adjacent);
             // Middle rows
             for row in 1..HEIGHT - 1 {
                 // First column
                 // can access all neighbours not to the left
-                let col = 0;
-                let cell = self.get_cell_unchecked(row, col);
-                let adj = adjacent! {
-                    [row - 1, col],
-                    [row - 1, col + 1],
-                    [row, col + 1],
-                    [row + 1, col],
-                    [row + 1, col + 1]
+                cell! {
+                    (row, 0),
+                    [
+                        false, true,  true,
+                        false, _____, true,
+                        false, true,  true
+                    ]
                 };
-                *self.get_cell_unchecked_mut(row, col) = lives(cell, adj);
                 // Middle columns
                 // can access all neighbours
-                for col in 1..WIDTH - 1 {
-                    let cell = self.get_cell_unchecked(row, col);
-                    let adj = adjacent! {
-                        [row - 1, col - 1],
-                        [row - 1, col],
-                        [row - 1, col + 1],
-                        [row, col - 1],
-                        [row, col + 1],
-                        [row + 1, col - 1],
-                        [row + 1, col],
-                        [row + 1, col + 1]
-                    };
-                    *self.get_cell_unchecked_mut(row, col) = lives(cell, adj);
+                for col in 1..right {
+                    cell!((row, col));
                 }
 
                 // Last column
                 // can access all neighbours not to the right
-                let col = WIDTH - 1;
-                let cell = self.get_cell_unchecked(row, col);
-                let adjacent = adjacent! {
-                    [row - 1, col],
-                    [row + 1, col],
-                    [row - 1, col - 1],
-                    [row    , col - 1],
-                    [row + 1, col - 1]
+                cell! {
+                    (row, right),
+                    [
+                        true, true,  false,
+                        true, _____, false,
+                        true, true,  false,
+                    ]
                 };
-                *self.get_cell_unchecked_mut(row, col) = lives(cell, adjacent);
             }
-            let row = HEIGHT - 1;
+            let bottom_row = HEIGHT - 1;
             // Bottom row
             // Bottom left cell
-            let cell = self.get_cell_unchecked(row, 0);
-            let adjacent = adjacent! {
-                [row, 1],
-                [row - 1, 0],
-                [row - 1, 1],
+            cell! {
+                (bottom_row, 0),
+                [
+                    false, true,  true,
+                    false, _____, true,
+                    false, false, false,
+                ]
             };
-            *self.get_cell_unchecked_mut(row, 0) = lives(cell, adjacent);
 
             // Bottom middle cells
             // These cells can look for neighbours in all directions but down
-            for col in 1..WIDTH - 1 {
-                let cell = self.get_cell_unchecked(row, col);
-                let adjacent = adjacent! {
-                    [row, col - 1],
-                    [row, col + 1],
-                    [row - 1, col - 1],
-                    [row - 1, col],
-                    [row - 1, col + 1],
+            for col in 1..right {
+                cell! {
+                    (bottom_row, col),
+                    [
+                        true, true, true,
+                        true, _____, true,
+                        false, false, false,
+                    ]
                 };
-                *self.get_cell_unchecked_mut(row, col) = lives(cell, adjacent);
             }
 
             // Bottom right cell(HEIGHT - 1, WIDTH - 1)
-            let cell = self.get_cell_unchecked(row, WIDTH - 1);
-            let adjacent = adjacent! {
-                [row, WIDTH - 2],
-                [row - 1, WIDTH - 2],
-                [row - 1, WIDTH - 1],
+            cell! {
+                (bottom_row, right),
+                [
+                    true,  true,  false,
+                    true,  _____, false,
+                    false, false, false,
+                ]
             };
-            *self.get_cell_unchecked_mut(row, WIDTH - 1) = lives(cell, adjacent);
         }
         std::mem::swap(&mut self.cells, &mut self.swap)
     }
