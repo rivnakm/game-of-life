@@ -13,7 +13,7 @@ pub fn run_game<const HEIGHT: usize, const WIDTH: usize, const GENERATIONS: u32>
 
     let cap = {
         // Space for clear
-        CLEAR_PRE.len() + HEIGHT.ilog10() as usize + 1 +
+        clear_len +
         // Space for all cells
         size * 6
         // Space for newlines
