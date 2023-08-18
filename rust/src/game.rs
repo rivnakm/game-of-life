@@ -6,14 +6,27 @@ use rand::Rng;
 pub fn run_game<const HEIGHT: usize, const WIDTH: usize, const GENERATIONS: u32>() {
     let size = WIDTH * HEIGHT;
 
-    let mut buf = format!("\x1b[{}A", HEIGHT).into_bytes();
-    let clear_len = buf.len();
-    buf.reserve(
+    const CLEAR: &str = concat!("\x1b[", stringify!(HEIGHT), "A");
+    let cap = {
+        // Space for clear
+        CLEAR.len()+
         // Space for all cells
         size * 6
         // Space for newlines
-        + HEIGHT,
-    );
+        + HEIGHT
+    };
+    let mut buf = unsafe {
+        // Manually allocate the vector, to REALLY make sure it doesn't allocate any excess
+        // capacity
+        let layout = std::alloc::Layout::array::<u8>(cap).unwrap_unchecked();
+        let ptr = std::alloc::alloc(layout);
+        if ptr.is_null() {
+            std::alloc::handle_alloc_error(layout)
+        };
+        let mut buf = Vec::from_raw_parts(ptr, 0, cap);
+        buf.extend_from_slice_unchecked(CLEAR.as_bytes());
+        buf
+    };
 
     let mut screen = Screen::<WIDTH, HEIGHT>::new();
     let mut stdout = io::stdout().lock();
@@ -21,9 +34,10 @@ pub fn run_game<const HEIGHT: usize, const WIDTH: usize, const GENERATIONS: u32>
     // let _ = stdout.write_all(b"\x1bc");
     for _ in 0..GENERATIONS {
         screen.draw(&mut buf);
-        let _ = stdout.write_all(&buf).and_then(|_| stdout.flush());
+        let _ = stdout.write_all(&buf);
+        let _ = stdout.flush();
         unsafe {
-            buf.set_len(clear_len);
+            buf.set_len(CLEAR.len());
         }
         screen.next_gen();
     }
@@ -174,7 +188,7 @@ impl<const WIDTH: usize, const HEIGHT: usize> Screen<WIDTH, HEIGHT> {
                 };
             }
 
-            // Top right cell(0, WIDTH - 1)
+            // Top right cell
             cell! {
                 (0, right),
                 [
@@ -237,7 +251,7 @@ impl<const WIDTH: usize, const HEIGHT: usize> Screen<WIDTH, HEIGHT> {
                 };
             }
 
-            // Bottom right cell(HEIGHT - 1, WIDTH - 1)
+            // Bottom right cell
             cell! {
                 (bottom_row, right),
                 [
