@@ -9,13 +9,11 @@ pub fn run_game<const HEIGHT: usize, const WIDTH: usize, const GENERATIONS: u32>
     const CLEAR_PRE: &str = "\x1b[";
     const CLEAR_SUF: &str = "A";
 
-    let mut b = itoa::Buffer::new();
-    let height = b.format(HEIGHT);
-    let clear_len = CLEAR_PRE.len() + height.len() + CLEAR_SUF.len();
+    let clear_len = CLEAR_PRE.len() + HEIGHT.ilog10() as usize + 1 + CLEAR_SUF.len();
 
     let cap = {
         // Space for clear
-        clear_len +
+        CLEAR_PRE.len() + HEIGHT.ilog10() as usize + 1 +
         // Space for all cells
         size * 6
         // Space for newlines
@@ -31,9 +29,7 @@ pub fn run_game<const HEIGHT: usize, const WIDTH: usize, const GENERATIONS: u32>
             std::alloc::handle_alloc_error(layout)
         };
         let mut buf = Vec::from_raw_parts(ptr, 0, cap);
-        buf.extend_from_slice_unchecked(CLEAR_PRE.as_bytes());
-        buf.extend_from_slice_unchecked(height.as_bytes());
-        buf.extend_from_slice_unchecked(CLEAR_SUF.as_bytes());
+        let _ = write!(&mut buf, "\x1b[{HEIGHT}A");
         buf
     };
 
