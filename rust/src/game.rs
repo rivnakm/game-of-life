@@ -6,15 +6,22 @@ use rand::Rng;
 pub fn run_game<const HEIGHT: usize, const WIDTH: usize, const GENERATIONS: u32>() {
     let size = WIDTH * HEIGHT;
 
-    const CLEAR: &str = concat!("\x1b[", stringify!(HEIGHT), "A");
+    const CLEAR_PRE: &str = "\x1b[";
+    const CLEAR_SUF: &str = "A";
+
+    let mut b = itoa::Buffer::new();
+    let height = b.format(HEIGHT);
+    let clear_len = CLEAR_PRE.len() + height.len() + CLEAR_SUF.len();
+
     let cap = {
         // Space for clear
-        CLEAR.len()+
+        clear_len +
         // Space for all cells
         size * 6
         // Space for newlines
         + HEIGHT
     };
+
     let mut buf = unsafe {
         // Manually allocate the vector, to REALLY make sure it doesn't allocate any excess
         // capacity
@@ -24,7 +31,9 @@ pub fn run_game<const HEIGHT: usize, const WIDTH: usize, const GENERATIONS: u32>
             std::alloc::handle_alloc_error(layout)
         };
         let mut buf = Vec::from_raw_parts(ptr, 0, cap);
-        buf.extend_from_slice_unchecked(CLEAR.as_bytes());
+        buf.extend_from_slice_unchecked(CLEAR_PRE.as_bytes());
+        buf.extend_from_slice_unchecked(height.as_bytes());
+        buf.extend_from_slice_unchecked(CLEAR_SUF.as_bytes());
         buf
     };
 
@@ -37,7 +46,7 @@ pub fn run_game<const HEIGHT: usize, const WIDTH: usize, const GENERATIONS: u32>
         let _ = stdout.write_all(&buf);
         let _ = stdout.flush();
         unsafe {
-            buf.set_len(CLEAR.len());
+            buf.set_len(clear_len);
         }
         screen.next_gen();
     }
