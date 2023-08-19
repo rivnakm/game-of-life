@@ -159,6 +159,11 @@ averages.sort((a, b) => {
 averages.unshift(["language", "avg time (s)"]);
 console.log(`500 generations (average of ${iterations})`);
 console.log(table(averages));
+fs.writeFile("benchmark_results.txt", table(averages), (err) => {
+    if (err) {
+        console.error(err);
+    }
+})
 
 const output = stringify(averages);
 fs.writeFile("benchmark_results.csv", output, (err) => {
