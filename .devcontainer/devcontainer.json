@@ -51,7 +51,8 @@
 				"be5invis.toml",
 				"wingrunr21.vscode-ruby",
 				"ziglang.vscode-zig",
-				"vlanguage.vscode-vlang"
+				"vlanguage.vscode-vlang",
+				"ms-dotnettools.csdevkit"
 			]
 		}
 	}
