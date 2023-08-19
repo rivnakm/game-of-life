@@ -12,13 +12,13 @@ class Board {
   }
 
   int size() {
-    return this.height * this.width;
+    return height * width;
   }
 }
 
 void runGame(int height, int width, int generations) {
   final rng = Random();
-  Board board = new Board(height, width);
+  Board board = Board(height, width);
   board.cells = List<bool>.generate(height*width, (index) => rng.nextBool());
 
   for (int i = 0; i < generations; i++) {
@@ -38,7 +38,7 @@ bool getCell(Board board, int row, int col) {
 }
 
 void nextGeneration(Board board) {
-  Board boardCopy = new Board(board.height, board.width);
+  Board boardCopy = Board(board.height, board.width);
   boardCopy.cells = List<bool>.from(board.cells);
 
   for (int i = 0; i < board.height; i++) {
