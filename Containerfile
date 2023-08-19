@@ -22,6 +22,7 @@ RUN apt update && apt upgrade -y
 RUN apt install --no-install-recommends -y \
         apt-transport-https \
         build-essential \
+        ca-certificates \
         curl \
         git \
         gpg \
@@ -30,16 +31,16 @@ RUN apt install --no-install-recommends -y \
         wget
 
 # Ada
-RUN apt update && apt install -y gnat
+RUN apt update && apt install --no-install-recommends -y gnat
 
 # C
-RUN apt update && apt install -y clang
+RUN apt update && apt install --no-install-recommends -y clang
 
 # C++
-RUN apt update && apt install -y meson
+RUN apt update && apt install --no-install-recommends -y meson
 
 # D
-RUN apt update && apt install -y gdc
+RUN apt update && apt install --no-install-recommends -y gdc
     
 # Dart SDK
 RUN if [ "$TARGETARCH" = "amd64" ]; then \
@@ -55,17 +56,17 @@ RUN mv dart-sdk /opt/dart-sdk
 ENV PATH="$PATH:/opt/dart-sdk/bin"
 
 # Go
-RUN apt update && apt install -y golang
+RUN apt update && apt install --no-install-recommends -y golang
 
 # Gradle
 RUN wget -nv https://services.gradle.org/distributions/gradle-${GRADLE_VER}-bin.zip -O gradle-bin.zip
 RUN unzip -q gradle-bin.zip && cp -r gradle-${GRADLE_VER}/bin gradle-${GRADLE_VER}/lib /usr/local/ && rm -rf gradle*
 
 # Haskell
-RUN apt update && apt install -y libghc-random-dev
+RUN apt update && apt install --no-install-recommends -y libghc-random-dev
 
 # Java
-RUN apt update && apt install -y openjdk-19-jdk-headless
+RUN apt update && apt install --no-install-recommends -y openjdk-19-jdk-headless
 
 # Julia
 RUN if [ "$TARGETARCH" = "amd64" ]; then \
@@ -82,13 +83,13 @@ RUN cp -r julia-${JULIA_VER}/etc /
 RUN rm -rf julia*
 
 # Lua
-RUN apt update && apt install lua5.4
+RUN apt update && apt install --no-install-recommends lua5.4
 
 # .NET SDK 7.0
 RUN wget https://packages.microsoft.com/config/ubuntu/22.10/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
 RUN dpkg -i packages-microsoft-prod.deb
 RUN rm packages-microsoft-prod.deb
-RUN apt update && apt install -y dotnet-sdk-7.0
+RUN apt update && apt install --no-install-recommends -y dotnet-sdk-7.0
 
 # Nim
 RUN if [ "$TARGETARCH" = "amd64" ]; then \
@@ -105,10 +106,11 @@ RUN if [ "$TARGETARCH" = "amd64" ]; then \
         sh ./build.sh; \
         sh ./install.sh /usr/local/bin; \
     fi
+RUN ln -s . /usr/local/lib/nim/lib # I think this is a nim bug somewhere
 RUN rm -rf nim*
 
 # PHP
-RUN apt update && apt install -y php
+RUN apt update && apt install --no-install-recommends -y php
 
 # PowerShell
 RUN if [ "$TARGETARCH" = "amd64" ]; then \
@@ -126,10 +128,10 @@ RUN ln -s /opt/microsoft/powershell/7/pwsh /usr/local/bin/pwsh
 RUN rm -rf pwsh*
 
 # Python
-RUN apt update && apt install -y python-is-python3
+RUN apt update && apt install --no-install-recommends -y python-is-python3
 
 # Ruby
-RUN apt update && apt install -y ruby
+RUN apt update && apt install --no-install-recommends -y ruby
 
 # Rustup
 RUN if [ "$DEVEL" = "true" ]; then \
@@ -141,7 +143,7 @@ RUN if [ "$DEVEL" = "true" ]; then \
 ENV PATH="$PATH:/root/.cargo/bin"
 
 # Typescript
-RUN apt update && apt install -y nodejs npm
+RUN apt update && apt install --no-install-recommends -y nodejs npm
 
 # optional javascript runtimes
 # Deno
