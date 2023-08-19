@@ -10,6 +10,7 @@ jobs:
     uses: mrivnak/game-of-life/.github/workflows/publish-image.yml@community
 
   benchmark:
+    needs: docker
     runs-on: ubuntu-latest
     steps:
       - name: Docker pull
