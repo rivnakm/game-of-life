@@ -5,11 +5,5 @@ edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
-[profile.release]
-lto = true
-debug-assertions = false
-panic = "abort"
-
-
 [dependencies]
-rand = { version = "0.8.5", features = ["simd_support", "small_rng"] }
+rand = { version = "0.8.5" }
