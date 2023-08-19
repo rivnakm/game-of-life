@@ -99,6 +99,14 @@ class Language {
     }
 }
 
+async function getVersion(cmd, regex) {
+    const output = await $`${cmd}`
+    const re = new RegExp(regex);
+    const toSearch = output.stdout + output.stderr;
+    const match = toSearch.match(re);
+    return match !== null ? match[1] : "???";
+}
+
 async function time(cmd, message) {
     let time = await spinner(message, () => $`time ${cmd} > /dev/null`);
     return parseFloat(time.stderr.trim());
@@ -109,6 +117,10 @@ let languages = JSON.parse(fs.readFileSync('benchmark_setup.json')).languages.ma
 for (var language of languages) {
     if (language.willRun()) {
         console.log(chalk.cyan(`\n${language.properName}`) + ":");
+
+        let version = await getVersion(language.version.cmd, language.version.regex);
+        let program = language.version.cmd[0];
+        console.log(chalk.magenta(`    ${program} v${version}`))
     }
 
     language.setEnv();

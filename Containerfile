@@ -1,14 +1,14 @@
 FROM ubuntu:lunar
 
 ARG TARGETARCH
-ARG DEVEL="false"
 
 # Versions for manually installed packages
-ENV GRADLE_VER=8.1.1
-ENV JULIA_MAJ_VER=1.8
-ENV JULIA_VER=1.8.5
-ENV NIM_VER=1.6.12
-ENV PWSH_VER=7.3.4
+ENV GRADLE_VER=8.2.1
+ENV JULIA_MAJ_VER=1.9
+ENV JULIA_VER=1.9.2
+ENV NIM_VER=2.0.0
+ENV PWSH_VER=7.3.6
+ENV ZIG_VER=0.11.0-dev.4403+e84cda0eb
 
 # Set locale
 RUN apt update && apt install -y locales
@@ -22,6 +22,7 @@ RUN apt update && apt upgrade -y
 RUN apt install --no-install-recommends -y \
         apt-transport-https \
         build-essential \
+        ca-certificates \
         curl \
         git \
         gpg \
@@ -30,16 +31,16 @@ RUN apt install --no-install-recommends -y \
         wget
 
 # Ada
-RUN apt update && apt install -y gnat
+RUN apt update && apt install --no-install-recommends -y gnat
 
 # C
-RUN apt update && apt install -y clang
+RUN apt update && apt install --no-install-recommends -y clang
 
 # C++
-RUN apt update && apt install -y meson
+RUN apt update && apt install --no-install-recommends -y meson
 
 # D
-RUN apt update && apt install -y gdc
+RUN apt update && apt install --no-install-recommends -y gdc
     
 # Dart SDK
 RUN if [ "$TARGETARCH" = "amd64" ]; then \
@@ -55,17 +56,17 @@ RUN mv dart-sdk /opt/dart-sdk
 ENV PATH="$PATH:/opt/dart-sdk/bin"
 
 # Go
-RUN apt update && apt install -y golang
+RUN apt update && apt install --no-install-recommends -y golang
 
 # Gradle
 RUN wget -nv https://services.gradle.org/distributions/gradle-${GRADLE_VER}-bin.zip -O gradle-bin.zip
 RUN unzip -q gradle-bin.zip && cp -r gradle-${GRADLE_VER}/bin gradle-${GRADLE_VER}/lib /usr/local/ && rm -rf gradle*
 
 # Haskell
-RUN apt update && apt install -y libghc-random-dev
+RUN apt update && apt install --no-install-recommends -y libghc-random-dev
 
 # Java
-RUN apt update && apt install -y openjdk-19-jdk-headless
+RUN apt update && apt install --no-install-recommends -y openjdk-19-jdk-headless
 
 # Julia
 RUN if [ "$TARGETARCH" = "amd64" ]; then \
@@ -82,16 +83,16 @@ RUN cp -r julia-${JULIA_VER}/etc /
 RUN rm -rf julia*
 
 # Lua
-RUN apt update && apt install -y lua5.4
+RUN apt update && apt install --no-install-recommends -y lua5.4
 
 # LuaJIT
-RUN apt update && apt install -y luajit
+RUN apt update && apt install --no-install-recommends -y luajit
 
 # .NET SDK 7.0
 RUN wget https://packages.microsoft.com/config/ubuntu/22.10/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
 RUN dpkg -i packages-microsoft-prod.deb
 RUN rm packages-microsoft-prod.deb
-RUN apt update && apt install -y dotnet-sdk-7.0
+RUN apt update && apt install --no-install-recommends -y dotnet-sdk-7.0
 
 # Nim
 RUN if [ "$TARGETARCH" = "amd64" ]; then \
@@ -108,7 +109,11 @@ RUN if [ "$TARGETARCH" = "amd64" ]; then \
         sh ./build.sh; \
         sh ./install.sh /usr/local/bin; \
     fi
+RUN ln -s . /usr/local/lib/nim/lib # I think this is a nim bug somewhere
 RUN rm -rf nim*
+
+# PHP
+RUN apt update && apt install --no-install-recommends -y php
 
 # PowerShell
 RUN if [ "$TARGETARCH" = "amd64" ]; then \
@@ -126,10 +131,10 @@ RUN ln -s /opt/microsoft/powershell/7/pwsh /usr/local/bin/pwsh
 RUN rm -rf pwsh*
 
 # Python
-RUN apt update && apt install -y python-is-python3
+RUN apt update && apt install --no-install-recommends -y python-is-python3
 
 # Ruby
-RUN apt update && apt install -y ruby
+RUN apt update && apt install --no-install-recommends -y ruby
 
 # Rustup
 RUN if [ "$DEVEL" = "true" ]; then \
@@ -141,7 +146,7 @@ RUN if [ "$DEVEL" = "true" ]; then \
 ENV PATH="$PATH:/root/.cargo/bin"
 
 # Typescript
-RUN apt update && apt install -y nodejs npm
+RUN apt update && apt install --no-install-recommends -y nodejs npm
 
 # optional javascript runtimes
 # Deno
@@ -159,41 +164,19 @@ RUN cd /opt/v && make -j$(nproc)
 ENV PATH="$PATH:/opt/v"
 
 # Zig
-RUN wget -qO- https://apt.llvm.org/llvm-snapshot.gpg.key | tee /etc/apt/trusted.gpg.d/apt.llvm.org.asc
-RUN apt install -y \
-        cmake \
-        libllvm16 \
-        llvm-16 \
-        llvm-16-dev \
-        clang-16 \
-        libclang-16-dev \
-        lld-16 \
-        liblld-16-dev
-RUN git clone https://github.com/ziglang/zig
-RUN mkdir zig/build
-RUN cd zig/build && \
-    cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local && \
-    make -j$(nproc) install
-RUN rm -rf zig
-
-# ZLS
-RUN if [ "$DEVEL" = "true" ]; then \
-        git clone --depth=1 https://github.com/zigtools/zls; \
-        cd zls; \
-        zig build -Doptimize=ReleaseSafe; \
-        cp zig-out/bin/zls /usr/local/bin; \
+RUN if [ "$TARGETARCH" = "amd64" ]; then \
+        wget -nv -O zig.tar.xz https://ziglang.org/builds/zig-linux-x86_64-${ZIG_VER}.tar.xz; \
+    elif [ "$TARGETARCH" = "arm64" ]; then \
+        wget -nv -O zig.tar.xz https://ziglang.org/builds/zig-linux-aarch64-${ZIG_VER}.tar.xz; \
+    else \
+        echo "Unsupported arch: $TARGETARCH"; \
+        exit 1; \
     fi
-RUN rm -rf zls
-
-# Tools
-RUN if [ "$DEVEL" = "true" ]; then \
-        apt install --no-install-recommends -y \
-        delve \
-        gdb \
-        gopls \
-        go-staticcheck \
-        lldb-16; \
-    fi
+RUN tar xf zig.tar.xz
+RUN mv zig-linux-*-${ZIG_VER} zig
+RUN cp zig/zig /usr/local/bin/
+RUN cp -r zig/lib /usr/local/lib/zig
+RUN rm -rf zig*
 
 # Zx
 RUN npm install -g zx
