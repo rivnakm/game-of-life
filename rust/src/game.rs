@@ -1,92 +1,121 @@
-pub fn run_game(height: usize, width: usize, generations: u32) {
-    
-    let mut board = Board::new(height, width);
+use std::io::{self, Write};
 
+use rand::Rng;
 
-    for _ in 0..generations {
-        board.draw();
-        print!("\x1b[{}A", board.height); // Move cursor up
-        next_gen(&mut board);
+#[inline(always)]
+pub fn run_game<const HEIGHT: usize, const WIDTH: usize, const GENERATIONS: u32>() {
+    let size = WIDTH * HEIGHT;
+
+    let mut buf = format!("\x1b[{}A", HEIGHT + 1).into_bytes();
+    let clear_len = buf.len();
+    buf.reserve(
+        // Space for all cells
+        size * 6
+        // Space for newlines
+        + HEIGHT,
+    );
+
+    let mut screen = Screen::<WIDTH, HEIGHT>::new();
+    let mut stdout = io::stdout().lock();
+    for _ in 0..GENERATIONS {
+        screen.draw(&mut buf);
+        screen.next_gen();
+        let _ = stdout.write_all(&buf).and_then(|_| stdout.flush());
+        unsafe {
+            buf.set_len(clear_len);
+        }
     }
 }
 
-fn next_gen(board: &mut Board) {
-    let board_clone = board.clone();
+#[non_exhaustive]
+struct Screen<const WIDTH: usize, const HEIGHT: usize> {
+    cells: Box<[bool]>,
+    cells2: Box<[bool]>,
+}
 
-    for i in 0..board.height {
-        for j in 0..board.width {
-            let mut cell = board_clone.get_cell(&i, &j);
-            let mut adjacent: u8 = 0;
+use crate::{constant::LOOKUP, trait_ext::UncheckedVecExt};
+impl<const WIDTH: usize, const HEIGHT: usize> Screen<WIDTH, HEIGHT> {
+    #[inline(always)]
+    fn new() -> Self {
+        let size = WIDTH * HEIGHT;
+        let mut rng = rand::thread_rng();
+        let cells: Box<[bool]> = (0..size).map(|_| rng.gen()).collect();
 
-            for n in 0..3 {
-                for m in 0..3 {
-                    // avoid unsigned int overflow and ignore center cell
-                    if (n == 0 && i == 0) || (m == 0 && j == 0) || (n == 1 && m == 1) {
-                        continue;
+        let cells2 = cells.clone();
+        Self { cells, cells2 }
+    }
+
+    #[inline(always)]
+    unsafe fn get_cell_unchecked(&self, row: usize, col: usize) -> bool {
+        *self.cells.get_unchecked(row * WIDTH + col)
+    }
+
+    #[inline(always)]
+    fn next_gen(&mut self) {
+        for row in 0..HEIGHT {
+            for col in 0..WIDTH {
+                let cell = unsafe { self.get_cell_unchecked(row, col) };
+                let mut adjacent: u8 = 0;
+
+                for drow in 0..3 {
+                    for dcol in 0..3 {
+                        // Ignore center cell and OOB
+                        if (drow == 0 && row == 0)
+                            | (dcol == 0 && col == 0)
+                            | (row == HEIGHT && drow == 3)
+                            | (col == WIDTH && dcol == 3)
+                            || (drow == 1 && dcol == 1)
+                        {
+                            continue;
+                        }
+
+                        if unsafe { self.get_cell_unchecked(row + drow - 1, col + dcol - 1) } {
+                            adjacent += 1;
+                        }
                     }
-                    if board_clone.get_cell(&(i + n - 1), &(j + m - 1)) {
-                        adjacent += 1;
-                    }
+                }
+
+                unsafe {
+                    *self.cells2.get_unchecked_mut(row * WIDTH + col) =
+                        (adjacent == 3) | (cell && adjacent == 2);
                 }
             }
-
-            if cell {
-                if adjacent < 2 {
-                    cell = false;
-                }
-                if adjacent > 3 {
-                    cell = false;
-                }
-            } else {
-                if adjacent == 3 {
-                    cell = true
-                }
-            }
-
-            board.cells[(i * board.width) + j] = cell
         }
+        std::mem::swap(&mut self.cells, &mut self.cells2)
     }
-}
 
-#[derive(Clone)]
-struct Board {
-    cells: Vec<bool>,
-    height: usize,
-    width: usize,
-}
+    #[inline(always)]
+    fn write_line(buf: &mut Vec<u8>, slice: &[bool]) {
+        const REM_LUT: [&[u8]; 2] = [b"  ", b"\xE2\x96\x88\xE2\x96\x88"];
 
-impl Board {
-    fn new(height: usize, width: usize) -> Board {
-        let mut cells: Vec<bool> = Vec::with_capacity(height*width);
-        for _ in 0..height*width {
-            cells.push(rand::random::<bool>());
+        let mut chunks = slice.chunks_exact(8);
+        for chunk in &mut chunks {
+            let val: u8 = chunk
+                .iter()
+                .map(|&b| b as u8)
+                .enumerate()
+                .map(|(idx, b)| b << idx)
+                .sum();
+            unsafe {
+                let pattern = LOOKUP.get_unchecked(val as usize);
+                buf.extend_from_slice_unchecked(pattern);
+            }
         }
 
-        Board {
-            cells: cells,
-            height: height,
-            width: width,
+        for &cell in chunks.remainder() {
+            unsafe {
+                buf.extend_from_slice_unchecked(REM_LUT[cell as usize]);
+            }
+        }
+        unsafe {
+            buf.push_unchecked(b'\n');
         }
     }
 
-    fn get_cell(&self, row: &usize, col: &usize) -> bool {
-        if *row < self.height && *col < self.width {
-            self.cells[(*row * self.width) + *col]
-        } else {
-            false
-        }
-    }
-
-    fn draw(&self) {
-        for i in 0..self.height {
-            for j in 0..self.width {
-                if self.cells[(i * self.width) + j] {
-                    print!("██");
-                } else {
-                    print!("  ");
-                }
-            }
-            println!("");
+    #[inline(always)]
+    fn draw(&self, buf: &mut Vec<u8>) {
+        for line in self.cells.chunks_exact(WIDTH) {
+            Self::write_line(buf, line);
         }
     }
 }
