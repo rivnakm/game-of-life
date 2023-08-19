@@ -465,6 +465,13 @@
                 "./game_of_life.lua"
             ],
             "cleanCmds": [],
+            "version": {
+                "cmd": [
+                    "luajit",
+                    "-v"
+                ],
+                "regex": "LuaJIT (\\d+\\.\\d+\\.\\d+(-\\w*)?)"
+            },
             "enabled": true
         },
         {
@@ -490,19 +497,6 @@
                     "clean"
                 ]
             ],
-            "enabled": true
-        },
-        {
-            "properName": "Lua (LuaJIT)",
-            "shortName": "luajit",
-            "dir": "lua",
-            "env": {},
-            "buildCmds": [],
-            "runCmd": [
-                "luajit",
-                "./game_of_life.lua"
-            ],
-            "cleanCmds": [],
             "enabled": true
         },
         {
@@ -664,6 +658,34 @@
             "properName": "Rust",
             "shortName": "rust",
             "dir": "rust",
+            "env": {},
+            "buildCmds": [
+                [
+                    "cargo",
+                    "build",
+                    "--release"
+                ]
+            ],
+            "runCmd": "./target/release/game_of_life",
+            "cleanCmds": [
+                [
+                    "cargo",
+                    "clean"
+                ]
+            ],
+            "version": {
+                "cmd": [
+                    "rustc",
+                    "--version"
+                ],
+                "regex": "rustc (\\d+\\.\\d+\\.\\d+)"
+            },
+            "enabled": true
+        },
+        {
+            "properName": "Rust (Alt)",
+            "shortName": "rustalt",
+            "dir": "rust-alt",
             "env": {},
             "buildCmds": [
                 [
