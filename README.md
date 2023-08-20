@@ -255,10 +255,10 @@ zig build run
 
 ## Benchmarking
 
-There's an included script to build all version and run benchmarks. It requires [zx](https://github.org/google/zx) to run
+There's an included script to build all version and run benchmarks. It requires [hyperfine](https://github.com/sharkdp/hyperfine) to run
 
 ```sh
-zx --install benchmark.mjs
+python benchmark.py
 ```
 
 `--install` is only needed on the first run to install the script's dependencies
@@ -266,15 +266,15 @@ zx --install benchmark.mjs
 You can also specify how many iterations to run the benchmark (default 5), averaging the results
 
 ```sh
-./benchmark.mjs --iterations 5
+python benchmark.py --iterations 5
 ```
 
 The set of languages to run in the benchmark can also be set. NOTE: Some languages, e.g. bash, powershell, are disabled by default for performance reasons. The default set is "ada,c,cpp,csharp,d,dart,fsharp,go,haskell,java,julia,lua,nim,perl,python,ruby,rust,typescript,vb,zig"
 
 ```sh
-./benchmark.mjs --languages c,cpp,rust
+python benchmark.py --languages c,cpp,rust
 # of
-./benchmark.mjs --languages all
+python benchmark.py --languages all
 ```
 
 ## Container Build
