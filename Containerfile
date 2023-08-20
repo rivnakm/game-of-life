@@ -6,6 +6,7 @@ ARG TARGETARCH
 ENV GRADLE_VER=8.2.1
 ENV JULIA_MAJ_VER=1.9
 ENV JULIA_VER=1.9.2
+ENV KOTLIN_VER=1.9.0
 ENV NIM_VER=2.0.0
 ENV PWSH_VER=7.3.6
 ENV ZIG_VER=0.11.0-dev.4403+e84cda0eb
@@ -81,6 +82,14 @@ RUN tar -xzf julia.tar.gz
 RUN cp -r julia-${JULIA_VER}/bin julia-${JULIA_VER}/lib julia-${JULIA_VER}/libexec julia-${JULIA_VER}/include julia-${JULIA_VER}/share /usr/local/
 RUN cp -r julia-${JULIA_VER}/etc /
 RUN rm -rf julia*
+
+# Kotlin
+RUN wget -nv https://github.com/JetBrains/kotlin/releases/download/v${KOTLIN_VER}/kotlin-compiler-${KOTLIN_VER}.zip -O kotlin.zip
+RUN unzip kotlin.zip
+RUN mv kotlinc /opt/kotlin
+RUN ln -sv /opt/kotlin/bin/kotlin /usr/local/bin/
+RUN ln -sv /opt/kotlin/bin/kotlinc /usr/local/bin/
+RUN rm -rf kotlin.zip
 
 # Lua
 RUN apt update && apt install --no-install-recommends -y lua5.4
@@ -181,6 +190,9 @@ RUN rm -rf zig*
 # Zx
 RUN npm install -g zx
 RUN npm install -g average csv-stringify table
+
+RUN apt autoremove
+RUN apt clean
 
 COPY . /app
 WORKDIR /app

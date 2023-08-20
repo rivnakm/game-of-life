@@ -19,7 +19,7 @@ jobs:
       - name: Run benchmark
         id: benchmark
         run: |
-          docker run --name game-of-life mrivnak/game-of-life:community
+          docker run --name game-of-life mrivnak/game-of-life
           docker cp game-of-life:/app/benchmark_results.txt ./benchmark_results.txt
           echo "results=$(cat ./benchmark_results.txt)" >> $GITHUB_OUTPUT
 

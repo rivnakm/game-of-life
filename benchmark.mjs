@@ -118,9 +118,11 @@ for (var language of languages) {
     if (language.willRun()) {
         console.log(chalk.cyan(`\n${language.properName}`) + ":");
 
-        let version = await getVersion(language.version.cmd, language.version.regex);
-        let program = language.version.cmd[0];
-        console.log(chalk.magenta(`    ${program} v${version}`))
+        if (language.version !== undefined) {
+            let version = await getVersion(language.version.cmd, language.version.regex);
+            let program = language.version.cmd[0];
+            console.log(chalk.magenta(`    ${program} v${version}`))
+        }
     }
 
     language.setEnv();
