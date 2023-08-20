@@ -98,9 +98,6 @@ RUN apt update && apt install --no-install-recommends -y lua5.4
 RUN apt update && apt install --no-install-recommends -y luajit
 
 # .NET SDK 7.0
-RUN wget https://packages.microsoft.com/config/ubuntu/22.10/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
-RUN dpkg -i packages-microsoft-prod.deb
-RUN rm packages-microsoft-prod.deb
 RUN apt update && apt install --no-install-recommends -y dotnet-sdk-7.0
 
 # Nim
