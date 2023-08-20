@@ -17,12 +17,11 @@ jobs:
         run: docker pull ghcr.io/mrivnak/game-of-life:community
 
       - name: Run benchmark
+        id: benchmark
         run: |
           docker run --name game-of-life ghcr.io/mrivnak/game-of-life:community
           docker cp game-of-life:/app/benchmark_results.txt ./benchmark_results.txt
-          echo 'BENCHMARK_RESULTS<<EOF' >> $GITHUB_ENV
-          cat ./benchmark_results.txt >> $GITHUB_ENV
-          echo 'EOF' >> $GITHUB_ENV
+          echo "results=$(cat ./benchmark_results.txt | sed ':a;N;$!ba;s/\n/\\n/g')" >> "$GITHUB_OUTPUT
 
       - name: Post benchmark results
         uses: LouisBrunner/checks-action@v1.6.1
@@ -31,4 +30,4 @@ jobs:
           name: Benchmark Results
           conclusion: ${{ job.status }}
           output: |
-            {"title":"Benchmark Results","summary":"${{ env.BENCHMARK_RESULTS }}"}
+            {"title":"Benchmark Results","summary":"${{ steps.benchmark.outputs.results }}"}
