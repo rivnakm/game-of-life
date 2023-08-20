@@ -187,14 +187,13 @@ RUN cp zig/zig /usr/local/bin/
 RUN cp -r zig/lib /usr/local/lib/zig
 RUN rm -rf zig*
 
-# Zx
 RUN npm install -g zx
-RUN npm install -g average csv-stringify table
 
-RUN apt autoremove
 RUN apt clean
 
 COPY . /app
 WORKDIR /app
+
+RUN npm install --ci
 
 ENTRYPOINT ["zx", "./benchmark.mjs"]
