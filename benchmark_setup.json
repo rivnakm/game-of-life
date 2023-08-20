@@ -490,6 +490,13 @@
                     "clean"
                 ]
             ],
+            "version": {
+                "cmd": [
+                    "kotlin",
+                    "-version"
+                ],
+                "regex": "Kotlin version (\\d+\\.\\d+\\.\\d+-release-\\d+)"
+            },
             "enabled": true
         },
         {
@@ -503,31 +510,6 @@
                 "./game_of_life.lua"
             ],
             "cleanCmds": [],
-            "enabled": true
-        },
-        {
-            "properName": "Kotlin",
-            "shortName": "kotlin",
-            "dir": "kotlin",
-            "env": {},
-            "buildCmds": [
-                [
-                    "./gradlew",
-                    "build"
-                ]
-            ],
-            "runCmd": [
-                "kotlin",
-                "-classpath",
-                "build/classes/kotlin/main",
-                "MainKt"
-            ],
-            "cleanCmds": [
-                [
-                    "./gradlew",
-                    "clean"
-                ]
-            ],
             "enabled": true
         },
         {

@@ -17,12 +17,12 @@ dependencies {
 }
 
 tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "20"
+    kotlinOptions.jvmTarget = "19"
 }
 
 tasks.withType<JavaCompile> {
-    sourceCompatibility = "20"
-    targetCompatibility = "20"
+    sourceCompatibility = "19"
+    targetCompatibility = "19"
 }
 
 application {
