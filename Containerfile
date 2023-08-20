@@ -162,7 +162,7 @@ RUN apt update && apt install --no-install-recommends -y nodejs npm
 #         cargo install deno --locked; \
 #     fi
 # Bun
-RUN curl -fsSL https://bun.sh/install | bash
+RUN npm install -g bun
 
 # V
 RUN git clone --depth=1 https://github.com/vlang/v /opt/v
