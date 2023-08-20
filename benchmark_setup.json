@@ -12,17 +12,10 @@
                     "src/game_of_life.adb"
                 ]
             ],
-            "runCmd": "./game_of_life",
+            "runCmd": ["./game_of_life"],
             "cleanCmds": [
-                "gnatclean"
+                ["gnatclean"]
             ],
-            "version": {
-                "cmd": [
-                    "gnat",
-                    "--version"
-                ],
-                "regex": "GNAT (\\d+\\.\\d+\\.\\d+)"
-            },
             "enabled": true
         },
         {
@@ -36,13 +29,6 @@
                 "./game_of_life.sh"
             ],
             "cleanCmds": [],
-            "version": {
-                "cmd": [
-                    "bash",
-                    "--version"
-                ],
-                "regex": "GNU bash, version (\\d+\\.\\d+\\.\\d+)"
-            },
             "enabled": false
         },
         {
@@ -53,22 +39,15 @@
                 "CFLAGS": "-O3"
             },
             "buildCmds": [
-                "make"
+                ["make"]
             ],
-            "runCmd": "./game_of_life",
+            "runCmd": ["./game_of_life"],
             "cleanCmds": [
                 [
                     "make",
                     "clean"
                 ]
             ],
-            "version": {
-                "cmd": [
-                    "gcc",
-                    "--version"
-                ],
-                "regex": "gcc \\(.*\\) (\\d+\\.\\d+\\.\\d+)"
-            },
             "enabled": true
         },
         {
@@ -80,22 +59,15 @@
                 "CC": "clang"
             },
             "buildCmds": [
-                "make"
+                ["make"]
             ],
-            "runCmd": "./game_of_life",
+            "runCmd": ["./game_of_life"],
             "cleanCmds": [
                 [
                     "make",
                     "clean"
                 ]
             ],
-            "version": {
-                "cmd": [
-                    "clang",
-                    "--version"
-                ],
-                "regex": "clang version (\\d+\\.\\d+\\.\\d+)"
-            },
             "enabled": true
         },
         {
@@ -127,7 +99,7 @@
                     "build"
                 ]
             ],
-            "runCmd": "./build/game_of_life",
+            "runCmd": ["./build/game_of_life"],
             "cleanCmds": [
                 [
                     "ninja",
@@ -136,13 +108,6 @@
                     "clean"
                 ]
             ],
-            "version": {
-                "cmd": [
-                    "g++",
-                    "--version"
-                ],
-                "regex": "g\\+\\+ \\(.*\\) (\\d+\\.\\d+\\.\\d+)"
-            },
             "enabled": true
         },
         {
@@ -177,7 +142,7 @@
                     "build"
                 ]
             ],
-            "runCmd": "./build/game_of_life",
+            "runCmd": ["./build/game_of_life"],
             "cleanCmds": [
                 [
                     "ninja",
@@ -186,13 +151,6 @@
                     "clean"
                 ]
             ],
-            "version": {
-                "cmd": [
-                    "clang++",
-                    "--version"
-                ],
-                "regex": "clang version (\\d+\\.\\d+\\.\\d+)"
-            },
             "enabled": true
         },
         {
@@ -208,20 +166,13 @@
                     "Release"
                 ]
             ],
-            "runCmd": "./bin/Release/net7.0/GameOfLife",
+            "runCmd": ["./bin/Release/net7.0/GameOfLife"],
             "cleanCmds": [
                 [
                     "dotnet",
                     "clean"
                 ]
             ],
-            "version": {
-                "cmd": [
-                    "dotnet",
-                    "--version"
-                ],
-                "regex": "(\\d+\\.\\d+\\.\\d+)"
-            },
             "enabled": true
         },
         {
@@ -232,22 +183,15 @@
                 "DFLAGS": "-O3"
             },
             "buildCmds": [
-                "make"
+                ["make"]
             ],
-            "runCmd": "./game_of_life",
+            "runCmd": ["./game_of_life"],
             "cleanCmds": [
                 [
                     "make",
                     "clean"
                 ]
             ],
-            "version": {
-                "cmd": [
-                    "gdc",
-                    "--version"
-                ],
-                "regex": "gdc \\(.*\\) (\\d+\\.\\d+\\.\\d+)"
-            },
             "enabled": true
         },
         {
@@ -268,7 +212,7 @@
                     "bin/game_of_life.dart"
                 ]
             ],
-            "runCmd": "./bin/game_of_life.exe",
+            "runCmd": ["./bin/game_of_life.exe"],
             "cleanCmds": [
                 [
                     "rm",
@@ -276,13 +220,6 @@
                     "./bin/game_of_life.exe"
                 ]
             ],
-            "version": {
-                "cmd": [
-                    "dart",
-                    "--version"
-                ],
-                "regex": "Dart SDK version: (\\d+\\.\\d+\\.\\d+\\S+) "
-            },
             "enabled": true
         },
         {
@@ -298,20 +235,13 @@
                     "Release"
                 ]
             ],
-            "runCmd": "./bin/Release/net7.0/GameOfLife",
+            "runCmd": ["./bin/Release/net7.0/GameOfLife"],
             "cleanCmds": [
                 [
                     "dotnet",
                     "clean"
                 ]
             ],
-            "version": {
-                "cmd": [
-                    "dotnet",
-                    "--version"
-                ],
-                "regex": "(\\d+\\.\\d+\\.\\d+)"
-            },
             "enabled": true
         },
         {
@@ -326,7 +256,7 @@
                     "-ldflags=-s"
                 ]
             ],
-            "runCmd": "./game_of_life",
+            "runCmd": ["./game_of_life"],
             "cleanCmds": [
                 [
                     "rm",
@@ -334,13 +264,6 @@
                     "./game_of_life"
                 ]
             ],
-            "version": {
-                "cmd": [
-                    "go",
-                    "version"
-                ],
-                "regex": "go(\\d+\\.\\d+\\.\\d+)"
-            },
             "enabled": true
         },
         {
@@ -359,7 +282,7 @@
                     "board.hs"
                 ]
             ],
-            "runCmd": "./game_of_life",
+            "runCmd": ["./game_of_life"],
             "cleanCmds": [
                 [
                     "rm",
@@ -373,13 +296,6 @@
                     "main.o"
                 ]
             ],
-            "version": {
-                "cmd": [
-                    "ghc",
-                    "--version"
-                ],
-                "regex": "The Glorious Glasgow Haskell Compilation System, version (\\d+\\.\\d+\\.\\d+)"
-            },
             "enabled": true
         },
         {
@@ -405,13 +321,6 @@
                     "clean"
                 ]
             ],
-            "version": {
-                "cmd": [
-                    "java",
-                    "-version"
-                ],
-                "regex": "openjdk version \\\"(\\d+\\.\\d+\\.\\d+)\\\""
-            },
             "enabled": true
         },
         {
@@ -425,13 +334,6 @@
                 "./gameoflife.jl"
             ],
             "cleanCmds": [],
-            "version": {
-                "cmd": [
-                    "julia",
-                    "--version"
-                ],
-                "regex": "julia version (\\d+\\.\\d+\\.\\d+)"
-            },
             "enabled": true
         },
         {
@@ -445,13 +347,6 @@
                 "./game_of_life.lua"
             ],
             "cleanCmds": [],
-            "version": {
-                "cmd": [
-                    "lua",
-                    "-v"
-                ],
-                "regex": "Lua (\\d+\\.\\d+\\.\\d+)"
-            },
             "enabled": true
         },
         {
@@ -497,13 +392,6 @@
                     "clean"
                 ]
             ],
-            "version": {
-                "cmd": [
-                    "kotlin",
-                    "-version"
-                ],
-                "regex": "Kotlin version (\\d+\\.\\d+\\.\\d+-release-\\d+)"
-            },
             "enabled": true
         },
         {
@@ -527,13 +415,6 @@
                     "./GameOfLife"
                 ]
             ],
-            "version": {
-                "cmd": [
-                    "nim",
-                    "--version"
-                ],
-                "regex": "Nim Compiler Version (\\d+\\.\\d+\\.\\d+)"
-            },
             "enabled": true
         },
         {
@@ -547,13 +428,6 @@
                 "./GameOfLife.pl"
             ],
             "cleanCmds": [],
-            "version": {
-                "cmd": [
-                    "perl",
-                    "--version"
-                ],
-                "regex": "This is perl \\d+, version \\d+, subversion \\d+ \\(v(\\d+\\.\\d+\\.\\d+)\\)"
-            },
             "enabled": true
         },
         {
@@ -567,13 +441,6 @@
                 "./gameoflife.php"
             ],
             "cleanCmds": [],
-            "version": {
-                "cmd": [
-                    "php",
-                    "--version"
-                ],
-                "regex": "PHP (\\d+\\.\\d+\\.\\d+)"
-            },
             "enabled": true
         },
         {
@@ -587,13 +454,6 @@
                 "./Game-Of-Life.ps1"
             ],
             "cleanCmds": [],
-            "version": {
-                "cmd": [
-                    "pwsh",
-                    "--version"
-                ],
-                "regex": "PowerShell (\\d+\\.\\d+\\.\\d+)"
-            },
             "enabled": false
         },
         {
@@ -607,13 +467,6 @@
                 "./game_of_life.py"
             ],
             "cleanCmds": [],
-            "version": {
-                "cmd": [
-                    "python",
-                    "--version"
-                ],
-                "regex": "Python (\\d+\\.\\d+\\.\\d+)"
-            },
             "enabled": true
         },
         {
@@ -627,13 +480,6 @@
                 "./GameOfLife.rb"
             ],
             "cleanCmds": [],
-            "version": {
-                "cmd": [
-                    "ruby",
-                    "--version"
-                ],
-                "regex": "ruby (\\d+\\.\\d+\\.\\d+\\S+)"
-            },
             "enabled": true
         },
         {
@@ -648,20 +494,13 @@
                     "--release"
                 ]
             ],
-            "runCmd": "./target/release/game_of_life",
+            "runCmd": ["./target/release/game_of_life"],
             "cleanCmds": [
                 [
                     "cargo",
                     "clean"
                 ]
             ],
-            "version": {
-                "cmd": [
-                    "rustc",
-                    "--version"
-                ],
-                "regex": "rustc (\\d+\\.\\d+\\.\\d+)"
-            },
             "enabled": true
         },
         {
@@ -725,13 +564,6 @@
                     "node_modules"
                 ]
             ],
-            "version": {
-                "cmd": [
-                    "node",
-                    "--version"
-                ],
-                "regex": "v(\\d+\\.\\d+\\.\\d+)"
-            },
             "enabled": true
         },
         {
@@ -767,13 +599,6 @@
                     "node_modules"
                 ]
             ],
-            "version": {
-                "cmd": [
-                    "bun",
-                    "--version"
-                ],
-                "regex": "(\\d+\\.\\d+\\.\\d+)"
-            },
             "enabled": true
         },
         {
@@ -789,7 +614,7 @@
                     "-prod"
                 ]
             ],
-            "runCmd": "./v",
+            "runCmd": ["./v"],
             "cleanCmds": [
                 [
                     "rm",
@@ -797,13 +622,6 @@
                     "v"
                 ]
             ],
-            "version": {
-                "cmd": [
-                    "v",
-                    "--version"
-                ],
-                "regex": "V (\\d+\\.\\d+\\.\\d+ \\S+)"
-            },
             "enabled": false
         },
         {
@@ -819,20 +637,13 @@
                     "Release"
                 ]
             ],
-            "runCmd": "./bin/Release/net7.0/GameOfLife",
+            "runCmd": ["./bin/Release/net7.0/GameOfLife"],
             "cleanCmds": [
                 [
                     "dotnet",
                     "clean"
                 ]
             ],
-            "version": {
-                "cmd": [
-                    "dotnet",
-                    "--version"
-                ],
-                "regex": "(\\d+\\.\\d+\\.\\d+)"
-            },
             "enabled": true
         },
         {
@@ -847,7 +658,7 @@
                     "-Doptimize=ReleaseFast"
                 ]
             ],
-            "runCmd": "./zig-out/bin/game_of_life",
+            "runCmd": ["./zig-out/bin/game_of_life"],
             "cleanCmds": [
                 [
                     "rm",
@@ -856,13 +667,6 @@
                     "zig-cache"
                 ]
             ],
-            "version": {
-                "cmd": [
-                    "zig",
-                    "version"
-                ],
-                "regex": "(\\d+\\.\\d+\\.\\d+\\S+)"
-            },
             "enabled": true
         }
     ]

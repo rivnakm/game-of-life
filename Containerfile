@@ -27,6 +27,7 @@ RUN apt install --no-install-recommends -y \
         curl \
         git \
         gpg \
+        hyperfine \
         pkg-config \
         unzip \
         wget
@@ -39,6 +40,9 @@ RUN apt update && apt install --no-install-recommends -y clang
 
 # C++
 RUN apt update && apt install --no-install-recommends -y meson
+
+# Cython
+RUN apt update && apt install --no-install-recommends -y cython3
 
 # D
 RUN apt update && apt install --no-install-recommends -y gdc
@@ -184,13 +188,11 @@ RUN cp zig/zig /usr/local/bin/
 RUN cp -r zig/lib /usr/local/lib/zig
 RUN rm -rf zig*
 
-RUN npm install -g zx
+RUN apt clean
 
 RUN apt clean
 
 COPY . /app
 WORKDIR /app
 
-RUN npm install --ci
-
-ENTRYPOINT ["zx", "./benchmark.mjs"]
+ENTRYPOINT ["python", "benchmark.py", "--basic"]
