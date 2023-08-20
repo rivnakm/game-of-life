@@ -89,9 +89,6 @@ RUN apt update && apt install --no-install-recommends -y lua5.4
 RUN apt update && apt install --no-install-recommends -y luajit
 
 # .NET SDK 7.0
-RUN wget https://packages.microsoft.com/config/ubuntu/22.10/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
-RUN dpkg -i packages-microsoft-prod.deb
-RUN rm packages-microsoft-prod.deb
 RUN apt update && apt install --no-install-recommends -y dotnet-sdk-7.0
 
 # Nim
@@ -156,7 +153,7 @@ RUN apt update && apt install --no-install-recommends -y nodejs npm
 #         cargo install deno --locked; \
 #     fi
 # Bun
-RUN curl -fsSL https://bun.sh/install | bash
+RUN npm install -g bun
 
 # V
 RUN git clone --depth=1 https://github.com/vlang/v /opt/v
@@ -178,11 +175,13 @@ RUN cp zig/zig /usr/local/bin/
 RUN cp -r zig/lib /usr/local/lib/zig
 RUN rm -rf zig*
 
-# Zx
 RUN npm install -g zx
-RUN npm install -g average csv-stringify table
+
+RUN apt clean
 
 COPY . /app
 WORKDIR /app
+
+RUN npm install --ci
 
 ENTRYPOINT ["zx", "./benchmark.mjs"]

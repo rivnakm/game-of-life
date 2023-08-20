@@ -465,6 +465,13 @@
                 "./game_of_life.lua"
             ],
             "cleanCmds": [],
+            "version": {
+                "cmd": [
+                    "luajit",
+                    "-v"
+                ],
+                "regex": "LuaJIT (\\d+\\.\\d+\\.\\d+(-\\w*)?)"
+            },
             "enabled": true
         },
         {

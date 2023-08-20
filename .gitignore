@@ -4,3 +4,4 @@
 *.code-workspace
 node_modules/
 *.csv
+benchmark_results.txt

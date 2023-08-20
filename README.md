@@ -28,13 +28,6 @@
 ![Visual Basic](https://img.shields.io/badge/visual_basic-%2368217a.svg?style=for-the-badge&logo=.net&logoColor=white)
 ![Zig](https://img.shields.io/badge/Zig-%23F7A442.svg?style=for-the-badge&logo=zig&logoColor=black)
 
-<!--
-![Assembly](https://img.shields.io/badge/Assembly-black?style=for-the-badge&logo=arm&logoColor=white)
-![Forth](https://img.shields.io/badge/forth-%23EF5350.svg?style=for-the-badge)
-![Elixir](https://img.shields.io/badge/elixir-%234B275F.svg?style=for-the-badge&logo=elixir&logoColor=white)
-![Fortran](https://img.shields.io/badge/Fortran-%23734F96.svg?style=for-the-badge&logo=fortran&logoColor=white)
--->
-
 The games are all setup to run a 100x50 (WxH) board for 500 generations. Most of them were originally written to be dynamic and find the terminal
 size or accept arguments but it was taking too much work to get all of that set up for each language and (imo) distracting from the purpose of this
 by shifting half of the work onto random argument parsing libraries rather than the languages themselves.
@@ -49,14 +42,6 @@ by shifting half of the work onto random argument parsing libraries rather than 
 
 ## Prerequisites
 
-<!--
-- Assembly
-  - GNU Binutils (as & ld)
-  - Raspberry Pi 4
-- Elixir
-- Fortran
-  - GCC (gfortran)
--->
 - Ada 95
   - GCC Gnat
   - GCC Gnatmake
@@ -98,16 +83,6 @@ by shifting half of the work onto random argument parsing libraries rather than 
 - Zig
 
 ## Build from Source
-
-<!-- ### Assembly
-
-This is written for a Raspberry Pi 4 running aarch64 Linux
-
-```sh
-cd asm/
-make
-./game_of_life
-``` -->
 
 ### Ada
 
@@ -163,13 +138,6 @@ make
 cd dart/
 dart run
 ```
-
-<!-- ### Elixir
-
-```sh
-cd elixir/
-elixir game_of_life.exs
-``` -->
 
 ### F\#
 
@@ -325,7 +293,7 @@ podman run --rm game-of-life --iterations 5 --languages c,cpp,rust
 
 [![Container build](https://github.com/mrivnak/game-of-life/actions/workflows/publish-image.yml/badge.svg)](https://github.com/mrivnak/game-of-life/actions/workflows/publish-image.yml)
 
-There's a prebuilt image on GitHub Container Registry since the container build is quite long, especially on low powered systems. Images will be available for x86_64 and aarch64. riscv64 will also be available once software support is available
+There's a prebuilt image on GitHub Container Registry since the container build is quite long, especially on low powered systems. Images will be available for x86_64 only.
 
 ```sh
 podman pull ghcr.io/mrivnak/game-of-life:main
@@ -336,4 +304,4 @@ podman run --rm mrivnak/game-of-life:main
 
 ![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white)
 
-Provided is a `devcontainer.json` file that will automatically setup a development environment for all of the languages in here, along with relevant extensions and language servers
+Provided is a `devcontainer.json` file that will automatically setup a development environment for all of the languages in here, along with relevant extensions and language servers.
