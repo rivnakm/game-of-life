@@ -1,8 +1,0 @@
-{
-	"dependencies": {
-		"average": "^1.0.0",
-		"csv-stringify": "^6.4.0",
-		"table": "^6.8.1",
-		"zx": "^7.2.3"
-	}
-}
