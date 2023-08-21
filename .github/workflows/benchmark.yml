@@ -30,4 +30,4 @@ jobs:
           name: Benchmark Results
           conclusion: ${{ job.status }}
           output: |
-            {"title":"Benchmark Results","summary":"${{ steps.benchmark.outputs.results }}"}
+            {"title":"Benchmark Results","summary":${{ steps.benchmark.outputs.results }}}
