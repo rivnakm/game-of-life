@@ -158,21 +158,6 @@ ENV PATH="$PATH:/root/.cargo/bin"
 # Typescript
 RUN apt update && apt install --no-install-recommends -y nodejs npm
 
-# optional javascript runtimes
-# Deno
-# RUN if [ "$TARGETARCH" = "amd64" ]; then \
-#         curl -fsSL https://deno.land/x/install/install.sh | sh; \
-#     else \
-#         cargo install deno --locked; \
-#     fi
-# Bun
-RUN npm install -g bun
-
-# V
-RUN git clone --depth=1 https://github.com/vlang/v /opt/v
-RUN cd /opt/v && make -j$(nproc)
-ENV PATH="$PATH:/opt/v"
-
 # Zig
 RUN if [ "$TARGETARCH" = "amd64" ]; then \
         wget -nv -O zig.tar.xz https://ziglang.org/builds/zig-linux-x86_64-${ZIG_VER}.tar.xz; \
