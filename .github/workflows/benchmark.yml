@@ -21,7 +21,7 @@ jobs:
         run: |
           docker run --name game-of-life ghcr.io/mrivnak/game-of-life:community
           docker cp game-of-life:/app/benchmark_results.md ./benchmark_results.md
-          echo "results=$(cat ./benchmark_results.md | sed 's/"/\\"/g; s/\t/\\t/g; s/\n/\\n/g')" >> $GITHUB_OUTPUT
+          echo "results=$(python -c "import json; print(json.dumps(\"\"\"$(cat benchmark_results.md)\"\"\"))")" >> $GITHUB_OUTPUT
 
       - name: Post benchmark results
         uses: LouisBrunner/checks-action@v1.6.1
