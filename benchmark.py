@@ -67,10 +67,9 @@ def main():
 
     for lang in languages:
         if lang.will_run():
-            result = subprocess.run(["make", lang.short_name], check=False)
+            result = subprocess.run(["make", "-C", lang.short_name], check=False)
             if result.returncode != 0:
                 print(f"Failed to build {lang.proper_name}", file=sys.stderr)
-                continue
 
             main_cmd += ["--command-name", lang.proper_name]
             main_cmd.append(lang.run_cmd)
@@ -83,7 +82,10 @@ def main():
     subprocess.run(command, check=True)
 
     if not args.no_clean:
-        subprocess.run(["make", "clean"], check=False)
+        print("Cleaning up...")
+        for lang in languages:
+            if lang.will_run():
+                subprocess.run(["make", "-C", lang.short_name, "clean"], check=False, capture_output=True)
 
 if __name__ == "__main__":
     main()

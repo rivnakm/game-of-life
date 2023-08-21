@@ -43,6 +43,12 @@
             "enabled": true
         },
         {
+            "properName": "Cython",
+            "shortName": "cython",
+            "runCmd": "python ./cython/main.py",
+            "enabled": true
+        },
+        {
             "properName": "D",
             "shortName": "d",
             "runCmd": "./d/game_of_life",
@@ -117,25 +123,25 @@
         {
             "properName": "PHP",
             "shortName": "php",
-            "runCmd": "php ./gameoflife.php",
+            "runCmd": "php ./php/gameoflife.php",
             "enabled": true
         },
         {
             "properName": "PowerShell",
             "shortName": "powershell",
-            "runCmd": "pwsh ./Game-Of-Life.ps1",
+            "runCmd": "pwsh ./powershell/Game-Of-Life.ps1",
             "enabled": false
         },
         {
             "properName": "Python",
             "shortName": "python",
-            "runCmd": "python ./game_of_life.py",
+            "runCmd": "python ./python/game_of_life.py",
             "enabled": true
         },
         {
             "properName": "Ruby",
             "shortName": "ruby",
-            "runCmd": "ruby ./GameOfLife.rb",
+            "runCmd": "ruby ./ruby/GameOfLife.rb",
             "enabled": true
         },
         {
@@ -153,10 +159,10 @@
         {
             "properName": "TypeScript",
             "shortName": "typescript",
-            "runCmd": "node typescript/build/src/main.js",
             "enabled": true
         },
         {
+            "runCmd": "node typescript/build/src/main.js",
             "properName": "Visual Basic",
             "shortName": "vb",
             "runCmd": "./vb/bin/Release/net7.0/GameOfLife",

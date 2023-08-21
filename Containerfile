@@ -42,7 +42,7 @@ RUN apt update && apt install --no-install-recommends -y clang
 RUN apt update && apt install --no-install-recommends -y meson
 
 # Cython
-RUN apt update && apt install --no-install-recommends -y cython3
+RUN apt update && apt install --no-install-recommends -y cython3 python3-dev
 
 # D
 RUN apt update && apt install --no-install-recommends -y gdc
