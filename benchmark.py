@@ -87,7 +87,7 @@ def main():
     if args.languages:
         languages_to_run = args.languages
 
-    command: List[str] = ["hyperfine", "--time-unit", "millisecond", "--ignore-failure", "--export-markdown", "benchmark_results.md", "--runs", str(iterations), "--warmup", "1"]
+    command: List[str] = ["hyperfine", "--time-unit", "millisecond", "--ignore-failure", "--export-markdown", "benchmark_results.md", "-N", "--runs", str(iterations), "--warmup", "1"]
     main_cmd = []
     cleanup = []
 
