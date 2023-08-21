@@ -15,4 +15,4 @@ clang:
 
 clean:
 	rm -f *.o
-	rm -f game_of_life
+	rm -f game_of_life_gcc game_of_life_clang
