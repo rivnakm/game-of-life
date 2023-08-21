@@ -1,5 +1,5 @@
 all:
-	gnatmake -gnat95 ${ADAFLAGS} src/game_of_life.adb
+	gnatmake -gnat95 -O3 ${ADAFLAGS} src/game_of_life.adb
 
 clean:
 	rm -f *.o
