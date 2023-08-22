@@ -159,10 +159,10 @@
         {
             "properName": "TypeScript",
             "shortName": "typescript",
+            "runCmd": "node typescript/build/src/main.js",
             "enabled": true
         },
         {
-            "runCmd": "node typescript/build/src/main.js",
             "properName": "Visual Basic",
             "shortName": "vb",
             "runCmd": "./vb/bin/Release/net7.0/GameOfLife",
