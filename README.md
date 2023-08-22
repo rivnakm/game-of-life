@@ -26,6 +26,7 @@
 ![Ruby](https://img.shields.io/badge/ruby-%23CC342D.svg?style=for-the-badge&logo=ruby&logoColor=white)
 ![Rust](https://img.shields.io/badge/rust-%23000000.svg?style=for-the-badge&logo=rust&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+![V](https://img.shields.io/badge/v-3c566d?style=for-the-badge&logo=v&logoColor=white)
 ![Visual Basic](https://img.shields.io/badge/visual_basic-%2368217a.svg?style=for-the-badge&logo=.net&logoColor=white)
 ![Zig](https://img.shields.io/badge/Zig-%23F7A442.svg?style=for-the-badge&logo=zig&logoColor=black)
 
@@ -81,6 +82,7 @@ by shifting half of the work onto random argument parsing libraries rather than 
 - Typescript
   - Node.js
   - Yarn
+- V
 - Visual Basic
   - .NET 7.0 SDK
 - Zig
@@ -248,6 +250,13 @@ cargo run
 cd typescript/
 yarn install
 yarn run start
+```
+
+### V
+
+```sh
+cd v/
+v run .
 ```
 
 ### Visual Basic

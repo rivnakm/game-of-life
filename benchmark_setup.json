@@ -151,6 +151,12 @@
             "enabled": true
         },
         {
+            "properName": "V",
+            "shortName": "v",
+            "runCmd": "./v/v",
+            "enabled": true
+        },
+        {
             "properName": "Visual Basic",
             "shortName": "vb",
             "runCmd": "./vb/bin/Release/net7.0/GameOfLife",
