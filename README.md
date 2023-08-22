@@ -9,6 +9,7 @@
 ![C](https://img.shields.io/badge/c-%2300599C.svg?style=for-the-badge&logo=c&logoColor=white)
 ![C++](https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white)
 ![C#](https://img.shields.io/badge/c%23-%23239120.svg?style=for-the-badge&logo=.net&logoColor=white)
+![Cython](https://img.shields.io/badge/cython-ffffff?style=for-the-badge&logo=python&logoColor=3670A0)
 ![D](https://img.shields.io/badge/d-%2398312A.svg?style=for-the-badge&logo=d&logoColor=white)
 ![Dart](https://img.shields.io/badge/dart-%230175C2.svg?style=for-the-badge&logo=dart&logoColor=white)
 ![F#](https://img.shields.io/badge/f%23-%2330B9DB.svg?style=for-the-badge&logo=.net&logoColor=white)
@@ -21,7 +22,7 @@
 ![Perl](https://img.shields.io/badge/perl-%2339457E.svg?style=for-the-badge&logo=perl&logoColor=white)
 ![PHP](https://img.shields.io/badge/php-%23777BB4.svg?style=for-the-badge&logo=php&logoColor=white)
 ![PowerShell](https://img.shields.io/badge/PowerShell-%235391FE.svg?style=for-the-badge&logo=powershell&logoColor=white)
-![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+![Python](https://img.shields.io/badge/python-ffdd54?style=for-the-badge&logo=python&logoColor=3670A0)
 ![Ruby](https://img.shields.io/badge/ruby-%23CC342D.svg?style=for-the-badge&logo=ruby&logoColor=white)
 ![Rust](https://img.shields.io/badge/rust-%23000000.svg?style=for-the-badge&logo=rust&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
@@ -55,6 +56,8 @@ by shifting half of the work onto random argument parsing libraries rather than 
   - Ninja
 - C#
   - .NET 7.0 SDK
+- Cython
+  - Python headers
 - D
   - GCC GDC
 - Dart
@@ -122,6 +125,14 @@ ninja
 ```sh
 cd csharp/
 dotnet run
+```
+
+### Cython
+
+```sh
+cd cython/
+python setup.py build_ext --inplace
+python main.py
 ```
 
 ### D
