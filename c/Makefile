@@ -1,6 +1,6 @@
 CFLAGS ?= -O3
 
-all: gcc
+all: gcc clang
 gcc:
 	gcc ${CFLAGS} src/main.c -o main.gcc.o -c -I include
 	gcc ${CFLAGS} src/game.c -o game.gcc.o -c -I include

@@ -1,4 +1,4 @@
-all: gcc
+all: gcc clang
 gcc:
 	meson setup build_gcc
 	meson setup --reconfigure build_gcc
