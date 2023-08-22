@@ -92,4 +92,4 @@ clean:
 	$(MAKE) -C vb clean
 	$(MAKE) -C zig clean
 
-.PHONY: all ada c cpp csharp d dart fsharp go haskell java kotlin nim rust typescript vb zig clean
+.PHONY: all ada bash c cpp csharp cython d dart fsharp go haskell java julia lua nim perl php powershell python ruby rust typescript vb zig clean
