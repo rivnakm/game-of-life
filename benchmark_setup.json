@@ -61,6 +61,12 @@
             "enabled": true
         },
         {
+            "properName": "Fortran",
+            "shortName": "fortran",
+            "runCmd": "./fortran/GameOfLife",
+            "enabled": true
+        },
+        {
             "properName": "F#",
             "shortName": "fsharp",
             "runCmd": "./fsharp/bin/Release/net7.0/GameOfLife",
@@ -160,6 +166,12 @@
             "properName": "TypeScript",
             "shortName": "typescript",
             "runCmd": "node typescript/build/src/main.js",
+            "enabled": true
+        },
+        {
+            "properName": "V",
+            "shortName": "v",
+            "runCmd": "./v/v",
             "enabled": true
         },
         {
