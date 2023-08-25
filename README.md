@@ -304,7 +304,7 @@ The set of languages to run in the benchmark can also be set. NOTE: Some languag
 
 ```sh
 python benchmark.py --languages c,cpp,rust
-# of
+# or
 python benchmark.py --languages all
 ```
 
