@@ -52,7 +52,9 @@
 				"wingrunr21.vscode-ruby",
 				"ziglang.vscode-zig",
 				"vlanguage.vscode-vlang",
-				"ms-dotnettools.csdevkit"
+				"ms-dotnettools.csdevkit",
+				"fortran-lang.linter-gfortran",
+				"adacore.ada"
 			]
 		}
 	}

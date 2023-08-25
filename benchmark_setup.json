@@ -61,6 +61,12 @@
             "enabled": true
         },
         {
+            "properName": "Fortran",
+            "shortName": "fortran",
+            "runCmd": "./fortran/GameOfLife",
+            "enabled": true
+        },
+        {
             "properName": "F#",
             "shortName": "fsharp",
             "runCmd": "./fsharp/bin/Release/net7.0/GameOfLife",

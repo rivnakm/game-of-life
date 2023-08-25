@@ -59,6 +59,9 @@ RUN unzip -q dart-sdk.zip
 RUN mv dart-sdk /opt/dart-sdk
 ENV PATH="$PATH:/opt/dart-sdk/bin"
 
+# Fortran
+RUN apt update && apt install --no-install-recommends -y gfortran
+
 # Go
 RUN apt update && apt install --no-install-recommends -y golang
 

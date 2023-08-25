@@ -12,6 +12,7 @@
 ![Cython](https://img.shields.io/badge/cython-ffffff?style=for-the-badge&logo=python&logoColor=3670A0)
 ![D](https://img.shields.io/badge/d-%2398312A.svg?style=for-the-badge&logo=d&logoColor=white)
 ![Dart](https://img.shields.io/badge/dart-%230175C2.svg?style=for-the-badge&logo=dart&logoColor=white)
+![Fortran](https://img.shields.io/badge/Fortran-%23734F96.svg?style=for-the-badge&logo=fortran&logoColor=white)
 ![F#](https://img.shields.io/badge/f%23-%2330B9DB.svg?style=for-the-badge&logo=.net&logoColor=white)
 ![Go](https://img.shields.io/badge/go-%2300ADD8.svg?style=for-the-badge&logo=go&logoColor=white)
 ![Haskell](https://img.shields.io/badge/Haskell-5e5086?style=for-the-badge&logo=haskell&logoColor=white)
@@ -62,6 +63,8 @@ by shifting half of the work onto random argument parsing libraries rather than 
 - D
   - GCC GDC
 - Dart
+- Fortran
+  - GCC GFortran
 - F#
   - .NET 7.0 SDK
 - Go
@@ -150,6 +153,14 @@ make
 ```sh
 cd dart/
 dart run
+```
+
+### Fortran
+
+```sh
+cd fortran/
+make
+./game_of_life
 ```
 
 ### F\#
@@ -289,7 +300,7 @@ You can also specify how many iterations to run the benchmark (default 5), avera
 python benchmark.py --iterations 5
 ```
 
-The set of languages to run in the benchmark can also be set. NOTE: Some languages, e.g. bash, powershell, are disabled by default for performance reasons. The default set is "ada,c,cpp,csharp,d,dart,fsharp,go,haskell,java,julia,lua,nim,perl,python,ruby,rust,typescript,vb,zig"
+The set of languages to run in the benchmark can also be set. NOTE: Some languages, e.g. bash, powershell, are disabled by default for performance reasons. The default set is "ada,c,cpp,csharp,d,dart,fortran,fsharp,go,haskell,java,julia,lua,nim,perl,python,ruby,rust,typescript,vb,zig"
 
 ```sh
 python benchmark.py --languages c,cpp,rust
