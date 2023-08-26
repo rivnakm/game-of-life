@@ -9,6 +9,7 @@
 ![C](https://img.shields.io/badge/c-%2300599C.svg?style=for-the-badge&logo=c&logoColor=white)
 ![C++](https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white)
 ![C#](https://img.shields.io/badge/c%23-%23239120.svg?style=for-the-badge&logo=.net&logoColor=white)
+![COBOL](https://img.shields.io/badge/cobol-%23333333.svg?style=for-the-badge)
 ![Cython](https://img.shields.io/badge/cython-ffffff?style=for-the-badge&logo=python&logoColor=3670A0)
 ![D](https://img.shields.io/badge/d-%2398312A.svg?style=for-the-badge&logo=d&logoColor=white)
 ![Dart](https://img.shields.io/badge/dart-%230175C2.svg?style=for-the-badge&logo=dart&logoColor=white)
@@ -58,6 +59,8 @@ by shifting half of the work onto random argument parsing libraries rather than 
   - Ninja
 - C#
   - .NET 7.0 SDK
+- COBOL
+  - GnuCOBOL
 - Cython
   - Python headers
 - D
@@ -130,6 +133,14 @@ ninja
 ```sh
 cd csharp/
 dotnet run
+```
+
+### Cobol
+
+```sh
+cd cobol/
+make
+./game_of_life
 ```
 
 ### Cython
@@ -300,7 +311,7 @@ You can also specify how many iterations to run the benchmark (default 5), avera
 python benchmark.py --iterations 5
 ```
 
-The set of languages to run in the benchmark can also be set. NOTE: Some languages, e.g. bash, powershell, are disabled by default for performance reasons. The default set is "ada,c,cpp,csharp,d,dart,fortran,fsharp,go,haskell,java,julia,lua,nim,perl,python,ruby,rust,typescript,vb,zig"
+The set of languages to run in the benchmark can also be set. NOTE: Some languages, e.g. bash, powershell, are disabled by default for performance reasons. The default set is "ada,c,cpp,csharp,cobol,d,dart,fortran,fsharp,go,haskell,java,julia,lua,nim,perl,python,ruby,rust,typescript,vb,zig"
 
 ```sh
 python benchmark.py --languages c,cpp,rust

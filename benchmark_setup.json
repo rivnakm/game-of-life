@@ -43,6 +43,12 @@
             "enabled": true
         },
         {
+            "properName": "COBOL",
+            "shortName": "cobol",
+            "runCmd": "./cobol/game-of-life",
+            "enabled": true
+        },
+        {
             "properName": "Cython",
             "shortName": "cython",
             "runCmd": "python ./cython/main.py",

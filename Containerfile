@@ -40,6 +40,9 @@ RUN apt update && apt install --no-install-recommends -y clang
 # C++
 RUN apt update && apt install --no-install-recommends -y meson
 
+# COBOL
+RUN apt update && apt install --no-install-recommends -y gnucobol
+
 # Cython
 RUN apt update && apt install --no-install-recommends -y cython3 python3-dev
 
