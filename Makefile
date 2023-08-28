@@ -1,4 +1,4 @@
-all: ada c cobol cpp csharp cython d dart fsharp go haskell java nim ocaml rust typescript vb zig
+all: ada c cobol cpp csharp cython d dart fortran fsharp go haskell java nim ocaml rust typescript v vb zig
 
 ada:
 	$(MAKE) -C ada
@@ -29,6 +29,9 @@ dart:
 
 fsharp:
 	$(MAKE) -C fsharp
+
+fortran:
+	$(MAKE) -C fortran
 
 go:
 	$(MAKE) -C go
@@ -72,6 +75,9 @@ rust:
 typescript:
 	$(MAKE) -C typescript
 
+v:
+	$(MAKE) -C v
+
 vb:
 	$(MAKE) -C vb
 
@@ -87,6 +93,7 @@ clean:
 	$(MAKE) -C cython clean
 	$(MAKE) -C d clean
 	$(MAKE) -C dart clean
+	$(MAKE) -C fortran clean
 	$(MAKE) -C fsharp clean
 	$(MAKE) -C go clean
 	$(MAKE) -C haskell clean
@@ -95,7 +102,8 @@ clean:
 	$(MAKE) -C ocaml clean
 	$(MAKE) -C rust clean
 	$(MAKE) -C typescript clean
+	$(MAKE) -C v clean
 	$(MAKE) -C vb clean
 	$(MAKE) -C zig clean
 
-.PHONY: all ada bash c cobol cpp csharp cython d dart fsharp go haskell java julia lua nim ocaml perl php powershell python ruby rust typescript vb zig clean
+.PHONY: all ada bash c cobol cpp csharp cython d dart fortran fsharp go haskell java julia lua nim ocaml perl php powershell python ruby rust typescript v vb zig clean

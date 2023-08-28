@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 function get_cell() {
     local row=$1
     local col=$2

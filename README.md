@@ -339,7 +339,7 @@ podman build -t game-of-life .
 
 podman run --rm game-of-life
 # or
-podman run --rm game-of-life --iterations 5 --languages c,cpp,rust
+podman run --rm game-of-life "python benchmark.py --iterations 5 --languages c,cpp,rust"
 ```
 
 > NOTE: Docker will also work
