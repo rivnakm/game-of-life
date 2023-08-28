@@ -21,6 +21,7 @@
 ![Julia](https://img.shields.io/badge/-Julia-9558B2?style=for-the-badge&logo=julia&logoColor=white)
 ![Lua](https://img.shields.io/badge/lua-%232C2D72.svg?style=for-the-badge&logo=lua&logoColor=white)
 ![Nim](https://img.shields.io/badge/nim-%23FFE953.svg?style=for-the-badge&logo=nim&logoColor=black)
+![OCaml](https://img.shields.io/badge/ocaml-%23EE6A1A.svg?style=for-the-badge&logo=ocaml&logoColor=white)
 ![Perl](https://img.shields.io/badge/perl-%2339457E.svg?style=for-the-badge&logo=perl&logoColor=white)
 ![PHP](https://img.shields.io/badge/php-%23777BB4.svg?style=for-the-badge&logo=php&logoColor=white)
 ![PowerShell](https://img.shields.io/badge/PowerShell-%235391FE.svg?style=for-the-badge&logo=powershell&logoColor=white)
@@ -78,6 +79,10 @@ by shifting half of the work onto random argument parsing libraries rather than 
 - Julia
 - Lua
 - Nim
+- OCaml
+  - OCaml
+  - OPAM
+  - Dune
 - Perl
 - PHP 7+
 - PowerShell
@@ -222,6 +227,14 @@ lua game_of_life.lua
 ```sh
 cd nim/
 nim c -r GameOfLife.nim
+```
+
+### OCaml
+
+```sh
+cd ocaml/
+dune build
+./_build/default/bin/main.exe
 ```
 
 ### Perl

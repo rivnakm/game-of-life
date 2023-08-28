@@ -56,7 +56,8 @@
 				"fortran-lang.linter-gfortran",
 				"adacore.ada",
 				"ms-vscode.makefile-tools",
-				"broadcommfd.cobol-language-support"
+				"broadcommfd.cobol-language-support",
+				"ocamllabs.ocaml-platform"
 			]
 		}
 	}

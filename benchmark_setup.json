@@ -121,6 +121,12 @@
             "enabled": true
         },
         {
+            "properName": "OCaml",
+            "shortName": "ocaml",
+            "runCmd": "./ocaml/_build/default/bin/main.exe",
+            "enabled": true
+        },
+        {
             "properName": "Perl",
             "shortName": "perl",
             "runCmd": "perl ./perl/GameOfLife.pl",

@@ -119,6 +119,12 @@ RUN if [ "$TARGETARCH" = "amd64" ]; then \
 RUN ln -s . /usr/local/lib/nim/lib # I think this is a nim bug somewhere
 RUN rm -rf nim*
 
+RUN apt update && apt install --no-install-recommends -y ocaml opam
+RUN opam init --disable-sandboxing --auto-setup -y
+RUN echo "source ~/.profile" >> ~/.bash_profile
+RUN opam switch create $(ocaml -version | cut -f 5 -d ' ')
+RUN opam install -y dune
+
 # PHP
 RUN apt update && apt install --no-install-recommends -y php
 
@@ -175,4 +181,5 @@ RUN apt clean
 COPY . /app
 WORKDIR /app
 
-ENTRYPOINT ["python", "benchmark.py", "--basic"]
+ENTRYPOINT ["/bin/bash", "--login"]
+CMD ["python", "benchmark.py", "--basic"]
