@@ -1,4 +1,4 @@
-CFLAGS ?= -O3 -march=native
+CFLAGS ?= -O3 -march=native -static
 
 all: gcc clang
 gcc:
