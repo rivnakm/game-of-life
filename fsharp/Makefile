@@ -3,3 +3,4 @@ all:
 
 clean:
 	dotnet clean
+	rm -rf bin obj

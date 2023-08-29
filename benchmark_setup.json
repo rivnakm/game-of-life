@@ -43,6 +43,12 @@
             "enabled": true
         },
         {
+            "properName": "COBOL",
+            "shortName": "cobol",
+            "runCmd": "./cobol/game-of-life",
+            "enabled": true
+        },
+        {
             "properName": "Cython",
             "shortName": "cython",
             "runCmd": "python ./cython/main.py",
@@ -58,6 +64,12 @@
             "properName": "Dart",
             "shortName": "dart",
             "runCmd": "./dart/bin/game_of_life.exe",
+            "enabled": true
+        },
+        {
+            "properName": "Fortran",
+            "shortName": "fortran",
+            "runCmd": "./fortran/GameOfLife",
             "enabled": true
         },
         {
@@ -115,6 +127,12 @@
             "enabled": true
         },
         {
+            "properName": "OCaml",
+            "shortName": "ocaml",
+            "runCmd": "./ocaml/_build/default/bin/main.exe",
+            "enabled": true
+        },
+        {
             "properName": "Perl",
             "shortName": "perl",
             "runCmd": "perl ./perl/GameOfLife.pl",
@@ -160,6 +178,12 @@
             "properName": "TypeScript",
             "shortName": "typescript",
             "runCmd": "node typescript/build/src/main.js",
+            "enabled": true
+        },
+        {
+            "properName": "V",
+            "shortName": "v",
+            "runCmd": "./v/v",
             "enabled": true
         },
         {
