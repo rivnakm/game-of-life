@@ -1,9 +1,9 @@
-#include "game.h"
+#include "game.c"
 
-int main(int argc, char *argv[]) {
+int main(void) {
     const int generations = 500;
-    const int height = 50;
-    const int width = 100;
+    const int height      = 50;
+    const int width       = 100;
 
     run_game(height, width, generations);
 
