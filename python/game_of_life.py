@@ -1,40 +1,46 @@
-import random
-from typing import List
+from io import StringIO
+from sys import stdout
 
 from board import Board
 
+
 def next_generation(board: Board):
-    board_copy = board.copy()
     for i in range(board.height):
         for j in range(board.width):
-            cell = board_copy.get_cell(i, j)
-            adjacent = 0
+            cell = board.get_cell(i, j)
 
-            for n in range(-1,2):
-                for m in range(-1,2):
-                    if (n == 0 and m == 0):
-                        continue
-                    if board_copy.get_cell(i+n, j+m):
-                        adjacent += 1
+            adjacent = (
+                board.get_cell(i - 1, j - 1)
+                + board.get_cell(i - 1, j)
+                + board.get_cell(i - 1, j + 1)
+                + board.get_cell(i, j - 1)
+                + board.get_cell(i, j + 1)
+                + board.get_cell(i + 1, j - 1)
+                + board.get_cell(i + 1, j)
+                + board.get_cell(i + 1, j + 1)
+            )
 
-            if cell:
-                if adjacent < 2:
-                    cell = False
-                if adjacent > 3:
-                    cell = False
-            else:
-                if adjacent == 3:
-                    cell = True
+            cell = adjacent == 3 or (cell and adjacent == 2)
 
-            board.cells[(i*board.width)+j] = cell
+            board.swap[(i * board.width) + j] = cell
+    board.cells, board.swap = board.swap, board.cells
+
 
 def run_game(height: int, width: int, generations: int):
     board = Board(height, width)
 
+    clear = f"\033[{board.height}A"
+    buf = StringIO(clear)
+    clearlen = len(clear)
+
     for _ in range(generations):
-        board.draw()
-        print(f"\033[{board.height}A", end="")
+        buf.seek(clearlen)
+        buf = board.draw(buf)
+        buf.truncate()
+        stdout.write(buf.getvalue())
+        stdout.flush()
         next_generation(board)
+
 
 def main():
     generations = 500
@@ -42,6 +48,7 @@ def main():
     width = 100
 
     run_game(height, width, generations)
+
 
 if __name__ == "__main__":
     main()
