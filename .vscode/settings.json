@@ -7,4 +7,5 @@
     "java.compile.nullAnalysis.mode": "disabled",
     "java.configuration.updateBuildConfiguration": "automatic",
     "fortran.fortls.disabled": true,
+    "dotnet.defaultSolution": "csharp/csharp.sln",
 }

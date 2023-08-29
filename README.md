@@ -11,6 +11,7 @@ optimizations/improvements to any of the implementations
 ![C](https://img.shields.io/badge/c-%2300599C.svg?style=for-the-badge&logo=c&logoColor=white)
 ![C++](https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white)
 ![C#](https://img.shields.io/badge/c%23-%23239120.svg?style=for-the-badge&logo=.net&logoColor=white)
+![COBOL](https://img.shields.io/badge/cobol-%23333333.svg?style=for-the-badge)
 ![Cython](https://img.shields.io/badge/cython-ffffff?style=for-the-badge&logo=python&logoColor=3670A0)
 ![D](https://img.shields.io/badge/d-%2398312A.svg?style=for-the-badge&logo=d&logoColor=white)
 ![Dart](https://img.shields.io/badge/dart-%230175C2.svg?style=for-the-badge&logo=dart&logoColor=white)
@@ -23,6 +24,7 @@ optimizations/improvements to any of the implementations
 ![Kotlin](https://img.shields.io/badge/kotlin-%237F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white)
 ![Lua](https://img.shields.io/badge/lua-%232C2D72.svg?style=for-the-badge&logo=lua&logoColor=white)
 ![Nim](https://img.shields.io/badge/nim-%23FFE953.svg?style=for-the-badge&logo=nim&logoColor=black)
+![OCaml](https://img.shields.io/badge/ocaml-%23EE6A1A.svg?style=for-the-badge&logo=ocaml&logoColor=white)
 ![Perl](https://img.shields.io/badge/perl-%2339457E.svg?style=for-the-badge&logo=perl&logoColor=white)
 ![PHP](https://img.shields.io/badge/php-%23777BB4.svg?style=for-the-badge&logo=php&logoColor=white)
 ![PowerShell](https://img.shields.io/badge/PowerShell-%235391FE.svg?style=for-the-badge&logo=powershell&logoColor=white)
@@ -61,6 +63,8 @@ by shifting half of the work onto random argument parsing libraries rather than 
   - Ninja
 - C#
   - .NET 7.0 SDK
+- COBOL
+  - GnuCOBOL
 - Cython
   - Python headers
 - D
@@ -79,6 +83,10 @@ by shifting half of the work onto random argument parsing libraries rather than 
 - Kotlin
 - Lua
 - Nim
+- OCaml
+  - OCaml
+  - OPAM
+  - Dune
 - Perl
 - PHP 7+
 - PowerShell
@@ -134,6 +142,14 @@ ninja
 ```sh
 cd csharp/
 dotnet run
+```
+
+### Cobol
+
+```sh
+cd cobol/
+make
+./game_of_life
 ```
 
 ### Cython
@@ -224,6 +240,14 @@ cd nim/
 nim c -r GameOfLife.nim
 ```
 
+### OCaml
+
+```sh
+cd ocaml/
+dune build
+./_build/default/bin/main.exe
+```
+
 ### Perl
 
 ```sh
@@ -311,11 +335,11 @@ You can also specify how many iterations to run the benchmark (default 5), avera
 python benchmark.py --iterations 5
 ```
 
-The set of languages to run in the benchmark can also be set. NOTE: Some languages, e.g. bash, powershell, are disabled by default for performance reasons. The default set is "ada,c,cpp,csharp,d,dart,fortran,fsharp,go,haskell,java,julia,kotlin,lua,nim,perl,python,ruby,rust,typescript,vb,zig"
+The set of languages to run in the benchmark can also be set. NOTE: Some languages, e.g. bash, powershell, are disabled by default for performance reasons. The default set is "ada,c,cpp,csharp,cobol,d,dart,fortran,fsharp,go,haskell,java,julia,kotlin,lua,nim,perl,python,ruby,rust,typescript,vb,zig"
 
 ```sh
 python benchmark.py --languages c,cpp,rust
-# of
+# or
 python benchmark.py --languages all
 ```
 
@@ -326,7 +350,7 @@ podman build -t game-of-life .
 
 podman run --rm game-of-life
 # or
-podman run --rm game-of-life --iterations 5 --languages c,cpp,rust
+podman run --rm game-of-life "python benchmark.py --iterations 5 --languages c,cpp,rust"
 ```
 
 > NOTE: Docker will also work

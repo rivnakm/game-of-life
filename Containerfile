@@ -41,6 +41,9 @@ RUN apt update && apt install --no-install-recommends -y clang
 # C++
 RUN apt update && apt install --no-install-recommends -y meson
 
+# COBOL
+RUN apt update && apt install --no-install-recommends -y gnucobol
+
 # Cython
 RUN apt update && apt install --no-install-recommends -y cython3 python3-dev
 
@@ -125,6 +128,12 @@ RUN if [ "$TARGETARCH" = "amd64" ]; then \
 RUN ln -s . /usr/local/lib/nim/lib # I think this is a nim bug somewhere
 RUN rm -rf nim*
 
+RUN apt update && apt install --no-install-recommends -y ocaml opam
+RUN opam init --disable-sandboxing --auto-setup -y
+RUN echo "source ~/.profile" >> ~/.bash_profile
+RUN opam switch create $(ocaml -version | cut -f 5 -d ' ')
+RUN opam install -y dune
+
 # PHP
 RUN apt update && apt install --no-install-recommends -y php
 
@@ -161,6 +170,11 @@ ENV PATH="$PATH:/root/.cargo/bin"
 # Typescript
 RUN apt update && apt install --no-install-recommends -y nodejs npm
 
+# V
+RUN git clone --depth=1 https://github.com/vlang/v /opt/v
+RUN cd /opt/v && make -j$(nproc)
+ENV PATH="$PATH:/opt/v"
+
 # Zig
 RUN if [ "$TARGETARCH" = "amd64" ]; then \
         wget -nv -O zig.tar.xz https://ziglang.org/builds/zig-linux-x86_64-${ZIG_VER}.tar.xz; \
@@ -183,4 +197,5 @@ RUN apt clean
 COPY . /app
 WORKDIR /app
 
-ENTRYPOINT ["python", "benchmark.py", "--basic"]
+ENTRYPOINT ["/bin/bash", "--login", "-c"]
+CMD ["/usr/bin/python benchmark.py --basic"]

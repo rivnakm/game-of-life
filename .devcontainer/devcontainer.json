@@ -54,7 +54,10 @@
 				"vlanguage.vscode-vlang",
 				"ms-dotnettools.csdevkit",
 				"fortran-lang.linter-gfortran",
-				"adacore.ada"
+				"adacore.ada",
+				"ms-vscode.makefile-tools",
+				"broadcommfd.cobol-language-support",
+				"ocamllabs.ocaml-platform"
 			]
 		}
 	}

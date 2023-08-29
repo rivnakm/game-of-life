@@ -43,6 +43,12 @@
             "enabled": true
         },
         {
+            "properName": "COBOL",
+            "shortName": "cobol",
+            "runCmd": "./cobol/game-of-life",
+            "enabled": true
+        },
+        {
             "properName": "Cython",
             "shortName": "cython",
             "runCmd": "python ./cython/main.py",
@@ -118,6 +124,12 @@
             "properName": "Nim",
             "shortName": "nim",
             "runCmd": "./nim/GameOfLife",
+            "enabled": true
+        },
+        {
+            "properName": "OCaml",
+            "shortName": "ocaml",
+            "runCmd": "./ocaml/_build/default/bin/main.exe",
             "enabled": true
         },
         {
