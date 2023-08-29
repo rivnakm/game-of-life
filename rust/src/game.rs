@@ -29,7 +29,7 @@ pub fn run_game<const HEIGHT: usize, const WIDTH: usize, const GENERATIONS: u32>
             std::alloc::handle_alloc_error(layout)
         };
         let mut buf = Vec::from_raw_parts(ptr, 0, cap);
-        let _ = write!(&mut buf, "\x1b[{HEIGHT}A");
+        let _ = write!(&mut buf, "{CLEAR_PRE}{HEIGHT}{CLEAR_SUF}");
         buf
     };
 
