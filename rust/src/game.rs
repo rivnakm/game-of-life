@@ -1,4 +1,7 @@
-use std::io::{self, Write};
+use std::{
+    io::{self, Write},
+    time::Instant,
+};
 
 use rand::Rng;
 
@@ -250,8 +253,8 @@ impl<const WIDTH: usize, const HEIGHT: usize> Screen<WIDTH, HEIGHT> {
                 cell! {
                     (bottom_row, col),
                     [
-                        true, true, true,
-                        true, _____, true,
+                        true,  true,  true,
+                        true,  _____, true,
                         false, false, false,
                     ]
                 };

@@ -2,7 +2,10 @@ import random
 from typing import List
 
 from board import Board
+cimport cython
 
+
+@cython.boundscheck(False)
 def next_generation(board: Board):
     board_copy = board.copy()
 
@@ -40,4 +43,3 @@ def run_game(height: int, width: int, generations: int):
         board.draw()
         print(f"\033[{board.height}A", end="")
         next_generation(board)
-
